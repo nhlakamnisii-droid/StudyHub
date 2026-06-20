@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Sciences Grade 12 | StudyHub by Nhlaka</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0b1a12;
+    --surface: #112219;
+    --surface2: #1a3328;
+    --accent: #4ade80;
+    --accent2: #86efac;
+    --accent3: #bbf7d0;
+    --gold: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --purple: #c084fc;
+    --text: #e2f5e9;
+    --muted: #6b9e7a;
+    --border: #1e3d2f;
+    --card: #0f2318;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0b1a12 0%, #0d2818 50%, #0b1a12 100%);
+    padding: 60px 24px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(74,222,128,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    background: rgba(74,222,128,0.06);
+  }
+  .progress-bar-wrap {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.8s ease;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 4px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    white-space: nowrap;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .nav-btn:hover { color: var(--accent2); background: var(--surface2); }
+  .nav-btn.active { color: var(--accent); background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.3); }
+
+  /* MAIN CONTENT */
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 16px 80px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(74,222,128,0.25); }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent2);
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-title .chevron {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .card-title.open .chevron { transform: rotate(180deg); }
+  .card-body { display: none; padding-top: 12px; }
+  .card-body.open { display: block; }
+  .card-body p { font-size: 14px; color: var(--text); margin-bottom: 8px; line-height: 1.65; }
+  .card-body ul { padding-left: 18px; }
+  .card-body li { font-size: 14px; color: var(--text); margin-bottom: 5px; }
+  .card-body li::marker { color: var(--accent); }
+
+  .key-term {
+    display: inline;
+    background: rgba(74,222,128,0.1);
+    color: var(--accent);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+  .highlight-box {
+    background: rgba(251,191,36,0.07);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .info-box {
+    background: rgba(96,165,250,0.07);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .warn-box {
+    background: rgba(248,113,113,0.07);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* FLASHCARDS */
+  .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .flashcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-height: 160px;
+    cursor: pointer;
+    perspective: 800px;
+    position: relative;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .flashcard-front { background: var(--card); }
+  .flashcard-back { background: var(--surface2); transform: rotateY(180deg); }
+  .flashcard-front .q { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--accent2); }
+  .flashcard-back .a { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .fc-hint { font-size: 10px; color: var(--muted); margin-top: 10px; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+
+  /* QUIZ */
+  .quiz-wrap { max-width: 680px; }
+  .quiz-question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-q-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .quiz-q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-option:hover { border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.05); }
+  .quiz-option.correct { background: rgba(74,222,128,0.15); border-color: var(--accent); color: var(--accent); }
+  .quiz-option.wrong { background: rgba(248,113,113,0.1); border-color: var(--red); color: var(--red); }
+  .quiz-option:disabled { cursor: default; }
+  .feedback { font-size: 13px; margin-top: 10px; padding: 10px 14px; border-radius: 8px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct { background: rgba(74,222,128,0.1); color: var(--accent2); }
+  .feedback.wrong { background: rgba(248,113,113,0.1); color: var(--red); }
+
+  .quiz-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary { background: var(--accent); color: #0b1a12; }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .score-display {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .score-display span { color: var(--accent); font-weight: 700; }
+
+  /* TIMER */
+  .timer-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    padding: 6px 12px;
+    background: rgba(251,191,36,0.08);
+    border-radius: 6px;
+    border: 1px solid rgba(251,191,36,0.2);
+  }
+
+  /* SUMMARY TABLE */
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface2); color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  tr:hover td { background: rgba(74,222,128,0.03); }
+
+  /* ESSAY */
+  .essay-wrap { max-width: 700px; }
+  .essay-prompt {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .essay-q {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .essay-marks {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .essay-guide { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .essay-guide strong { color: var(--accent2); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .checklist li.checked .check-box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .checklist li.checked .check-box::after {
+    content: '✓';
+    color: #0b1a12;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .checklist li.checked .check-text { text-decoration: line-through; color: var(--muted); }
+
+  /* UNIT BADGES */
+  .unit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .badge-dna { background: rgba(192,132,252,0.12); color: var(--purple); border: 1px solid rgba(192,132,252,0.25); }
+  .badge-evo { background: rgba(251,191,36,0.1); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
+  .badge-human { background: rgba(96,165,250,0.1); color: var(--blue); border: 1px solid rgba(96,165,250,0.25); }
+  .badge-eco { background: rgba(74,222,128,0.1); color: var(--accent); border: 1px solid rgba(74,222,128,0.25); }
+
+  /* DIAGRAM PLACEHOLDER */
+  .diagram {
+    background: var(--surface2);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin: 14px 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* HOME */
+  .home-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .home-unit {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .home-unit:hover { border-color: rgba(74,222,128,0.4); transform: translateY(-2px); }
+  .home-unit-icon { font-size: 28px; margin-bottom: 10px; }
+  .home-unit-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .home-unit-sub { font-size: 12px; color: var(--muted); }
+
+  .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+  .stat-card {
+    flex: 1; min-width: 100px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="brand">StudyHub by Nhlaka · Grade 12 · CAPS</div>
+  <h1>Life <span>Sciences</span></h1>
+  <p class="hero-sub">Complete interactive study guide — NSC exam ready</p>
+  <div class="hero-tags">
+    <span class="tag">DNA & Genetics</span>
+    <span class="tag">Evolution</span>
+    <span class="tag">Reproduction</span>
+    <span class="tag">Nervous System</span>
+    <span class="tag">Ecology</span>
+    <span class="tag">Human Impact</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-label"><span>Study progress</span><span id="pct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
+  <button class="nav-btn" onclick="showSection('dna')">🧬 DNA & Genetics</button>
+  <button class="nav-btn" onclick="showSection('evolution')">🦴 Evolution</button>
+  <button class="nav-btn" onclick="showSection('reproduction')">🔬 Reproduction</button>
+  <button class="nav-btn" onclick="showSection('nervous')">🧠 Nervous System</button>
+  <button class="nav-btn" onclick="showSection('ecology')">🌿 Ecology</button>
+  <button class="nav-btn" onclick="showSection('flashcards')">🃏 Flashcards</button>
+  <button class="nav-btn" onclick="showSection('quiz')">📝 Quiz</button>
+  <button class="nav-btn" onclick="showSection('essays')">✍️ Essays</button>
+  <button class="nav-btn" onclick="showSection('checklist')">✅ Checklist</button>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- HOME -->
+  <div class="section active" id="home">
+    <div class="section-header">
+      <div class="section-eyebrow">Overview</div>
+      <h2>Your Grade 12 Life Sciences Hub</h2>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Units</div></div>
+      <div class="stat-card"><div class="stat-num">40+</div><div class="stat-label">Concepts</div></div>
+      <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">Flashcards</div></div>
+      <div class="stat-card"><div class="stat-num">25+</div><div class="stat-label">Quiz Qs</div></div>
+    </div>
+
+    <div class="home-grid">
+      <div class="home-unit" onclick="showSection('dna')">
+        <div class="home-unit-icon">🧬</div>
+        <div class="home-unit-title">DNA & Genetics</div>
+        <div class="home-unit-sub">DNA structure, replication, protein synthesis, meiosis, inheritance</div>
+      </div>
+      <div class="home-unit" onclick="showSection('evolution')">
+        <div class="home-unit-icon">🦴</div>
+        <div class="home-unit-title">Evolution</div>
+        <div class="home-unit-sub">Natural selection, evidence, human evolution, speciation</div>
+      </div>
+      <div class="home-unit" onclick="showSection('reproduction')">
+        <div class="home-unit-icon">🔬</div>
+        <div class="home-unit-title">Reproduction</div>
+        <div class="home-unit-sub">Asexual vs sexual, plants, animals, human reproduction</div>
+      </div>
+      <div class="home-unit" onclick="showSection('nervous')">
+        <div class="home-unit-icon">🧠</div>
+        <div class="home-unit-title">Nervous System</div>
+        <div class="home-unit-sub">Neurons, CNS, PNS, endocrine, drugs, homeostasis</div>
+      </div>
+      <div class="home-unit" onclick="showSection('ecology')">
+        <div class="home-unit-icon">🌿</div>
+        <div class="home-unit-title">Ecology</div>
+        <div class="home-unit-sub">Biomes, food webs, population, human impact, conservation</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📌 How to use this guide</div>
+      <div class="card-body open">
+        <ul>
+          <li>Read each unit's notes using the <strong>collapsible cards</strong> — tap a card title to expand it.</li>
+          <li>Test yourself with <strong>Flashcards</strong> — tap to flip and reveal the answer.</li>
+          <li>Time yourself on the <strong>Quiz</strong> — instant feedback on every answer.</li>
+          <li>Prepare full exam answers using the <strong>Essays</strong> section.</li>
+          <li>Track what you've covered with the <strong>Checklist</strong>.</li>
+          <li>Your progress bar updates as you tick off checklist items.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      ⚡ <strong>Exam tip:</strong> Life Sciences Paper 1 covers Genetics, Evolution & Reproduction. Paper 2 covers Nervous System, Ecology & Human Impact. Know your papers!
+    </div>
+  </div>
+
+  <!-- DNA & GENETICS -->
+  <div class="section" id="dna">
+    <div class="section-header">
+      <div class="section-eyebrow">Unit 1</div>
+      <h2>DNA, Genetics & Inheritance</h2>
+    </div>
+    <span class="unit-badge badge-dna">🧬 Paper 1</span>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Structure of DNA <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>DNA (Deoxyribonucleic acid) is a <span class="key-term">double helix</span> made of two antiparallel strands wound around each other, discovered by Watson and Crick in 1953.</p>
+        <ul>
+          <li><strong>Nucleotide components:</strong> phosphate group + deoxyribose sugar + nitrogenous base</li>
+          <li><strong>Purines:</strong> Adenine (A) and Guanine (G) — double-ring structures</li>
+          <li><strong>Pyrimidines:</strong> Thymine (T) and Cytosine (C) — single-ring structures</li>
+          <li><strong>Base pairing rules:</strong> A pairs with T (2 H-bonds); G pairs with C (3 H-bonds)</li>
+          <li>Strands are held together by <span class="key-term">hydrogen bonds</span> between bases</li>
+          <li>Sugar-phosphate backbone forms through <span class="key-term">phosphodiester bonds</span></li>
+        </ul>
+        <div class="highlight-box">💡 <strong>Remember Chargaff's rule:</strong> %A = %T and %G = %C in any DNA molecule.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">DNA Replication <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>DNA replication is <span class="key-term">semi-conservative</span> — each new DNA molecule contains one original strand and one new strand.</p>
+        <ul>
+          <li><strong>Helicase</strong> — unwinds and unzips the double helix by breaking hydrogen bonds</li>
+          <li><strong>DNA Polymerase</strong> — adds complementary nucleotides to each template strand (5'→3' direction)</li>
+          <li><strong>Leading strand</strong> — synthesized continuously toward the replication fork</li>
+          <li><strong>Lagging strand</strong> — synthesized discontinuously as Okazaki fragments (away from fork)</li>
+          <li><strong>DNA Ligase</strong> — joins Okazaki fragments together</li>
+          <li>Result: 2 identical DNA molecules from 1 original</li>
+        </ul>
+        <div class="info-box">ℹ️ Replication occurs during the <strong>S phase</strong> of the cell cycle, before mitosis or meiosis.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Protein Synthesis: Transcription & Translation <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>The <span class="key-term">central dogma</span>: DNA → RNA → Protein</p>
+        <p><strong>Transcription</strong> (nucleus):</p>
+        <ul>
+          <li>RNA polymerase unwinds DNA and reads the <span class="key-term">template strand</span> (antisense strand)</li>
+          <li>Produces <span class="key-term">mRNA</span> (messenger RNA) — uses uracil (U) instead of thymine</li>
+          <li>mRNA leaves the nucleus via nuclear pores</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Translation</strong> (ribosome):</p>
+        <ul>
+          <li>Ribosome reads mRNA in <span class="key-term">codons</span> (triplets of bases)</li>
+          <li><span class="key-term">tRNA</span> brings specific amino acids; anticodon matches codon</li>
+          <li>Amino acids join by <span class="key-term">peptide bonds</span> to form a polypeptide chain</li>
+          <li>Start codon: AUG (methionine); Stop codons: UAA, UAG, UGA</li>
+        </ul>
+        <div class="warn-box">⚠️ <strong>Key distinction:</strong> Transcription makes RNA from DNA. Translation makes protein from RNA. Two separate processes, two locations.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Mutations <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>A <span class="key-term">mutation</span> is a change in the DNA sequence. Can be spontaneous or induced by mutagens (UV, chemicals, radiation).</p>
+        <p><strong>Gene mutations (point mutations):</strong></p>
+        <ul>
+          <li><strong>Substitution</strong> — one base replaced by another (may cause missense or nonsense mutation)</li>
+          <li><strong>Insertion</strong> — extra base added; causes <span class="key-term">frameshift</span></li>
+          <li><strong>Deletion</strong> — base removed; causes frameshift</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Chromosomal mutations:</strong></p>
+        <ul>
+          <li><strong>Non-disjunction</strong> — chromosomes fail to separate during meiosis → aneuploidy</li>
+          <li><strong>Trisomy 21</strong> (Down syndrome) — extra chromosome 21</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Meiosis <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>Meiosis is the cell division that produces <span class="key-term">haploid gametes</span> (n) from diploid (2n) cells. Two divisions occur.</p>
+        <div class="grid-2">
+          <div>
+            <p><strong>Meiosis I (reductive division):</strong></p>
+            <ul>
+              <li>Prophase I — crossing over (chiasmata formation)</li>
+              <li>Metaphase I — homologous pairs at equator</li>
+              <li>Anaphase I — homologs separate</li>
+              <li>Telophase I — 2 haploid cells</li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Meiosis II (equatorial division):</strong></p>
+            <ul>
+              <li>Like mitosis but in haploid cells</li>
+              <li>Sister chromatids separate</li>
+              <li>Result: 4 haploid cells (gametes)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="highlight-box">🔑 <strong>Sources of genetic variation in meiosis:</strong> crossing over (prophase I) and independent assortment (metaphase I).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Mendelian Genetics & Inheritance <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>Gregor Mendel's laws explain how traits are passed from parents to offspring.</p>
+        <ul>
+          <li><strong>Law of Segregation:</strong> alleles separate during gamete formation</li>
+          <li><strong>Law of Independent Assortment:</strong> genes on different chromosomes assort independently</li>
+          <li><strong>Dominant allele</strong> (uppercase) masks the recessive allele (lowercase)</li>
+          <li><strong>Genotype</strong> = allele combination (AA, Aa, aa); <strong>Phenotype</strong> = observable trait</li>
+          <li><strong>Monohybrid cross</strong>: Aa × Aa → 1AA : 2Aa : 1aa (3:1 phenotype ratio)</li>
+          <li><strong>Dihybrid cross</strong>: AaBb × AaBb → 9:3:3:1 phenotype ratio</li>
+        </ul>
+        <p><strong>Extensions to Mendel:</strong></p>
+        <ul>
+          <li><strong>Incomplete dominance</strong>: heterozygote shows blended phenotype (e.g. RR=red, rr=white, Rr=pink)</li>
+          <li><strong>Co-dominance</strong>: both alleles fully expressed (e.g. ABO blood groups — IAIB)</li>
+          <li><strong>Sex-linked traits:</strong> genes on X chromosome (haemophilia, colour blindness)</li>
+          <li><strong>Polygenic inheritance:</strong> multiple genes control one trait (e.g. skin colour)</li>
+        </ul>
+        <div class="warn-box">⚠️ <strong>Pedigree diagrams:</strong> squares = males, circles = females, filled = affected. Know how to determine genotypes and predict offspring ratios.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Genetic Technology <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Gel electrophoresis:</strong> separates DNA fragments by size using electric current through agarose gel</li>
+          <li><strong>DNA fingerprinting (profiling):</strong> uses STRs (short tandem repeats) for identification — forensics, paternity testing</li>
+          <li><strong>PCR (Polymerase Chain Reaction):</strong> amplifies tiny DNA samples; uses heat-stable Taq polymerase</li>
+          <li><strong>Recombinant DNA technology:</strong> restriction enzymes cut DNA; ligase joins it into plasmid vectors</li>
+          <li><strong>GMOs:</strong> transgenic organisms with genes from other species (Bt crops, insulin production)</li>
+          <li><strong>Genetic screening:</strong> testing embryos or individuals for genetic conditions</li>
+        </ul>
+        <div class="info-box">ℹ️ Ethical issues: privacy of genetic info, GMO safety, access to technology, patenting genes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVOLUTION -->
+  <div class="section" id="evolution">
+    <div class="section-header">
+      <div class="section-eyebrow">Unit 2</div>
+      <h2>Evolution</h2>
+    </div>
+    <span class="unit-badge badge-evo">🦴 Paper 1</span>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Darwin's Theory of Natural Selection <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>Charles Darwin proposed evolution by <span class="key-term">natural selection</span> — the mechanism by which organisms best adapted to their environment survive and reproduce.</p>
+        <p><strong>Key postulates:</strong></p>
+        <ul>
+          <li>Overproduction — organisms produce more offspring than can survive</li>
+          <li>Variation — individuals in a population show heritable variation</li>
+          <li>Competition (struggle for existence) — limited resources cause competition</li>
+          <li>Survival of the fittest — organisms best adapted survive to reproduce</li>
+          <li>Inheritance — favourable traits passed to offspring over generations</li>
+        </ul>
+        <div class="highlight-box">💡 Lamarck's theory (use and disuse, inheritance of acquired characteristics) was WRONG — acquired traits cannot be inherited genetically.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Evidence for Evolution <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <table>
+          <tr><th>Type of Evidence</th><th>Explanation</th></tr>
+          <tr><td>Fossil record</td><td>Shows progression of organisms over time; transitional fossils link ancestral and modern forms</td></tr>
+          <tr><td>Comparative anatomy</td><td>Homologous structures (same origin, different function) e.g. human arm, bat wing, whale flipper</td></tr>
+          <tr><td>Analogous structures</td><td>Same function, different origin — convergent evolution (e.g. bird and insect wings)</td></tr>
+          <tr><td>Vestigial structures</td><td>Remnant organs with no current function (e.g. human appendix, coccyx, wisdom teeth)</td></tr>
+          <tr><td>Comparative embryology</td><td>Similar embryonic stages across vertebrates</td></tr>
+          <tr><td>Biogeography</td><td>Distribution of species matches evolutionary history (e.g. Galápagos finches)</td></tr>
+          <tr><td>Biochemistry</td><td>Similar DNA/protein sequences indicate shared ancestry</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Types of Selection & Speciation <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Types of natural selection:</strong></p>
+        <ul>
+          <li><strong>Directional selection</strong> — one extreme phenotype favoured; shifts population mean</li>
+          <li><strong>Stabilising selection</strong> — intermediate phenotype favoured; reduces variation</li>
+          <li><strong>Disruptive selection</strong> — both extreme phenotypes favoured; increases variation</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Speciation:</strong></p>
+        <ul>
+          <li><strong>Allopatric speciation</strong> — geographic isolation → populations diverge → reproductive isolation → new species</li>
+          <li><strong>Sympatric speciation</strong> — new species forms within the same geographic area</li>
+          <li><span class="key-term">Reproductive isolation</span> is essential for speciation</li>
+        </ul>
+        <div class="info-box">ℹ️ <strong>Gene flow</strong> (migration between populations) reduces genetic differences. <strong>Genetic drift</strong> causes random changes in allele frequency in small populations.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Human Evolution <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>Humans belong to the family <span class="key-term">Hominidae</span>. Africa is considered the "cradle of humankind" — especially South Africa and East Africa.</p>
+        <p><strong>Key characteristics of human evolution:</strong></p>
+        <ul>
+          <li>Bipedalism — walking upright on two legs (frees hands, more efficient)</li>
+          <li>Reduced brow ridges and prognathism over time</li>
+          <li>Increasing brain size (cranial capacity)</li>
+          <li>Development of language and tool use</li>
+          <li>Reduced jaw size and dental differences</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Key hominid species (oldest → newest):</strong></p>
+        <table>
+          <tr><th>Species</th><th>Key features</th></tr>
+          <tr><td>Australopithecus africanus</td><td>Small brain (~450 cc), bipedal, ape-like face; found in SA (Taung child, Mrs Ples)</td></tr>
+          <tr><td>Homo habilis</td><td>"Handy man"; first tool use; brain ~600–700 cc</td></tr>
+          <tr><td>Homo ergaster/erectus</td><td>First to leave Africa; controlled fire; brain ~900 cc</td></tr>
+          <tr><td>Homo sapiens</td><td>Modern humans; brain ~1350 cc; complex language and culture</td></tr>
+        </table>
+        <div class="highlight-box">🦴 <strong>SA sites:</strong> Sterkfontein, Swartkrans, Kromdraai (Cradle of Humankind, Gauteng) — UNESCO World Heritage Site.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPRODUCTION -->
+  <div class="section" id="reproduction">
+    <div class="section-header">
+      <div class="section-eyebrow">Unit 3</div>
+      <h2>Reproduction</h2>
+    </div>
+    <span class="unit-badge badge-human">🔬 Paper 1</span>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Asexual vs Sexual Reproduction <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <div class="grid-2">
+          <div>
+            <p><strong>Asexual reproduction:</strong></p>
+            <ul>
+              <li>One parent only</li>
+              <li>Offspring genetically identical (clones)</li>
+              <li>Rapid, energy-efficient</li>
+              <li>No genetic variation</li>
+              <li>Examples: budding (yeast), binary fission (bacteria), vegetative propagation (plants), fragmentation</li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Sexual reproduction:</strong></p>
+            <ul>
+              <li>Two parents, fusion of gametes</li>
+              <li>Genetic variation in offspring</li>
+              <li>Slower, energy-costly</li>
+              <li>Better long-term adaptability</li>
+              <li>Involves meiosis to form gametes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Plant Reproduction <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Flower structure (angiosperm reproduction):</strong></p>
+        <ul>
+          <li><span class="key-term">Stamen</span> (male): anther (pollen) + filament</li>
+          <li><span class="key-term">Carpel/Pistil</span> (female): stigma + style + ovary (contains ovules)</li>
+          <li><strong>Pollination:</strong> transfer of pollen to stigma (wind, insects, water, birds)</li>
+          <li><strong>Fertilisation:</strong> pollen tube grows through style → sperm nuclei reach ovule</li>
+          <li><strong>Double fertilisation:</strong> one sperm + egg = zygote; one sperm + polar nuclei = endosperm</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Fruit and seed dispersal:</strong> wind (dandelion), water (coconut), animals (berries, hooks), self-dispersal (explosive pods)</p>
+        <p style="margin-top:10px"><strong>Seed germination conditions:</strong> water, oxygen, suitable temperature (NOT light for most seeds)</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Human Reproduction — Male System <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Testes</strong> — produce sperm (spermatogenesis) and testosterone</li>
+          <li><strong>Epididymis</strong> — sperm maturation and storage</li>
+          <li><strong>Vas deferens</strong> — tube carrying sperm to urethra</li>
+          <li><strong>Seminal vesicles</strong> — fructose-rich fluid for sperm energy</li>
+          <li><strong>Prostate gland</strong> — alkaline fluid to neutralise vaginal acidity</li>
+          <li><strong>Cowper's gland</strong> — pre-ejaculatory fluid</li>
+          <li><strong>Penis</strong> — delivers sperm into female reproductive tract</li>
+          <li>Semen = sperm + seminal fluid (~200–400 million sperm per ejaculation)</li>
+        </ul>
+        <div class="info-box">ℹ️ Spermatogenesis occurs in <strong>seminiferous tubules</strong> within the testes and requires a temperature slightly lower than body temperature (hence external scrotum).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Human Reproduction — Female System <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Ovaries</strong> — produce ova (oogenesis) and hormones (oestrogen, progesterone)</li>
+          <li><strong>Fallopian tubes (oviducts)</strong> — carry ovum from ovary to uterus; fertilisation occurs here</li>
+          <li><strong>Uterus</strong> — site of implantation and fetal development; endometrium is the lining</li>
+          <li><strong>Cervix</strong> — lower end of uterus; dilates during birth</li>
+          <li><strong>Vagina</strong> — birth canal; receives penis during intercourse</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Menstrual cycle (28 days):</strong></p>
+        <ul>
+          <li>Day 1–5: Menstruation — endometrium shed</li>
+          <li>Day 6–13: Follicular phase — FSH stimulates follicle; oestrogen rises</li>
+          <li>Day 14: Ovulation — LH surge triggers release of ovum</li>
+          <li>Day 15–28: Luteal phase — corpus luteum produces progesterone; endometrium thickens</li>
+        </ul>
+        <div class="highlight-box">🔑 <strong>Hormones:</strong> FSH (follicle stimulation), LH (ovulation trigger), Oestrogen (endometrium growth), Progesterone (maintains endometrium).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Fertilisation, Pregnancy & Birth <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Fertilisation:</strong> sperm meets ovum in fallopian tube → zygote (2n)</li>
+          <li><strong>Implantation:</strong> blastocyst embeds in endometrium (day ~7)</li>
+          <li><strong>Placenta:</strong> exchange organ between mother and fetus; hCG hormone maintains corpus luteum early in pregnancy</li>
+          <li><strong>Umbilical cord:</strong> connects fetus to placenta (2 arteries + 1 vein)</li>
+          <li><strong>Amniotic fluid:</strong> protects fetus from shock; maintains temperature</li>
+          <li><strong>Birth (parturition):</strong> oxytocin stimulates uterine contractions</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Contraception methods:</strong></p>
+        <ul>
+          <li>Hormonal (pill, injection, implant) — prevent ovulation</li>
+          <li>Barrier (condom, diaphragm) — prevent sperm reaching egg; condom also prevents STIs</li>
+          <li>IUD — prevents implantation</li>
+          <li>Abstinence — 100% effective</li>
+          <li>Sterilisation (vasectomy/tubal ligation) — permanent</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- NERVOUS SYSTEM -->
+  <div class="section" id="nervous">
+    <div class="section-header">
+      <div class="section-eyebrow">Unit 4</div>
+      <h2>Nervous System & Homeostasis</h2>
+    </div>
+    <span class="unit-badge badge-human">🧠 Paper 2</span>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Neurons & Nerve Impulses <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Types of neurons:</strong></p>
+        <ul>
+          <li><span class="key-term">Sensory (afferent)</span> — carry impulse from receptors TO CNS</li>
+          <li><span class="key-term">Motor (efferent)</span> — carry impulse FROM CNS to effectors (muscles, glands)</li>
+          <li><span class="key-term">Interneurons (relay)</span> — found within the CNS; connect sensory and motor neurons</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Neuron structure:</strong></p>
+        <ul>
+          <li>Cell body (soma) + dendrites (receive signals) + axon (transmit signals) + axon terminals</li>
+          <li><strong>Myelin sheath</strong> (formed by Schwann cells) — speeds up impulse conduction</li>
+          <li><strong>Nodes of Ranvier</strong> — gaps in myelin where impulse jumps (saltatory conduction)</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Action potential:</strong></p>
+        <ul>
+          <li>Resting potential: inside of neuron is negative (−70 mV); maintained by Na⁺/K⁺ pump</li>
+          <li>Depolarisation: Na⁺ rushes in → inside becomes positive</li>
+          <li>Repolarisation: K⁺ rushes out → returns to resting potential</li>
+          <li>All-or-nothing principle: impulse either fires fully or not at all</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Synapses <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>A <span class="key-term">synapse</span> is a junction between two neurons where chemical transmission occurs.</p>
+        <ul>
+          <li>Nerve impulse reaches <strong>pre-synaptic terminal</strong></li>
+          <li><strong>Synaptic vesicles</strong> release <span class="key-term">neurotransmitters</span> into synaptic cleft</li>
+          <li>Neurotransmitters bind to receptors on <strong>post-synaptic membrane</strong></li>
+          <li>New impulse generated in post-synaptic neuron (or inhibited)</li>
+          <li>Neurotransmitters broken down (by enzymes) or reabsorbed</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Common neurotransmitters:</strong></p>
+        <ul>
+          <li>Acetylcholine (ACh) — neuromuscular junction, parasympathetic</li>
+          <li>Dopamine — reward, motivation (affected by drugs)</li>
+          <li>Serotonin — mood, sleep</li>
+          <li>Noradrenaline — fight or flight</li>
+        </ul>
+        <div class="warn-box">⚠️ Impulses travel in ONE direction across synapse — from pre-synaptic to post-synaptic only.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">The Brain & Spinal Cord (CNS) <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <table>
+          <tr><th>Structure</th><th>Function</th></tr>
+          <tr><td>Cerebrum</td><td>Thinking, memory, voluntary movement, senses, language; divided into lobes</td></tr>
+          <tr><td>Cerebellum</td><td>Balance, coordination, fine motor control</td></tr>
+          <tr><td>Medulla oblongata</td><td>Controls involuntary functions: heart rate, breathing, swallowing</td></tr>
+          <tr><td>Hypothalamus</td><td>Homeostasis, body temp, hunger, thirst, links nervous & endocrine systems</td></tr>
+          <tr><td>Spinal cord</td><td>Pathway for impulses; controls reflex arcs</td></tr>
+        </table>
+        <p style="margin-top:12px"><strong>Reflex arc:</strong> Receptor → Sensory neuron → Spinal cord (interneuron) → Motor neuron → Effector</p>
+        <div class="info-box">ℹ️ Reflex arcs bypass the brain for speed — that's why you pull your hand away from heat before you feel the pain.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Endocrine System & Hormones <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <table>
+          <tr><th>Gland</th><th>Hormone(s)</th><th>Function</th></tr>
+          <tr><td>Pituitary</td><td>FSH, LH, GH, ADH, TSH</td><td>"Master gland" — controls other glands</td></tr>
+          <tr><td>Thyroid</td><td>Thyroxine</td><td>Regulates metabolic rate</td></tr>
+          <tr><td>Adrenal</td><td>Adrenaline, Cortisol</td><td>Stress response (fight or flight)</td></tr>
+          <tr><td>Pancreas</td><td>Insulin, Glucagon</td><td>Blood glucose regulation</td></tr>
+          <tr><td>Ovaries</td><td>Oestrogen, Progesterone</td><td>Female reproductive cycle</td></tr>
+          <tr><td>Testes</td><td>Testosterone</td><td>Male secondary sex characteristics, sperm production</td></tr>
+        </table>
+        <div class="highlight-box">🔑 Hormones travel in blood (slow, long-lasting). Nerve impulses travel along neurons (fast, short-lived).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Drugs & Their Effects on the Nervous System <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p>Drugs alter the normal functioning of synapses by mimicking, blocking, or altering neurotransmitter action.</p>
+        <div class="grid-2">
+          <div>
+            <p><strong>Depressants:</strong></p>
+            <ul>
+              <li>Slow CNS activity</li>
+              <li>Examples: alcohol, tranquilisers, heroin</li>
+              <li>Increase GABA / reduce nerve impulse rate</li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Stimulants:</strong></p>
+            <ul>
+              <li>Speed up CNS activity</li>
+              <li>Examples: caffeine, cocaine, nicotine, tik (meth)</li>
+              <li>Increase dopamine / noradrenaline</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:10px"><strong>Hallucinogens:</strong> distort perception (e.g. cannabis, LSD)</p>
+        <p><strong>Addiction</strong> occurs because drugs overstimulate the brain's reward pathway — dopamine floods synapses and the brain compensates by reducing natural receptor sensitivity.</p>
+        <div class="warn-box">⚠️ Exam context: Be able to explain WHY a specific drug causes a specific effect at the synapse level.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Homeostasis <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><span class="key-term">Homeostasis</span> is the maintenance of a stable internal environment despite external changes. Uses <span class="key-term">negative feedback</span> loops.</p>
+        <p><strong>Blood glucose regulation:</strong></p>
+        <ul>
+          <li>High glucose → pancreas secretes <strong>insulin</strong> → cells absorb glucose → glucose converted to glycogen (liver/muscle)</li>
+          <li>Low glucose → pancreas secretes <strong>glucagon</strong> → glycogen converted back to glucose (glycogenolysis)</li>
+          <li>Diabetes Type 1: pancreas cannot produce insulin</li>
+          <li>Diabetes Type 2: cells become insulin-resistant</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Thermoregulation (body temp ~37°C):</strong></p>
+        <ul>
+          <li>Too hot: vasodilation, sweating, hair lies flat</li>
+          <li>Too cold: vasoconstriction, shivering, hair stands up (goosebumps), less sweating</li>
+        </ul>
+        <p><strong>Osmoregulation (water balance):</strong> kidneys regulate water/salt balance; ADH increases water reabsorption</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECOLOGY -->
+  <div class="section" id="ecology">
+    <div class="section-header">
+      <div class="section-eyebrow">Unit 5</div>
+      <h2>Ecology & Human Impact</h2>
+    </div>
+    <span class="unit-badge badge-eco">🌿 Paper 2</span>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Ecological Concepts <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <ul>
+          <li><span class="key-term">Ecology</span> — study of interactions between organisms and their environment</li>
+          <li><span class="key-term">Ecosystem</span> — community of organisms + their abiotic environment</li>
+          <li><span class="key-term">Biome</span> — large-scale ecosystem defined by climate and dominant vegetation</li>
+          <li><span class="key-term">Population</span> — all individuals of one species in an area</li>
+          <li><span class="key-term">Community</span> — all populations in an ecosystem</li>
+          <li><span class="key-term">Habitat</span> — physical place where organism lives</li>
+          <li><span class="key-term">Niche</span> — organism's role in the ecosystem (what it does, not where it lives)</li>
+          <li><strong>Abiotic factors:</strong> temperature, water, light, pH, wind, soil type</li>
+          <li><strong>Biotic factors:</strong> predation, competition, disease, parasitism, mutualism</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Energy Flow & Food Webs <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Trophic levels:</strong></p>
+        <ul>
+          <li>Level 1: <span class="key-term">Producers</span> (plants, algae) — photosynthesise to make food</li>
+          <li>Level 2: <span class="key-term">Primary consumers</span> — herbivores</li>
+          <li>Level 3: <span class="key-term">Secondary consumers</span> — carnivores eating herbivores</li>
+          <li>Level 4: <span class="key-term">Tertiary consumers</span> — top predators</li>
+          <li><span class="key-term">Decomposers</span> — bacteria and fungi breaking down dead matter</li>
+        </ul>
+        <p style="margin-top:10px"><strong>10% rule:</strong> Only ~10% of energy transfers from one trophic level to the next (rest lost as heat/metabolic processes)</p>
+        <p><strong>Food chain:</strong> grass → grasshopper → frog → snake → eagle</p>
+        <div class="highlight-box">🔑 <strong>Ecological pyramids:</strong> Pyramid of numbers, biomass, and energy — explain why food chains rarely exceed 4–5 levels.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Population Ecology <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Population growth:</strong></p>
+        <ul>
+          <li><strong>J-curve (exponential growth):</strong> unlimited resources, no predators — population explodes</li>
+          <li><strong>S-curve (logistic growth):</strong> reaches <span class="key-term">carrying capacity (K)</span> — limiting factors slow growth</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Limiting factors:</strong></p>
+        <ul>
+          <li>Density-dependent: disease, predation, competition (increase with population size)</li>
+          <li>Density-independent: drought, flood, fire, pesticide (affect regardless of size)</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Species interactions:</strong></p>
+        <table>
+          <tr><th>Type</th><th>Species A</th><th>Species B</th><th>Example</th></tr>
+          <tr><td>Mutualism</td><td>+</td><td>+</td><td>Bee + flower, oxpecker + rhino</td></tr>
+          <tr><td>Commensalism</td><td>+</td><td>0</td><td>Orchid on tree</td></tr>
+          <tr><td>Parasitism</td><td>+</td><td>−</td><td>Tick on dog</td></tr>
+          <tr><td>Predation</td><td>+</td><td>−</td><td>Lion eats zebra</td></tr>
+          <tr><td>Competition</td><td>−</td><td>−</td><td>Lions and hyenas</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Nutrient Cycles <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Carbon cycle:</strong></p>
+        <ul>
+          <li>Photosynthesis removes CO₂ from atmosphere</li>
+          <li>Respiration, combustion, decomposition release CO₂</li>
+          <li>Fossil fuels are carbon stores — burning them increases atmospheric CO₂</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Nitrogen cycle:</strong></p>
+        <ul>
+          <li>Nitrogen fixation: N₂ → NH₃ (by Rhizobium bacteria in legume root nodules or lightning)</li>
+          <li>Nitrification: NH₃ → NO₂⁻ → NO₃⁻ (by nitrifying bacteria)</li>
+          <li>Assimilation: plants absorb NO₃⁻ and build proteins</li>
+          <li>Denitrification: NO₃⁻ → N₂ (by denitrifying bacteria — reduces soil fertility)</li>
+          <li>Decomposition: dead organisms release NH₃</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" onclick="toggleCard(this)">Human Impact & Conservation <span class="chevron">▾</span></div>
+      <div class="card-body">
+        <p><strong>Human impacts on the environment:</strong></p>
+        <ul>
+          <li><strong>Deforestation</strong> — habitat loss, soil erosion, increased CO₂</li>
+          <li><strong>Pollution</strong> — water (eutrophication), air (smog, acid rain), soil (pesticides)</li>
+          <li><strong>Eutrophication:</strong> excess nutrients → algal bloom → O₂ depletion → fish kill</li>
+          <li><strong>Ozone depletion</strong> — CFCs destroy ozone layer; increases UV radiation</li>
+          <li><strong>Global warming</strong> — greenhouse gases (CO₂, CH₄, N₂O) trap heat</li>
+          <li><strong>Overexploitation</strong> — overfishing, poaching, overhunting</li>
+          <li><strong>Invasive species</strong> — out-compete native species (e.g. Black Wattle, Trout)</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Conservation strategies:</strong></p>
+        <ul>
+          <li>In-situ: national parks, game reserves, marine protected areas</li>
+          <li>Ex-situ: zoos, botanical gardens, seed banks, captive breeding</li>
+          <li>Legislation: CITES, Biodiversity Act, protected species lists</li>
+          <li>Sustainable use: regulated hunting, responsible fishing</li>
+        </ul>
+        <div class="highlight-box">🌍 <strong>SA context:</strong> Kruger National Park, uKhahlamba Drakensberg Park, iSimangaliso Wetland Park (KZN) — know your biomes and conservation areas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div class="section" id="flashcards">
+    <div class="section-header">
+      <div class="section-eyebrow">Active Recall</div>
+      <h2>Flashcards</h2>
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">Tap a card to reveal the answer. Test yourself before flipping!</p>
+    <div class="flashcard-grid" id="flashcardGrid"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section" id="quiz">
+    <div class="section-header">
+      <div class="section-eyebrow">Test Yourself</div>
+      <h2>Multiple Choice Quiz</h2>
+    </div>
+    <div class="quiz-wrap">
+      <div class="quiz-controls" style="margin-bottom:20px;">
+        <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+        <div class="timer-display" id="timerDisplay">⏱ 00:00</div>
+        <div class="score-display" id="scoreDisplay">Score: <span>0</span> / 0</div>
+      </div>
+      <div id="quizContainer"></div>
+    </div>
+  </div>
+
+  <!-- ESSAYS -->
+  <div class="section" id="essays">
+    <div class="section-header">
+      <div class="section-eyebrow">Long Questions</div>
+      <h2>Essay & Structured Questions</h2>
+    </div>
+    <div class="essay-wrap">
+
+      <div class="essay-prompt">
+        <div class="essay-q">Q1. Explain how DNA is replicated and why this process is important for cell division.</div>
+        <div class="essay-marks">[ 10 MARKS ]</div>
+        <div class="essay-guide">
+          <strong>Cover in your answer:</strong><br>
+          • Role of helicase (unwinding/unzipping) [2]<br>
+          • Semi-conservative mechanism [1]<br>
+          • Role of DNA polymerase + direction (5'→3') [2]<br>
+          • Leading and lagging strand / Okazaki fragments [2]<br>
+          • Role of ligase [1]<br>
+          • Result: 2 identical DNA molecules [1]<br>
+          • Why important: ensures daughter cells get complete genetic info [1]
+        </div>
+      </div>
+
+      <div class="essay-prompt">
+        <div class="essay-q">Q2. Describe the process of natural selection and explain how it can lead to the formation of a new species (speciation).</div>
+        <div class="essay-marks">[ 12 MARKS ]</div>
+        <div class="essay-guide">
+          <strong>Cover in your answer:</strong><br>
+          • Overproduction / variation / competition [3]<br>
+          • Survival of the fittest / adapted organisms survive [2]<br>
+          • Inheritance of favourable traits [1]<br>
+          • Over generations: shift in population characteristics [1]<br>
+          • Geographic isolation (allopatric speciation) [2]<br>
+          • Populations evolve independently / accumulate different mutations [1]<br>
+          • Reproductive isolation established [1]<br>
+          • New species formed (cannot interbreed) [1]
+        </div>
+      </div>
+
+      <div class="essay-prompt">
+        <div class="essay-q">Q3. Explain how a nerve impulse is transmitted across a synapse and discuss how recreational drugs can interfere with this process.</div>
+        <div class="essay-marks">[ 10 MARKS ]</div>
+        <div class="essay-guide">
+          <strong>Cover in your answer:</strong><br>
+          • Nerve impulse reaches pre-synaptic knob [1]<br>
+          • Vesicles release neurotransmitters into synaptic cleft [2]<br>
+          • NT binds to receptors on post-synaptic membrane [1]<br>
+          • New impulse generated / inhibited [1]<br>
+          • NT broken down / reabsorbed [1]<br>
+          • Unidirectional transmission [1]<br>
+          • Drug example: cocaine blocks reabsorption of dopamine [1]<br>
+          • Excess dopamine → prolonged stimulation → addiction [2]
+        </div>
+      </div>
+
+      <div class="essay-prompt">
+        <div class="essay-q">Q4. Discuss the human impact on the environment and suggest ways to conserve biodiversity.</div>
+        <div class="essay-marks">[ 10 MARKS ]</div>
+        <div class="essay-guide">
+          <strong>Cover in your answer:</strong><br>
+          • Deforestation: causes and effects [2]<br>
+          • Pollution / eutrophication [2]<br>
+          • Global warming: greenhouse effect [2]<br>
+          • In-situ conservation methods (national parks) [2]<br>
+          • Ex-situ conservation methods (captive breeding) [2]
+        </div>
+      </div>
+
+      <div class="essay-prompt">
+        <div class="essay-q">Q5. Describe the menstrual cycle and the role of hormones in controlling it.</div>
+        <div class="essay-marks">[ 8 MARKS ]</div>
+        <div class="essay-guide">
+          <strong>Cover in your answer:</strong><br>
+          • Day 1–5: menstruation, endometrium shed [1]<br>
+          • FSH stimulates follicle development; oestrogen rises [2]<br>
+          • LH surge → ovulation (day 14) [2]<br>
+          • Corpus luteum → progesterone → endometrium maintained [2]<br>
+          • No fertilisation → corpus luteum degenerates → cycle repeats [1]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-eyebrow">Revision Tracker</div>
+      <h2>Study Checklist</h2>
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">Tick off each topic as you complete it — your progress bar updates automatically.</p>
+    <ul class="checklist" id="checklistEl"></ul>
+    <button class="btn btn-outline" style="margin-top:16px;" onclick="resetChecklist()">Reset all</button>
+
+    <div class="footer-note">
+      StudyHub by Nhlaka · Life Sciences Grade 12 CAPS · Good luck in your exams! 🌱
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+
+const flashcardData = [
+  { q: "What are the 4 nitrogenous bases in DNA?", a: "Adenine (A), Thymine (T), Guanine (G), Cytosine (C). A pairs with T; G pairs with C." },
+  { q: "What is semi-conservative replication?", a: "Each new DNA molecule contains one original (parent) strand and one newly synthesised strand." },
+  { q: "What is the role of helicase in DNA replication?", a: "Helicase unwinds and unzips the double helix by breaking the hydrogen bonds between base pairs." },
+  { q: "What is transcription?", a: "The process in the nucleus where RNA polymerase reads the DNA template strand and produces mRNA." },
+  { q: "What is the central dogma of molecular biology?", a: "DNA → RNA → Protein (transcription then translation)." },
+  { q: "What is a codon?", a: "A triplet of bases on mRNA that codes for a specific amino acid (or start/stop signal)." },
+  { q: "What is the difference between homologous and analogous structures?", a: "Homologous: same origin, different function (e.g. human arm & whale flipper). Analogous: same function, different origin (e.g. bird & insect wings)." },
+  { q: "Name Darwin's 4 key postulates of natural selection.", a: "1. Overproduction  2. Variation  3. Competition (struggle for existence)  4. Survival of the fittest / inheritance of favourable traits." },
+  { q: "What is allopatric speciation?", a: "A new species forms when a population becomes geographically isolated from the main population and evolves differently until reproductive isolation is established." },
+  { q: "What cranial capacity is associated with Homo sapiens?", a: "Approximately 1350 cc. Compare: Australopithecus ~450 cc, Homo habilis ~650 cc." },
+  { q: "What is the function of FSH in the menstrual cycle?", a: "FSH (Follicle Stimulating Hormone) is secreted by the pituitary gland and stimulates the development of a follicle in the ovary." },
+  { q: "Where does fertilisation occur in humans?", a: "Fertilisation occurs in the fallopian tube (oviduct)." },
+  { q: "What is the role of progesterone in pregnancy?", a: "Progesterone (produced by the corpus luteum, later the placenta) maintains the uterine lining (endometrium) to support implantation and fetal development." },
+  { q: "What is the difference between a sensory and motor neuron?", a: "Sensory neurons carry impulses FROM receptors TO the CNS. Motor neurons carry impulses FROM the CNS TO effectors (muscles/glands)." },
+  { q: "What happens during depolarisation of a neuron?", a: "Sodium ions (Na⁺) rush into the cell, making the inside temporarily positive. This generates the action potential." },
+  { q: "What is a synapse?", a: "A junction between two neurons where chemical transmission via neurotransmitters occurs. Impulses travel ONE way only." },
+  { q: "What is homeostasis?", a: "The maintenance of a stable internal environment using negative feedback mechanisms (e.g. temperature, blood glucose regulation)." },
+  { q: "How does insulin regulate blood glucose?", a: "High blood glucose → pancreas secretes insulin → cells absorb glucose → liver converts excess glucose to glycogen (glycogenesis)." },
+  { q: "What is eutrophication?", a: "Excess nutrients (from fertilisers) wash into water → algal bloom → algae die → decomposers use O₂ → oxygen depletion → aquatic organisms die." },
+  { q: "Name two in-situ and two ex-situ conservation methods.", a: "In-situ: national parks, marine protected areas. Ex-situ: zoos, captive breeding programmes / seed banks." },
+  { q: "What is the 10% rule in ecology?", a: "Only about 10% of energy from one trophic level is transferred to the next. The rest is lost as heat, movement, and waste." },
+  { q: "What is crossing over and when does it occur?", a: "Crossing over is the exchange of genetic material between homologous chromosomes during Prophase I of meiosis, creating genetic variation." },
+  { q: "What is incomplete dominance? Give an example.", a: "When the heterozygote shows a blended phenotype. E.g. Red (RR) × White (rr) = Pink (Rr) in snapdragons." },
+  { q: "What is the role of DNA ligase?", a: "DNA ligase joins the Okazaki fragments on the lagging strand together to form a continuous strand during DNA replication." },
+  { q: "What is a vestigial structure? Give two examples.", a: "A structure that was functional in an ancestor but has reduced or no function now. Examples: human coccyx (tailbone), appendix, wisdom teeth." },
+];
+
+const quizData = [
+  { q: "Which enzyme is responsible for unwinding the DNA double helix during replication?", opts: ["DNA Polymerase", "Ligase", "Helicase", "RNA Polymerase"], ans: 2, exp: "Helicase breaks the hydrogen bonds between base pairs to unwind and separate the two DNA strands." },
+  { q: "The process of DNA replication is described as semi-conservative because:", opts: ["Each daughter cell receives half the original DNA", "Each new DNA molecule has one original and one new strand", "The DNA only replicates half of the genome", "Replication stops halfway through S phase"], ans: 1, exp: "Semi-conservative means each new molecule retains one original (parent) strand and one newly synthesised strand." },
+  { q: "Which of the following is a PYRIMIDINE base?", opts: ["Adenine", "Guanine", "Cytosine", "Adenine and Guanine"], ans: 2, exp: "Cytosine and Thymine are pyrimidines (single ring). Adenine and Guanine are purines (double ring)." },
+  { q: "What type of mutation causes a frameshift?", opts: ["Substitution", "Translocation", "Insertion or Deletion", "Inversion"], ans: 2, exp: "Insertions and deletions add or remove bases, shifting the reading frame and altering ALL downstream codons." },
+  { q: "Crossing over during meiosis occurs during:", opts: ["Metaphase I", "Prophase I", "Anaphase I", "Prophase II"], ans: 1, exp: "Crossing over (chiasmata formation) occurs during Prophase I when homologous chromosomes pair up (synapsis)." },
+  { q: "Which blood type is the universal donor?", opts: ["A", "B", "AB", "O"], ans: 3, exp: "Blood type O has no A or B antigens on red blood cells, so it can be donated to any blood type." },
+  { q: "Which structure found in South Africa is associated with Australopithecus africanus?", opts: ["Olduvai Gorge", "Sterkfontein Caves", "Laetoli Footprints", "Lake Turkana"], ans: 1, exp: "Sterkfontein Caves (Cradle of Humankind, Gauteng) yielded Mrs Ples and Little Foot, both Australopithecus africanus." },
+  { q: "Directional selection results in:", opts: ["Both extreme phenotypes being favoured", "The intermediate phenotype being favoured", "One extreme phenotype being favoured", "No change in population"], ans: 2, exp: "Directional selection shifts the population mean towards one extreme phenotype — e.g. bacteria developing antibiotic resistance." },
+  { q: "What is the function of the corpus luteum?", opts: ["Produce FSH", "Produce progesterone", "Trigger ovulation", "Produce testosterone"], ans: 1, exp: "After ovulation the ruptured follicle becomes the corpus luteum, which secretes progesterone to maintain the endometrium." },
+  { q: "Which hormone triggers ovulation?", opts: ["FSH", "Oestrogen", "Progesterone", "LH"], ans: 3, exp: "A surge of LH (Luteinising Hormone) from the pituitary gland triggers the release of the ovum from the follicle on day ~14." },
+  { q: "Sensory neurons carry impulses:", opts: ["From CNS to muscles", "From receptors to CNS", "From CNS to glands", "Between interneurons only"], ans: 1, exp: "Sensory (afferent) neurons carry impulses FROM sense organs/receptors TO the CNS." },
+  { q: "Which part of the brain controls balance and coordination?", opts: ["Cerebrum", "Medulla oblongata", "Hypothalamus", "Cerebellum"], ans: 3, exp: "The cerebellum is responsible for balance, posture, and coordination of voluntary movement." },
+  { q: "Cocaine affects the nervous system by:", opts: ["Blocking acetylcholine receptors", "Preventing reuptake of dopamine", "Increasing GABA release", "Destroying myelin sheaths"], ans: 1, exp: "Cocaine blocks the reabsorption (reuptake) of dopamine, causing it to accumulate in the synapse and overstimulate the reward pathway." },
+  { q: "In the nitrogen cycle, which bacteria convert nitrates back to atmospheric nitrogen?", opts: ["Nitrifying bacteria", "Nitrogen-fixing bacteria", "Denitrifying bacteria", "Decomposers"], ans: 2, exp: "Denitrifying bacteria (e.g. Pseudomonas) convert nitrates (NO₃⁻) back to atmospheric nitrogen (N₂) under anaerobic conditions." },
+  { q: "Eutrophication of water bodies is primarily caused by:", opts: ["Acid rain", "Excess nutrients (phosphates/nitrates) from runoff", "Oil spills", "Thermal pollution"], ans: 1, exp: "Eutrophication is caused by excess nutrients (mainly from fertilisers) entering water, leading to algal blooms and oxygen depletion." },
+  { q: "What is the carrying capacity (K) of a population?", opts: ["The minimum population size for survival", "The maximum population a habitat can sustainably support", "The growth rate of a population", "The number of offspring per generation"], ans: 1, exp: "Carrying capacity is the maximum population size that an environment can sustainably support given available resources." },
+  { q: "Which of the following is an example of mutualism?", opts: ["A tick feeding on a dog", "An orchid growing on a tree for support", "Rhizobium bacteria in legume root nodules", "A lion eating a zebra"], ans: 2, exp: "Rhizobium bacteria fix nitrogen for the plant (benefiting the plant) while the plant provides sugars (benefiting the bacteria) — both benefit (+/+)." },
+  { q: "Which of the following is a vestigial structure in humans?", opts: ["Thumb", "Cornea", "Coccyx", "Femur"], ans: 2, exp: "The coccyx (tailbone) is a vestigial structure — a remnant of a tail found in ancestral primates, now serving little to no function." },
+];
+
+const checklistItems = [
+  "DNA structure and base pairing rules",
+  "Semi-conservative DNA replication and enzymes",
+  "Transcription: making mRNA from DNA",
+  "Translation: making protein from mRNA",
+  "Types of mutations (substitution, insertion, deletion)",
+  "Meiosis stages and sources of variation",
+  "Mendelian genetics and Punnett squares",
+  "Incomplete dominance, codominance, sex-linked traits",
+  "Genetic technology (PCR, gel electrophoresis, GMOs)",
+  "Darwin's theory of natural selection (4 postulates)",
+  "Evidence for evolution (6 types)",
+  "Types of natural selection (directional, stabilising, disruptive)",
+  "Allopatric speciation",
+  "Human evolution timeline (Australopithecus → Homo sapiens)",
+  "Asexual vs sexual reproduction",
+  "Flower structure and plant fertilisation",
+  "Male reproductive system structures",
+  "Female reproductive system and menstrual cycle",
+  "Hormones of reproduction (FSH, LH, oestrogen, progesterone)",
+  "Fertilisation, implantation, placenta functions",
+  "Contraception methods",
+  "Neuron types and structure",
+  "Action potential (depolarisation/repolarisation)",
+  "Synaptic transmission",
+  "Brain structures and functions",
+  "Reflex arc pathway",
+  "Endocrine glands and their hormones",
+  "Drug effects on the nervous system",
+  "Blood glucose homeostasis (insulin/glucagon)",
+  "Thermoregulation mechanisms",
+  "Ecological terms (ecosystem, biome, niche, habitat)",
+  "Energy flow and 10% rule",
+  "Food webs and trophic levels",
+  "Population growth curves (J and S curves)",
+  "Species interactions (mutualism, parasitism, etc.)",
+  "Carbon and nitrogen cycles",
+  "Human impacts on environment (deforestation, pollution, global warming)",
+  "Eutrophication process",
+  "In-situ and ex-situ conservation",
+];
+
+// ── UI LOGIC ──────────────────────────────────────────
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleCard(titleEl) {
+  const body = titleEl.nextElementSibling;
+  body.classList.toggle('open');
+  titleEl.classList.toggle('open');
+}
+
+// ── FLASHCARDS ────────────────────────────────────────
+
+function renderFlashcards() {
+  const grid = document.getElementById('flashcardGrid');
+  grid.innerHTML = flashcardData.map((fc, i) => `
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="q">${fc.q}</div>
+          <div class="fc-hint">TAP TO FLIP</div>
+        </div>
+        <div class="flashcard-back">
+          <div class="a">${fc.a}</div>
+          <div class="fc-hint">TAP TO FLIP BACK</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── QUIZ ──────────────────────────────────────────────
+
+let score = 0, answered = 0, timerInterval = null, seconds = 0;
+
+function startQuiz() {
+  score = 0; answered = 0; seconds = 0;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    seconds++;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById('timerDisplay').textContent = `⏱ ${m}:${s}`;
+  }, 1000);
+  updateScore();
+  const container = document.getElementById('quizContainer');
+  const shuffled = [...quizData].sort(() => Math.random() - 0.5).slice(0, 15);
+  container.innerHTML = shuffled.map((q, i) => `
+    <div class="quiz-question">
+      <div class="quiz-q-num">QUESTION ${i+1} OF ${shuffled.length}</div>
+      <div class="quiz-q-text">${q.q}</div>
+      ${q.opts.map((opt, j) => `
+        <button class="quiz-option" onclick="checkAnswer(this, ${j}, ${q.ans}, '${q.exp.replace(/'/g,"\\'")}', ${i})" id="opt_${i}_${j}">${opt}</button>
+      `).join('')}
+      <div class="feedback" id="fb_${i}"></div>
+    </div>
+  `).join('');
+}
+
+function checkAnswer(btn, selected, correct, explanation, qIndex) {
+  const btns = document.querySelectorAll(`[id^="opt_${qIndex}_"]`);
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById(`fb_${qIndex}`);
+  if (selected === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Correct! ' + explanation;
+    fb.className = 'feedback show correct';
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.textContent = '✗ Not quite. ' + explanation;
+    fb.className = 'feedback show wrong';
+  }
+  answered++;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreDisplay').innerHTML = `Score: <span>${score}</span> / ${answered}`;
+}
+
+// ── CHECKLIST ─────────────────────────────────────────
+
+function renderChecklist() {
+  const saved = JSON.parse(localStorage.getItem('ls_checklist') || '[]');
+  const el = document.getElementById('checklistEl');
+  el.innerHTML = checklistItems.map((item, i) => `
+    <li class="${saved.includes(i) ? 'checked' : ''}" onclick="toggleCheck(this, ${i})">
+      <div class="check-box"></div>
+      <span class="check-text">${item}</span>
+    </li>
+  `).join('');
+  updateProgress();
+}
+
+function toggleCheck(li, idx) {
+  li.classList.toggle('checked');
+  saveChecklist();
+  updateProgress();
+}
+
+function saveChecklist() {
+  const checked = [];
+  document.querySelectorAll('.checklist li').forEach((li, i) => {
+    if (li.classList.contains('checked')) checked.push(i);
+  });
+  localStorage.setItem('ls_checklist', JSON.stringify(checked));
+}
+
+function resetChecklist() {
+  localStorage.removeItem('ls_checklist');
+  renderChecklist();
+}
+
+function updateProgress() {
+  const total = checklistItems.length;
+  const done = document.querySelectorAll('.checklist li.checked').length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+}
+
+// ── INIT ──────────────────────────────────────────────
+
+renderFlashcards();
+renderChecklist();
+</script>
+</body>
+</html>
