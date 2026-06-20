@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 12 Physical Sciences — StudyHub by Nhlaka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── PASSWORD GATE ── */
+#sh-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0D1B2A;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+}
+#sh-gate .sh-lock { width:56px;height:56px;border:2px solid #C9A84C;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:sh-pulse 3s ease-in-out infinite; }
+#sh-gate .sh-lock svg { width:24px;height:24px;fill:#C9A84C; }
+@keyframes sh-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0);}50%{box-shadow:0 0 0 8px rgba(201,168,76,.15);} }
+#sh-gate .sh-brand { font-size:1.6rem;font-weight:700;color:#C9A84C;letter-spacing:.02em;margin-bottom:.25rem;text-align:center; }
+#sh-gate .sh-sub { font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#F5F0E8;margin-bottom:.4rem;text-align:center; }
+#sh-gate .sh-tagline { font-size:.82rem;color:#8A9AB0;margin-bottom:2rem;text-align:center; }
+#sh-gate .sh-card { background:#162032;border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:1.75rem;width:100%;max-width:360px; }
+#sh-gate .sh-card label { display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A9AB0;margin-bottom:.5rem; }
+#sh-gate .sh-row { display:flex;gap:.5rem;margin-bottom:.75rem; }
+#sh-code { flex:1;background:rgba(255,255,255,.05);border:1.5px solid rgba(201,168,76,.25);border-radius:10px;color:#F5F0E8;font-size:1rem;font-weight:600;letter-spacing:.12em;padding:.7rem .9rem;outline:none;text-transform:uppercase;transition:border-color .2s; }
+#sh-code::placeholder { color:#8A9AB0;font-weight:400;letter-spacing:.04em; }
+#sh-code:focus { border-color:#C9A84C; }
+#sh-unlock { background:#C9A84C;color:#0D1B2A;border:none;border-radius:10px;padding:.7rem 1rem;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s; }
+#sh-unlock:hover{background:#E2C06A;}#sh-unlock:active{transform:scale(.97);}
+#sh-msg{font-size:.8rem;min-height:1.1rem;text-align:center;}
+#sh-msg.err{color:#E05A5A;}#sh-msg.ok{color:#4CAF7D;}
+#sh-gate .sh-hint{margin-top:1.25rem;font-size:.74rem;color:#8A9AB0;text-align:center;line-height:1.6;}
+#sh-gate .sh-hint a{color:#C9A84C;text-decoration:none;}
+@keyframes sh-shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+.sh-shake{animation:sh-shake .35s ease;}
+
+/* ── MAIN STYLES ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root {
+  --navy:#0D1B2A; --navy2:#162032; --navy3:#1E2D42;
+  --gold:#C9A84C; --gold2:#E2C06A;
+  --cream:#F5F0E8; --muted:#8A9AB0;
+  --blue:#4A9EE0; --green:#4CAF7D; --red:#E05A5A; --purple:#9B72CF;
+  --border:rgba(201,168,76,.18);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(13,27,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.9rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);}
+.nav-brand span{color:var(--cream);font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:block;}
+.nav-tabs{display:flex;gap:.35rem;flex-wrap:wrap;}
+.nav-tab{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.35rem .7rem;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-tab.active,.nav-tab:hover{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gold);}
+
+/* HERO */
+.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.25rem 2rem;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(74,158,224,.1) 0%,transparent 65%),var(--navy);position:relative;overflow:hidden;}
+.hero-atom{position:absolute;opacity:.06;pointer-events:none;}
+.hero-atom svg{width:320px;height:320px;}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:24px;height:1px;background:var(--blue);opacity:.5;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,7vw,3.6rem);line-height:1.12;margin-bottom:1rem;color:var(--cream);}
+.hero h1 em{font-style:italic;color:var(--blue);}
+.hero-sub{font-size:.9rem;color:var(--muted);max-width:440px;line-height:1.7;margin-bottom:1.75rem;}
+.hero-badges{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem;}
+.badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:20px;padding:.3rem .75rem;font-size:.72rem;font-weight:600;color:var(--muted);}
+.badge.chem{border-color:rgba(155,114,207,.4);color:var(--purple);}
+.badge.phys{border-color:rgba(74,158,224,.4);color:var(--blue);}
+
+/* COUNTDOWN */
+.countdown-wrap{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.25rem;max-width:480px;width:100%;margin:0 auto 2rem;}
+.countdown-label{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;text-align:center;}
+.countdown-grid{display:flex;gap:.75rem;justify-content:center;}
+.cd-block{text-align:center;}
+.cd-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;color:var(--gold);line-height:1;display:block;}
+.cd-unit{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.2rem;}
+.cd-sep{font-size:1.8rem;color:var(--border);align-self:center;padding-bottom:.3rem;}
+.countdown-setup{display:flex;gap:.5rem;justify-content:center;align-items:center;margin-top:.75rem;flex-wrap:wrap;}
+.countdown-setup input{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--cream);padding:.4rem .6rem;font-size:.8rem;width:130px;outline:none;}
+.countdown-setup input:focus{border-color:var(--gold);}
+.btn-sm{background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.btn-sm:hover{background:var(--gold2);}
+
+/* SECTIONS */
+.section{display:none;padding:1.5rem 1.25rem 3rem;max-width:900px;margin:0 auto;}
+.section.active{display:block;}
+.section-header{margin-bottom:2rem;}
+.section-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:.4rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,1.9rem);color:var(--cream);margin-bottom:.5rem;}
+.section-desc{font-size:.85rem;color:var(--muted);line-height:1.6;}
+
+/* PROGRESS */
+.progress-bar-wrap{background:rgba(255,255,255,.06);border-radius:99px;height:6px;margin-bottom:2rem;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease;}
+.progress-label{font-size:.72rem;color:var(--muted);margin-bottom:.4rem;}
+
+/* FLASHCARDS */
+.flashcards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+.fc-scene{height:180px;perspective:800px;cursor:pointer;}
+.fc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.fc-scene.flipped .fc-card{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.fc-front{background:var(--navy2);border:1px solid var(--border);}
+.fc-back{background:var(--navy3);border:1px solid rgba(74,158,224,.3);transform:rotateY(180deg);}
+.fc-topic{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+.fc-q{font-size:.88rem;font-weight:600;color:var(--cream);line-height:1.4;}
+.fc-a{font-size:.84rem;color:var(--blue);line-height:1.5;}
+.fc-formula{font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--gold);margin-top:.4rem;}
+.fc-hint{font-size:.65rem;color:var(--muted);position:absolute;bottom:.6rem;right:.75rem;}
+
+/* QUIZ */
+.quiz-wrap{max-width:600px;margin:0 auto;}
+.quiz-progress-text{font-size:.78rem;color:var(--muted);margin-bottom:.5rem;}
+.quiz-q{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1rem;}
+.quiz-q-text{font-size:1rem;font-weight:600;color:var(--cream);margin-bottom:1.25rem;line-height:1.5;}
+.quiz-options{display:flex;flex-direction:column;gap:.6rem;}
+.quiz-opt{background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-size:.88rem;color:var(--cream);cursor:pointer;text-align:left;transition:all .2s;font-family:'Inter',sans-serif;}
+.quiz-opt:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.quiz-opt.correct{border-color:var(--green);background:rgba(76,175,125,.12);color:var(--green);}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(224,90,90,.1);color:var(--red);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{font-size:.82rem;margin-top:.75rem;padding:.65rem 1rem;border-radius:8px;line-height:1.5;}
+.quiz-feedback.correct{background:rgba(76,175,125,.1);color:var(--green);border:1px solid rgba(76,175,125,.3);}
+.quiz-feedback.wrong{background:rgba(224,90,90,.08);color:#F08080;border:1px solid rgba(224,90,90,.25);}
+.quiz-timer{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--gold);text-align:right;margin-bottom:.5rem;}
+.quiz-timer.urgent{color:var(--red);}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;gap:.75rem;}
+.btn-primary{background:var(--gold);color:var(--navy);border:none;border-radius:10px;padding:.7rem 1.4rem;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:var(--gold2);}
+.btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:.7rem 1.2rem;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.quiz-score-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center;}
+.score-big{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);font-weight:700;}
+.score-label{font-size:.8rem;color:var(--muted);margin-bottom:1rem;}
+.score-msg{font-size:1rem;color:var(--cream);margin-bottom:1.5rem;}
+
+/* DIAGRAMS */
+.diagrams-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.diagram-card{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.25rem;}
+.diagram-title{font-size:.82rem;font-weight:700;color:var(--gold);margin-bottom:.75rem;letter-spacing:.04em;}
+.diagram-card svg{width:100%;height:auto;display:block;}
+.diagram-desc{font-size:.75rem;color:var(--muted);margin-top:.75rem;line-height:1.6;}
+
+/* TOPIC CARDS (overview) */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem;}
+.topic-card{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;cursor:pointer;transition:all .2s;}
+.topic-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.topic-card-icon{font-size:1.4rem;margin-bottom:.5rem;}
+.topic-card-title{font-size:.88rem;font-weight:700;color:var(--cream);margin-bottom:.25rem;}
+.topic-card-sub{font-size:.73rem;color:var(--muted);}
+
+/* FORMULAS */
+.formula-list{display:flex;flex-direction:column;gap:.75rem;}
+.formula-item{background:var(--navy2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:1rem 1.1rem;}
+.formula-name{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
+.formula-eq{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--gold);margin-bottom:.3rem;}
+.formula-explain{font-size:.78rem;color:var(--cream);line-height:1.5;}
+
+/* WATERMARK */
+body::after{content:'Do Not Share — StudyHub by Nhlaka';position:fixed;bottom:10px;right:14px;font-size:.62rem;color:rgba(201,168,76,.18);pointer-events:none;z-index:9998;letter-spacing:.06em;}
+
+@media(max-width:480px){
+  .countdown-grid{gap:.5rem;}
+  .cd-num{font-size:1.5rem;}
+  .nav-tabs{gap:.25rem;}
+  .nav-tab{font-size:.65rem;padding:.3rem .5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="sh-gate">
+  <div class="sh-lock">
+    <svg viewBox="0 0 24 24"><path d="M18 11H17V7C17 4.24 14.76 2 12 2S7 4.24 7 7V11H6C4.9 11 4 11.9 4 13V21C4 22.1 4.9 23 6 23H18C19.1 23 20 22.1 20 21V13C20 11.9 19.1 11 18 11ZM12 18C10.9 18 10 17.1 10 16S10.9 14 12 14 14 14.9 14 16 13.1 18 12 18ZM15.1 11H8.9V7C8.9 5.29 10.29 3.9 12 3.9 13.71 3.9 15.1 5.29 15.1 7V11Z"/></svg>
+  </div>
+  <div class="sh-brand">StudyHub</div>
+  <div class="sh-sub">by Nhlaka</div>
+  <p class="sh-tagline">Enter your access code to unlock this guide</p>
+  <div class="sh-card">
+    <label for="sh-code">Access Code</label>
+    <div class="sh-row">
+      <input id="sh-code" type="text" maxlength="12" placeholder="e.g. SH-PS25" autocomplete="off" spellcheck="false"/>
+      <button id="sh-unlock" onclick="shCheck()">Unlock</button>
+    </div>
+    <p id="sh-msg"></p>
+    <p class="sh-hint">Your code was sent via WhatsApp after payment.<br/>Need help? Contact <a href="https://wa.me/27640081459">StudyHub Support</a></p>
+  </div>
+</div>
+<script>
+(function(){
+  var CODES=["SH-PS25","SH-PHYSCI25"];
+  var KEY="sh_access_PS";
+  function shMsg(t,c){var m=document.getElementById("sh-msg");m.textContent=t;m.className=c;}
+  function shCheck(){
+    var v=document.getElementById("sh-code").value.trim().toUpperCase();
+    var c=document.querySelector(".sh-card");
+    if(!v){shMsg("Please enter your access code.","err");return;}
+    if(CODES.indexOf(v)>-1){
+      try{sessionStorage.setItem(KEY,v);}catch(e){}
+      shMsg("✓ Access granted!","ok");
+      setTimeout(function(){document.getElementById("sh-gate").style.display="none";window.scrollTo(0,0);},700);
+    }else{
+      shMsg("Incorrect code. Please check your WhatsApp message.","err");
+      c.classList.remove("sh-shake");void c.offsetWidth;c.classList.add("sh-shake");
+    }
+  }
+  window.shCheck=shCheck;
+  document.addEventListener("DOMContentLoaded",function(){
+    var inp=document.getElementById("sh-code");
+    if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") shCheck();});
+    try{
+      var s=sessionStorage.getItem(KEY);
+      if(s&&CODES.indexOf(s.toUpperCase())>-1) document.getElementById("sh-gate").style.display="none";
+    }catch(e){}
+  });
+})();
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">StudyHub <span>Physical Sciences</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+    <button class="nav-tab" onclick="showSection('flashcards')">Flashcards</button>
+    <button class="nav-tab" onclick="showSection('formulas')">Formulas</button>
+    <button class="nav-tab" onclick="showSection('diagrams')">Diagrams</button>
+    <button class="nav-tab" onclick="showSection('quiz')">Quiz</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-atom">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="100" rx="90" ry="35" fill="none" stroke="#4A9EE0" stroke-width="1.5"/>
+      <ellipse cx="100" cy="100" rx="90" ry="35" fill="none" stroke="#9B72CF" stroke-width="1.5" transform="rotate(60 100 100)"/>
+      <ellipse cx="100" cy="100" rx="90" ry="35" fill="none" stroke="#C9A84C" stroke-width="1.5" transform="rotate(120 100 100)"/>
+      <circle cx="100" cy="100" r="10" fill="#4A9EE0" opacity=".8"/>
+    </svg>
+  </div>
+  <div class="hero-eyebrow">Grade 12 CAPS · Physical Sciences</div>
+  <h1>Chemistry meets<br/><em>Physics.</em></h1>
+  <p class="hero-sub">All six CAPS topics in one interactive guide — flashcards, formula sheet, SVG diagrams, and timed quizzes.</p>
+  <div class="hero-badges">
+    <span class="badge chem">⚗️ Matter &amp; Materials</span>
+    <span class="badge chem">🔥 Chemical Change</span>
+    <span class="badge chem">🌍 Chemical Systems</span>
+    <span class="badge phys">🌊 Waves &amp; Light</span>
+    <span class="badge phys">⚡ Electricity</span>
+    <span class="badge phys">🚀 Mechanics</span>
+  </div>
+
+  <div class="countdown-wrap">
+    <div class="countdown-label">⏳ Exam Countdown</div>
+    <div class="countdown-grid">
+      <div class="cd-block"><span class="cd-num" id="cd-d">--</span><div class="cd-unit">Days</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-h">--</span><div class="cd-unit">Hrs</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-m">--</span><div class="cd-unit">Min</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-s">--</span><div class="cd-unit">Sec</div></div>
+    </div>
+    <div class="countdown-setup">
+      <input type="date" id="exam-date" placeholder="Set exam date"/>
+      <button class="btn-sm" onclick="setExamDate()">Set Date</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<section class="section active" id="sec-overview">
+  <div class="section-header">
+    <div class="section-eyebrow">What's inside</div>
+    <div class="section-title">All 6 CAPS Topics</div>
+    <div class="section-desc">Tap any topic to jump to its flashcards.</div>
+  </div>
+  <div class="topic-grid">
+    <div class="topic-card" onclick="showSection('flashcards','chem')">
+      <div class="topic-card-icon">⚗️</div>
+      <div class="topic-card-title">Matter &amp; Materials</div>
+      <div class="topic-card-sub">Organic chemistry, polymers, electrochemistry</div>
+    </div>
+    <div class="topic-card" onclick="showSection('flashcards','change')">
+      <div class="topic-card-icon">🔥</div>
+      <div class="topic-card-title">Chemical Change</div>
+      <div class="topic-card-sub">Rates, equilibrium, acids &amp; bases, redox</div>
+    </div>
+    <div class="topic-card" onclick="showSection('flashcards','systems')">
+      <div class="topic-card-icon">🌍</div>
+      <div class="topic-card-title">Chemical Systems</div>
+      <div class="topic-card-sub">Fertilisers, industrial processes</div>
+    </div>
+    <div class="topic-card" onclick="showSection('flashcards','waves')">
+      <div class="topic-card-icon">🌊</div>
+      <div class="topic-card-title">Waves, Sound &amp; Light</div>
+      <div class="topic-card-sub">Doppler, diffraction, photoelectric effect</div>
+    </div>
+    <div class="topic-card" onclick="showSection('flashcards','elec')">
+      <div class="topic-card-icon">⚡</div>
+      <div class="topic-card-title">Electricity &amp; Magnetism</div>
+      <div class="topic-card-sub">Electric circuits, generators, motors</div>
+    </div>
+    <div class="topic-card" onclick="showSection('flashcards','mech')">
+      <div class="topic-card-icon">🚀</div>
+      <div class="topic-card-title">Mechanics</div>
+      <div class="topic-card-sub">Newton's laws, momentum, energy, projectiles</div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:2rem;">
+    <div class="section-eyebrow">Your progress</div>
+    <div class="section-title">Study Tracker</div>
+  </div>
+  <div id="progress-overview"></div>
+</section>
+
+<!-- ═══════════════════ FLASHCARDS ═══════════════════ -->
+<section class="section" id="sec-flashcards">
+  <div class="section-header">
+    <div class="section-eyebrow">Active Recall</div>
+    <div class="section-title">Flashcards</div>
+    <div class="section-desc">Tap a card to reveal the answer. Track your progress below.</div>
+  </div>
+
+  <!-- Filter tabs -->
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+    <button class="btn-sm" style="font-size:.72rem;" onclick="filterCards('all')">All</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('chem')">⚗️ Matter</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('change')">🔥 Chemical Change</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('systems')">🌍 Systems</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('waves')">🌊 Waves</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('elec')">⚡ Electricity</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterCards('mech')">🚀 Mechanics</button>
+  </div>
+
+  <div class="progress-label" id="fc-progress-label">0 / 0 cards viewed</div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="fc-progress-bar" style="width:0%"></div></div>
+  <div class="flashcards-grid" id="fc-grid"></div>
+</section>
+
+<!-- ═══════════════════ FORMULAS ═══════════════════ -->
+<section class="section" id="sec-formulas">
+  <div class="section-header">
+    <div class="section-eyebrow">Quick Reference</div>
+    <div class="section-title">Formula Sheet</div>
+    <div class="section-desc">All key equations for Grade 12 Physical Sciences.</div>
+  </div>
+
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+    <button class="btn-sm" style="font-size:.72rem;" onclick="filterFormulas('all')">All</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterFormulas('mech')">🚀 Mechanics</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterFormulas('elec')">⚡ Electricity</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterFormulas('waves')">🌊 Waves</button>
+    <button class="btn-sm" style="font-size:.72rem;background:var(--navy3);color:var(--muted);" onclick="filterFormulas('chem')">⚗️ Chemistry</button>
+  </div>
+  <div class="formula-list" id="formula-list"></div>
+</section>
+
+<!-- ═══════════════════ DIAGRAMS ═══════════════════ -->
+<section class="section" id="sec-diagrams">
+  <div class="section-header">
+    <div class="section-eyebrow">Visual Learning</div>
+    <div class="section-title">SVG Diagrams</div>
+    <div class="section-desc">Key concepts illustrated for quick understanding.</div>
+  </div>
+  <div class="diagrams-grid" id="diagrams-grid"></div>
+</section>
+
+<!-- ═══════════════════ QUIZ ═══════════════════ -->
+<section class="section" id="sec-quiz">
+  <div class="section-header">
+    <div class="section-eyebrow">Test Yourself</div>
+    <div class="section-title">Timed Quiz</div>
+    <div class="section-desc">30 seconds per question. Choose your topic to begin.</div>
+  </div>
+
+  <div id="quiz-topic-select" style="margin-bottom:1.5rem;">
+    <div class="topic-grid">
+      <div class="topic-card" onclick="startQuiz('all')"><div class="topic-card-icon">🎯</div><div class="topic-card-title">All Topics</div><div class="topic-card-sub">Mixed questions</div></div>
+      <div class="topic-card" onclick="startQuiz('chem')"><div class="topic-card-icon">⚗️</div><div class="topic-card-title">Matter &amp; Materials</div><div class="topic-card-sub">Organic, electrochemistry</div></div>
+      <div class="topic-card" onclick="startQuiz('change')"><div class="topic-card-icon">🔥</div><div class="topic-card-title">Chemical Change</div><div class="topic-card-sub">Rates, equilibrium, redox</div></div>
+      <div class="topic-card" onclick="startQuiz('waves')"><div class="topic-card-icon">🌊</div><div class="topic-card-title">Waves &amp; Light</div><div class="topic-card-sub">Doppler, photoelectric</div></div>
+      <div class="topic-card" onclick="startQuiz('elec')"><div class="topic-card-icon">⚡</div><div class="topic-card-title">Electricity</div><div class="topic-card-sub">Circuits, generators</div></div>
+      <div class="topic-card" onclick="startQuiz('mech')"><div class="topic-card-icon">🚀</div><div class="topic-card-title">Mechanics</div><div class="topic-card-sub">Newton's laws, energy</div></div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz-wrap" style="display:none;"></div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const FLASHCARDS = [
+  // MATTER & MATERIALS
+  {topic:'chem',q:'What is a homologous series?',a:'A series of organic compounds with the same functional group, same general formula, and properties that change gradually.',formula:'CₙH₂ₙ₊₂ (alkanes)'},
+  {topic:'chem',q:'Define electronegativity.',a:'The ability of an atom in a molecule to attract shared electrons towards itself.'},
+  {topic:'chem',q:'What is a polymer?',a:'A large molecule made of repeating units (monomers) joined together through polymerisation.'},
+  {topic:'chem',q:'What is the difference between addition and condensation polymerisation?',a:'Addition: monomers join with no by-product. Condensation: monomers join releasing a small molecule (e.g. H₂O).'},
+  {topic:'chem',q:'What is an electrolyte?',a:'A substance that dissolves in water to produce a solution that conducts electricity (contains ions).'},
+  {topic:'chem',q:'Define an oxidation number.',a:'A number assigned to an atom representing the number of electrons lost, gained, or shared unequally.'},
+  {topic:'chem',q:'What are the products of the electrolysis of brine?',a:'Chlorine gas (Cl₂) at anode, Hydrogen gas (H₂) at cathode, and Sodium hydroxide (NaOH) in solution.',formula:'2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH'},
+  {topic:'chem',q:'What is a galvanic cell?',a:'An electrochemical cell that converts chemical energy into electrical energy through a spontaneous redox reaction.'},
+
+  // CHEMICAL CHANGE
+  {topic:'change',q:'State Le Chatelier\'s Principle.',a:'When a system in equilibrium is disturbed, it shifts in the direction that counteracts the disturbance and restores equilibrium.'},
+  {topic:'change',q:'What does Kc represent?',a:'The equilibrium constant — the ratio of product concentrations to reactant concentrations at equilibrium, each raised to their stoichiometric coefficients.',formula:'Kc = [C]ᶜ[D]ᵈ / [A]ᵃ[B]ᵇ'},
+  {topic:'change',q:'Define activation energy.',a:'The minimum energy that colliding particles must have for a reaction to occur.'},
+  {topic:'change',q:'How does a catalyst affect a reaction?',a:'It lowers the activation energy, increasing the reaction rate, without being consumed in the process.'},
+  {topic:'change',q:'What is the Brønsted-Lowry definition of an acid?',a:'A substance that donates a proton (H⁺) to another substance.'},
+  {topic:'change',q:'What is a buffer solution?',a:'A solution that resists changes in pH when small amounts of acid or base are added.'},
+  {topic:'change',q:'Define oxidation in terms of electrons.',a:'Oxidation is the loss of electrons (OIL — Oxidation Is Loss).'},
+  {topic:'change',q:'What is a redox reaction?',a:'A reaction where both oxidation and reduction occur simultaneously — electrons transfer from the reducing agent to the oxidising agent.'},
+
+  // CHEMICAL SYSTEMS
+  {topic:'systems',q:'What is the Haber process used for?',a:'The industrial synthesis of ammonia (NH₃) from nitrogen and hydrogen gases.',formula:'N₂ + 3H₂ ⇌ 2NH₃ (450°C, 200 atm, Fe catalyst)'},
+  {topic:'systems',q:'What is the Contact process?',a:'The industrial process for manufacturing sulfuric acid (H₂SO₄) from sulfur dioxide.'},
+  {topic:'systems',q:'Name three nitrogenous fertilisers.',a:'Ammonium nitrate (NH₄NO₃), Urea (CO(NH₂)₂), Ammonium sulfate ((NH₄)₂SO₄).'},
+  {topic:'systems',q:'What is eutrophication?',a:'The enrichment of water with nutrients (mainly nitrates and phosphates) causing excessive algae growth, depleting oxygen.'},
+
+  // WAVES, SOUND & LIGHT
+  {topic:'waves',q:'State the Doppler effect.',a:'The change in observed frequency of a wave when the source and observer are moving relative to each other.'},
+  {topic:'waves',q:'What is the photoelectric effect?',a:'The emission of electrons from a metal surface when light of sufficient frequency shines on it — proves light is a particle (photon).'},
+  {topic:'waves',q:'What is the threshold frequency?',a:'The minimum frequency of light needed to eject an electron from a metal surface.'},
+  {topic:'waves',q:'What is diffraction?',a:'The spreading of waves as they pass through a gap or around an obstacle.'},
+  {topic:'waves',q:'Define the work function (W₀).',a:'The minimum energy needed to eject an electron from the surface of a specific metal.',formula:'W₀ = hf₀'},
+  {topic:'waves',q:'What is constructive interference?',a:'When two waves overlap in phase, their amplitudes add together to produce a larger wave.'},
+
+  // ELECTRICITY & MAGNETISM
+  {topic:'elec',q:'State Ohm\'s Law.',a:'The current through a conductor is directly proportional to the voltage across it, provided temperature remains constant.',formula:'V = IR'},
+  {topic:'elec',q:'What is EMF?',a:'Electromotive force — the work done per unit charge by the source (battery/cell) to move charge around the circuit.',formula:'emf = V_terminal + Ir'},
+  {topic:'elec',q:'How do you calculate power in a circuit?',a:'Power is the rate of energy transfer in a circuit.',formula:'P = VI = I²R = V²/R'},
+  {topic:'elec',q:'What is Faraday\'s Law of electromagnetic induction?',a:'An emf is induced in a conductor when there is a change in magnetic flux through the conductor.'},
+  {topic:'elec',q:'How does an AC generator work?',a:'A coil rotates in a magnetic field — the changing flux induces an alternating emf (and current).'},
+  {topic:'elec',q:'What is the difference between series and parallel circuits?',a:'Series: same current, voltages add. Parallel: same voltage, currents add, total resistance decreases.'},
+
+  // MECHANICS
+  {topic:'mech',q:'State Newton\'s Second Law.',a:'The net force on an object equals the rate of change of momentum, or mass × acceleration.',formula:'Fnet = ma = Δp/Δt'},
+  {topic:'mech',q:'Define the principle of conservation of momentum.',a:'The total linear momentum of an isolated system remains constant — momentum before = momentum after a collision.'},
+  {topic:'mech',q:'What is the work-energy theorem?',a:'The net work done on an object equals its change in kinetic energy.',formula:'Wnet = ΔEk = ½mv² - ½mu²'},
+  {topic:'mech',q:'What is gravitational potential energy?',a:'Energy stored by an object due to its position in a gravitational field.',formula:'EP = mgh'},
+  {topic:'mech',q:'Define impulse.',a:'The product of the net force and the time it acts — equal to the change in momentum.',formula:'Impulse = FΔt = Δp'},
+  {topic:'mech',q:'What is the difference between elastic and inelastic collisions?',a:'Elastic: both momentum AND kinetic energy are conserved. Inelastic: only momentum is conserved, kinetic energy is lost.'},
+  {topic:'mech',q:'State the equations of motion (kinematics).',a:'Four equations linking displacement, velocity, acceleration, and time for uniform acceleration.',formula:'v=u+at | s=ut+½at² | v²=u²+2as | s=½(u+v)t'},
+];
+
+const FORMULAS = [
+  // MECHANICS
+  {cat:'mech',name:'Newton\'s Second Law',eq:'Fnet = ma',explain:'Net force (N) = mass (kg) × acceleration (m/s²)'},
+  {cat:'mech',name:'Work Done',eq:'W = FΔxcosθ',explain:'Work (J) = Force × displacement × cos of angle between them'},
+  {cat:'mech',name:'Kinetic Energy',eq:'Ek = ½mv²',explain:'Kinetic energy (J) = ½ × mass × velocity squared'},
+  {cat:'mech',name:'Gravitational PE',eq:'Ep = mgh',explain:'Potential energy (J) = mass × g (9.8 m/s²) × height'},
+  {cat:'mech',name:'Work-Energy Theorem',eq:'Wnet = ΔEk',explain:'Net work done equals the change in kinetic energy'},
+  {cat:'mech',name:'Impulse',eq:'Impulse = FΔt = Δp',explain:'Impulse equals change in momentum (kg·m/s)'},
+  {cat:'mech',name:'Momentum',eq:'p = mv',explain:'Momentum (kg·m/s) = mass × velocity'},
+  {cat:'mech',name:'Kinematics — velocity',eq:'v = u + at',explain:'Final velocity = initial velocity + acceleration × time'},
+  {cat:'mech',name:'Kinematics — displacement',eq:'s = ut + ½at²',explain:'Displacement using initial velocity and acceleration'},
+  {cat:'mech',name:'Kinematics — no time',eq:'v² = u² + 2as',explain:'Relates velocity and displacement without time'},
+  // ELECTRICITY
+  {cat:'elec',name:'Ohm\'s Law',eq:'V = IR',explain:'Voltage (V) = Current (A) × Resistance (Ω)'},
+  {cat:'elec',name:'Power',eq:'P = VI = I²R = V²/R',explain:'Power (W) — three equivalent forms'},
+  {cat:'elec',name:'EMF & Internal Resistance',eq:'ε = V + Ir',explain:'EMF = terminal voltage + voltage lost internally'},
+  {cat:'elec',name:'Series Resistance',eq:'R_total = R₁ + R₂ + ...',explain:'Resistances in series simply add'},
+  {cat:'elec',name:'Parallel Resistance',eq:'1/R_total = 1/R₁ + 1/R₂',explain:'Reciprocal of total equals sum of reciprocals'},
+  {cat:'elec',name:'Electrical Energy',eq:'E = Pt = VIt',explain:'Energy (J) = Power × time'},
+  // WAVES
+  {cat:'waves',name:'Wave Equation',eq:'v = fλ',explain:'Speed (m/s) = frequency (Hz) × wavelength (m)'},
+  {cat:'waves',name:'Doppler Effect',eq:'fL = v ± vL / v ∓ vS × fs',explain:'Observed frequency when source/listener move relative to each other'},
+  {cat:'waves',name:'Photoelectric Effect',eq:'E = hf = W₀ + Ek(max)',explain:'Photon energy = work function + max kinetic energy of electron'},
+  {cat:'waves',name:'Photon Energy',eq:'E = hf = hc/λ',explain:'h = 6.63×10⁻³⁴ J·s (Planck\'s constant)'},
+  {cat:'waves',name:'Work Function',eq:'W₀ = hf₀',explain:'Minimum energy to eject an electron from a specific metal'},
+  // CHEMISTRY
+  {cat:'chem',name:'Equilibrium Constant',eq:'Kc = [products] / [reactants]',explain:'Each concentration raised to stoichiometric coefficient power'},
+  {cat:'chem',name:'pH Definition',eq:'pH = -log[H₃O⁺]',explain:'Measure of hydrogen ion concentration in solution'},
+  {cat:'chem',name:'Haber Process',eq:'N₂ + 3H₂ ⇌ 2NH₃',explain:'450°C, 200 atm, iron catalyst — industrial ammonia production'},
+  {cat:'chem',name:'Electrolysis of Brine',eq:'2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH',explain:'Products: chlorine (anode), hydrogen (cathode), NaOH (solution)'},
+];
+
+const QUIZ_QUESTIONS = [
+  {cat:'mech',q:'A 5 kg object accelerates at 3 m/s². What is the net force?',opts:['8 N','15 N','2 N','53 N'],ans:1,exp:'Fnet = ma = 5 × 3 = 15 N'},
+  {cat:'mech',q:'Which quantities are conserved in an elastic collision?',opts:['Momentum only','Kinetic energy only','Both momentum and kinetic energy','Neither'],ans:2,exp:'Elastic collisions conserve BOTH momentum and kinetic energy.'},
+  {cat:'mech',q:'A ball is thrown upward. At the highest point, what is its velocity?',opts:['Maximum','Minimum but not zero','Zero','Equal to initial velocity'],ans:2,exp:'At the highest point, vertical velocity = 0 m/s momentarily.'},
+  {cat:'mech',q:'What does the slope of a velocity-time graph represent?',opts:['Displacement','Speed','Acceleration','Momentum'],ans:2,exp:'Slope of v-t graph = Δv/Δt = acceleration.'},
+  {cat:'mech',q:'A 2 kg object moving at 4 m/s. What is its kinetic energy?',opts:['8 J','16 J','4 J','32 J'],ans:1,exp:'Ek = ½mv² = ½ × 2 × 4² = 16 J'},
+  {cat:'elec',q:'Three 6Ω resistors are connected in parallel. What is the total resistance?',opts:['18 Ω','6 Ω','3 Ω','2 Ω'],ans:3,exp:'1/R = 1/6 + 1/6 + 1/6 = 3/6, so R = 2 Ω'},
+  {cat:'elec',q:'A cell has EMF = 12V and internal resistance = 1Ω. Current = 2A. Terminal voltage = ?',opts:['12 V','10 V','14 V','11 V'],ans:1,exp:'V = ε - Ir = 12 - (2×1) = 10 V'},
+  {cat:'elec',q:'Which law states that induced EMF is proportional to the rate of change of magnetic flux?',opts:['Ohm\'s Law','Coulomb\'s Law','Faraday\'s Law','Lenz\'s Law'],ans:2,exp:'Faraday\'s Law: EMF ∝ ΔΦ/Δt'},
+  {cat:'elec',q:'Power dissipated by a 4Ω resistor with 3A flowing through it:',opts:['12 W','36 W','48 W','9 W'],ans:1,exp:'P = I²R = 3² × 4 = 9 × 4 = 36 W'},
+  {cat:'waves',q:'The photoelectric effect proves that light behaves as a:',opts:['Wave','Particle (photon)','Transverse wave','Longitudinal wave'],ans:1,exp:'The photoelectric effect can only be explained if light behaves as particles (photons).'},
+  {cat:'waves',q:'An ambulance moves TOWARDS you. How does the observed frequency compare to the emitted?',opts:['Lower','The same','Higher','Depends on speed'],ans:2,exp:'Doppler effect: source moving towards observer → higher observed frequency.'},
+  {cat:'waves',q:'The threshold frequency is the:',opts:['Maximum frequency that ejects electrons','Minimum frequency that ejects electrons','Frequency at which light travels fastest','Natural frequency of a metal'],ans:1,exp:'Threshold frequency (f₀) = minimum frequency needed to eject an electron.'},
+  {cat:'waves',q:'If wavelength doubles and wave speed stays constant, frequency:',opts:['Doubles','Stays the same','Halves','Quadruples'],ans:2,exp:'v = fλ → f = v/λ. If λ doubles, f halves.'},
+  {cat:'chem',q:'Le Chatelier\'s Principle: if temperature is increased for an exothermic reaction, equilibrium shifts:',opts:['To the right (products)','To the left (reactants)','No shift occurs','Kc increases'],ans:1,exp:'Increasing temperature for an exothermic reaction shifts equilibrium LEFT (toward reactants) to absorb the heat.'},
+  {cat:'chem',q:'In a galvanic cell, oxidation occurs at the:',opts:['Cathode','Anode','Salt bridge','Electrolyte'],ans:1,exp:'Oxidation occurs at the ANODE. Remember: An Ox (Anode = Oxidation)'},
+  {cat:'chem',q:'What is the pH of a neutral solution at 25°C?',opts:['0','7','14','1'],ans:1,exp:'A neutral solution has equal [H₃O⁺] and [OH⁻], giving pH = 7.'},
+  {cat:'chem',q:'The Haber process operates at approximately:',opts:['100°C and 1 atm','200°C and 50 atm','450°C and 200 atm','600°C and 400 atm'],ans:2,exp:'Haber process: ~450°C, ~200 atm, iron (Fe) catalyst.'},
+  {cat:'change',q:'A catalyst increases reaction rate by:',opts:['Increasing reactant concentration','Raising temperature','Lowering activation energy','Increasing pressure'],ans:2,exp:'A catalyst provides an alternative pathway with lower activation energy.'},
+  {cat:'change',q:'If Kc > 1, the equilibrium position favours:',opts:['Reactants','Products','Neither','Cannot determine'],ans:1,exp:'Kc > 1 means products are favoured at equilibrium (more products than reactants).'},
+  {cat:'change',q:'What is produced at the ANODE during electrolysis of dilute H₂SO₄?',opts:['Hydrogen gas','Oxygen gas','Sulfur dioxide','Water'],ans:1,exp:'At the anode (oxidation): 2H₂O → O₂ + 4H⁺ + 4e⁻ → Oxygen gas is produced.'},
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let fcViewed = new Set();
+let currentFilter = 'all';
+let currentFormulaFilter = 'all';
+let quizState = {questions:[], current:0, score:0, timer:null, answered:false};
+let examInterval = null;
+
+function saveProgress(){try{sessionStorage.setItem('ps_fc_viewed', JSON.stringify([...fcViewed]));}catch(e){}}
+function loadProgress(){try{const d=sessionStorage.getItem('ps_fc_viewed');if(d) fcViewed=new Set(JSON.parse(d));}catch(e){}}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function showSection(id, filter){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const tab = document.querySelector(`.nav-tab[onclick*="'${id}'"]`);
+  if(tab) tab.classList.add('active');
+  if(id==='flashcards'){renderFlashcards(filter||'all');}
+  if(id==='formulas'){renderFormulas();}
+  if(id==='diagrams'){renderDiagrams();}
+  if(id==='overview'){renderProgressOverview();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════
+function renderFlashcards(filter){
+  currentFilter = filter||'all';
+  const cards = currentFilter==='all' ? FLASHCARDS : FLASHCARDS.filter(c=>c.topic===currentFilter);
+  const grid = document.getElementById('fc-grid');
+  grid.innerHTML = '';
+  cards.forEach((card,i)=>{
+    const id = `fc-${currentFilter}-${i}`;
+    const seen = fcViewed.has(id);
+    const div = document.createElement('div');
+    div.className = 'fc-scene' + (seen?' flipped':'');
+    div.dataset.id = id;
+    div.innerHTML = `
+      <div class="fc-card">
+        <div class="fc-front">
+          <div class="fc-topic">${topicLabel(card.topic)}</div>
+          <div class="fc-q">${card.q}</div>
+          <div class="fc-hint">Tap to reveal ↓</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-topic">${topicLabel(card.topic)}</div>
+          <div class="fc-a">${card.a}</div>
+          ${card.formula?`<div class="fc-formula">${card.formula}</div>`:''}
+        </div>
+      </div>`;
+    div.addEventListener('click',()=>{
+      div.classList.toggle('flipped');
+      if(div.classList.contains('flipped')){
+        fcViewed.add(id); saveProgress(); updateFCProgress(cards);
+      }
+    });
+    grid.appendChild(div);
+  });
+  updateFCProgress(cards);
+}
+function updateFCProgress(cards){
+  const total = cards.length;
+  const seen = cards.filter((_,i)=>fcViewed.has(`fc-${currentFilter}-${i}`)).length;
+  const pct = total ? Math.round(seen/total*100) : 0;
+  document.getElementById('fc-progress-label').textContent = `${seen} / ${total} cards viewed (${pct}%)`;
+  document.getElementById('fc-progress-bar').style.width = pct+'%';
+}
+function filterCards(f){ renderFlashcards(f); }
+function topicLabel(t){
+  return {chem:'⚗️ Matter & Materials',change:'🔥 Chemical Change',systems:'🌍 Chemical Systems',waves:'🌊 Waves & Light',elec:'⚡ Electricity',mech:'🚀 Mechanics'}[t]||t;
+}
+
+// ═══════════════════════════════════════════
+// FORMULAS
+// ═══════════════════════════════════════════
+function renderFormulas(filter){
+  currentFormulaFilter = filter||currentFormulaFilter;
+  const list = document.getElementById('formula-list');
+  const items = currentFormulaFilter==='all' ? FORMULAS : FORMULAS.filter(f=>f.cat===currentFormulaFilter);
+  list.innerHTML = items.map(f=>`
+    <div class="formula-item">
+      <div class="formula-name">${topicLabel(f.cat)} — ${f.name}</div>
+      <div class="formula-eq">${f.eq}</div>
+      <div class="formula-explain">${f.explain}</div>
+    </div>`).join('');
+}
+function filterFormulas(f){ currentFormulaFilter=f; renderFormulas(f); }
+
+// ═══════════════════════════════════════════
+// DIAGRAMS
+// ═══════════════════════════════════════════
+function renderDiagrams(){
+  const grid = document.getElementById('diagrams-grid');
+  grid.innerHTML = `
+    <!-- Atom diagram -->
+    <div class="diagram-card">
+      <div class="diagram-title">⚗️ Atomic Structure</div>
+      <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="110" cy="90" r="18" fill="#4A9EE0" opacity=".9"/>
+        <text x="110" y="95" text-anchor="middle" fill="#0D1B2A" font-size="9" font-weight="bold">Nucleus</text>
+        <ellipse cx="110" cy="90" rx="85" ry="30" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <ellipse cx="110" cy="90" rx="85" ry="30" fill="none" stroke="#9B72CF" stroke-width="1.5" stroke-dasharray="4,2" transform="rotate(60 110 90)"/>
+        <ellipse cx="110" cy="90" rx="85" ry="30" fill="none" stroke="#4CAF7D" stroke-width="1.5" stroke-dasharray="4,2" transform="rotate(120 110 90)"/>
+        <circle cx="195" cy="90" r="5" fill="#C9A84C"/>
+        <circle cx="152" cy="38" r="5" fill="#9B72CF"/>
+        <circle cx="68" cy="38" r="5" fill="#4CAF7D"/>
+        <text x="110" y="168" text-anchor="middle" fill="#8A9AB0" font-size="9">Electrons orbit the nucleus in energy levels</text>
+      </svg>
+      <div class="diagram-desc">Electrons occupy shells (energy levels) around the positively charged nucleus. Valence electrons in the outer shell determine chemical behaviour.</div>
+    </div>
+
+    <!-- Electric circuit -->
+    <div class="diagram-card">
+      <div class="diagram-title">⚡ Series vs Parallel Circuit</div>
+      <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- Series -->
+        <text x="10" y="18" fill="#C9A84C" font-size="8" font-weight="bold">SERIES</text>
+        <line x1="10" y1="28" x2="50" y2="28" stroke="#4A9EE0" stroke-width="2"/>
+        <rect x="50" y="22" width="25" height="12" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="62" y="31" text-anchor="middle" fill="#C9A84C" font-size="7">R₁</text>
+        <line x1="75" y1="28" x2="105" y2="28" stroke="#4A9EE0" stroke-width="2"/>
+        <rect x="105" y="22" width="25" height="12" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="117" y="31" text-anchor="middle" fill="#C9A84C" font-size="7">R₂</text>
+        <line x1="130" y1="28" x2="210" y2="28" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="210" y1="28" x2="210" y2="48" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="10" y1="48" x2="210" y2="48" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="10" y1="28" x2="10" y2="48" stroke="#4A9EE0" stroke-width="2"/>
+        <text x="110" y="60" text-anchor="middle" fill="#8A9AB0" font-size="7">Same current, voltages add: V=V₁+V₂</text>
+        <!-- Parallel -->
+        <text x="10" y="82" fill="#C9A84C" font-size="8" font-weight="bold">PARALLEL</text>
+        <line x1="10" y1="92" x2="50" y2="92" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="50" y1="92" x2="50" y2="82" stroke="#4A9EE0" stroke-width="1.5"/>
+        <line x1="50" y1="92" x2="50" y2="102" stroke="#4A9EE0" stroke-width="1.5"/>
+        <rect x="50" y="76" width="25" height="12" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="62" y="85" text-anchor="middle" fill="#C9A84C" font-size="7">R₁</text>
+        <rect x="50" y="96" width="25" height="12" fill="none" stroke="#9B72CF" stroke-width="1.5"/>
+        <text x="62" y="105" text-anchor="middle" fill="#9B72CF" font-size="7">R₂</text>
+        <line x1="75" y1="82" x2="110" y2="82" stroke="#4A9EE0" stroke-width="1.5"/>
+        <line x1="75" y1="102" x2="110" y2="102" stroke="#4A9EE0" stroke-width="1.5"/>
+        <line x1="110" y1="82" x2="110" y2="102" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="10" y1="92" x2="10" y2="112" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="110" y1="92" x2="170" y2="92" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="170" y1="92" x2="170" y2="112" stroke="#4A9EE0" stroke-width="2"/>
+        <line x1="10" y1="112" x2="170" y2="112" stroke="#4A9EE0" stroke-width="2"/>
+        <text x="90" y="130" text-anchor="middle" fill="#8A9AB0" font-size="7">Same voltage, currents add: I=I₁+I₂</text>
+      </svg>
+      <div class="diagram-desc">Series: resistors share the same current. Parallel: resistors share the same voltage. Total resistance in parallel is always less than the smallest resistor.</div>
+    </div>
+
+    <!-- Wave diagram -->
+    <div class="diagram-card">
+      <div class="diagram-title">🌊 Wave Properties</div>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <line x1="10" y1="80" x2="210" y2="80" stroke="#8A9AB0" stroke-width="1" stroke-dasharray="3,3"/>
+        <path d="M10,80 Q32.5,30 55,80 Q77.5,130 100,80 Q122.5,30 145,80 Q167.5,130 190,80" fill="none" stroke="#4A9EE0" stroke-width="2.5"/>
+        <!-- Amplitude -->
+        <line x1="55" y1="30" x2="55" y2="80" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="60" y="55" fill="#C9A84C" font-size="8">A</text>
+        <!-- Wavelength -->
+        <line x1="10" y1="140" x2="100" y2="140" stroke="#4CAF7D" stroke-width="1.5"/>
+        <line x1="10" y1="136" x2="10" y2="144" stroke="#4CAF7D" stroke-width="1.5"/>
+        <line x1="100" y1="136" x2="100" y2="144" stroke="#4CAF7D" stroke-width="1.5"/>
+        <text x="55" y="153" text-anchor="middle" fill="#4CAF7D" font-size="8">λ (wavelength)</text>
+        <!-- Labels -->
+        <text x="55" y="22" text-anchor="middle" fill="#C9A84C" font-size="7">Crest</text>
+        <text x="100" y="138" text-anchor="middle" fill="#8A9AB0" font-size="7">Trough</text>
+        <text x="110" y="75" fill="#8A9AB0" font-size="7">Rest position</text>
+        <!-- Formula -->
+        <text x="110" y="18" fill="#F5F0E8" font-size="9" font-weight="bold">v = fλ</text>
+      </svg>
+      <div class="diagram-desc">A wave is characterised by its wavelength (λ), amplitude (A), frequency (f), and speed (v). The wave equation v = fλ connects these properties.</div>
+    </div>
+
+    <!-- Doppler effect -->
+    <div class="diagram-card">
+      <div class="diagram-title">🚗 Doppler Effect</div>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Source moving right -->
+        <rect x="90" y="72" width="30" height="16" rx="4" fill="#4A9EE0"/>
+        <text x="105" y="83" text-anchor="middle" fill="white" font-size="7">SOURCE</text>
+        <polygon points="120,74 130,80 120,86" fill="#4A9EE0"/>
+        <!-- Compressed waves ahead -->
+        <ellipse cx="148" cy="80" rx="10" ry="16" fill="none" stroke="#E05A5A" stroke-width="1.2"/>
+        <ellipse cx="162" cy="80" rx="20" ry="26" fill="none" stroke="#E05A5A" stroke-width="1.2"/>
+        <ellipse cx="175" cy="80" rx="32" ry="36" fill="none" stroke="#E05A5A" stroke-width="1"/>
+        <!-- Stretched waves behind -->
+        <ellipse cx="72" cy="80" rx="14" ry="18" fill="none" stroke="#4CAF7D" stroke-width="1.2"/>
+        <ellipse cx="54" cy="80" rx="28" ry="30" fill="none" stroke="#4CAF7D" stroke-width="1.2"/>
+        <!-- Labels -->
+        <text x="185" y="35" text-anchor="middle" fill="#E05A5A" font-size="7">HIGH f</text>
+        <text x="185" y="45" text-anchor="middle" fill="#E05A5A" font-size="7">(compressed)</text>
+        <text x="25" y="35" text-anchor="middle" fill="#4CAF7D" font-size="7">LOW f</text>
+        <text x="25" y="45" text-anchor="middle" fill="#4CAF7D" font-size="7">(stretched)</text>
+        <text x="105" y="135" text-anchor="middle" fill="#8A9AB0" font-size="8">Observer ahead hears higher pitch</text>
+        <text x="105" y="148" text-anchor="middle" fill="#8A9AB0" font-size="8">Observer behind hears lower pitch</text>
+      </svg>
+      <div class="diagram-desc">When a source moves towards an observer, sound waves compress (higher frequency/pitch). When moving away, waves stretch (lower frequency/pitch).</div>
+    </div>
+
+    <!-- Newton's 2nd Law -->
+    <div class="diagram-card">
+      <div class="diagram-title">🚀 Newton's Second Law</div>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="70" y="65" width="80" height="40" rx="6" fill="#162032" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="110" y="88" text-anchor="middle" fill="#C9A84C" font-size="11" font-weight="bold">m = 5 kg</text>
+        <!-- Applied force -->
+        <line x1="150" y1="85" x2="195" y2="85" stroke="#4A9EE0" stroke-width="2.5"/>
+        <polygon points="193,80 205,85 193,90" fill="#4A9EE0"/>
+        <text x="175" y="75" text-anchor="middle" fill="#4A9EE0" font-size="8">F = 20 N</text>
+        <!-- Friction -->
+        <line x1="70" y1="85" x2="25" y2="85" stroke="#E05A5A" stroke-width="2"/>
+        <polygon points="27,80 15,85 27,90" fill="#E05A5A"/>
+        <text x="45" y="75" text-anchor="middle" fill="#E05A5A" font-size="8">f = 5 N</text>
+        <!-- Ground -->
+        <line x1="10" y1="105" x2="210" y2="105" stroke="#8A9AB0" stroke-width="2"/>
+        <text x="110" y="125" text-anchor="middle" fill="#F5F0E8" font-size="9">Fnet = 20-5 = 15 N</text>
+        <text x="110" y="140" text-anchor="middle" fill="#C9A84C" font-size="9">a = Fnet/m = 3 m/s²</text>
+        <text x="110" y="22" text-anchor="middle" fill="#F5F0E8" font-size="10" font-weight="bold">Fnet = ma</text>
+      </svg>
+      <div class="diagram-desc">The net force equals the vector sum of all forces. Always identify all forces first, then find the net force to calculate acceleration.</div>
+    </div>
+
+    <!-- Equilibrium -->
+    <div class="diagram-card">
+      <div class="diagram-title">🔥 Chemical Equilibrium</div>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Reaction arrows -->
+        <text x="110" y="45" text-anchor="middle" fill="#F5F0E8" font-size="10" font-weight="bold">A + B ⇌ C + D</text>
+        <!-- Forward -->
+        <path d="M30,80 Q110,50 190,80" fill="none" stroke="#4A9EE0" stroke-width="2"/>
+        <polygon points="188,75 200,80 188,85" fill="#4A9EE0"/>
+        <text x="110" y="62" text-anchor="middle" fill="#4A9EE0" font-size="7">Forward reaction →</text>
+        <!-- Reverse -->
+        <path d="M190,95 Q110,125 30,95" fill="none" stroke="#E05A5A" stroke-width="2"/>
+        <polygon points="32,90 20,95 32,100" fill="#E05A5A"/>
+        <text x="110" y="122" text-anchor="middle" fill="#E05A5A" font-size="7">← Reverse reaction</text>
+        <!-- Kc -->
+        <text x="110" y="148" text-anchor="middle" fill="#C9A84C" font-size="9">At equilibrium: rate forward = rate reverse</text>
+        <text x="110" y="160" text-anchor="middle" fill="#8A9AB0" font-size="7">Kc = [C][D] / [A][B]</text>
+      </svg>
+      <div class="diagram-desc">At equilibrium, the forward and reverse reaction rates are equal. The position of equilibrium can be shifted by changing concentration, temperature, or pressure (Le Chatelier's Principle).</div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+function startQuiz(cat){
+  document.getElementById('quiz-topic-select').style.display='none';
+  document.getElementById('quiz-wrap').style.display='block';
+  let pool = cat==='all' ? QUIZ_QUESTIONS : QUIZ_QUESTIONS.filter(q=>q.cat===cat);
+  quizState.questions = shuffle([...pool]).slice(0,10);
+  quizState.current = 0; quizState.score = 0;
+  renderQuestion();
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function renderQuestion(){
+  clearInterval(quizState.timer);
+  const wrap = document.getElementById('quiz-wrap');
+  const q = quizState.questions[quizState.current];
+  if(!q){ showScore(); return; }
+  quizState.answered = false;
+  let timeLeft = 30;
+  wrap.innerHTML = `
+    <div class="quiz-progress-text">Question ${quizState.current+1} of ${quizState.questions.length} &nbsp;·&nbsp; Score: ${quizState.score}</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="qpb" style="width:${(quizState.current/quizState.questions.length)*100}%"></div></div>
+    <div class="quiz-timer" id="qtimer">⏱ ${timeLeft}s</div>
+    <div class="quiz-q">
+      <div class="quiz-q-text">${topicLabel(q.cat)}<br/><br/>${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i)=>`<button class="quiz-opt" id="opt-${i}" onclick="answerQ(${i})">${o}</button>`).join('')}
+      </div>
+      <div id="quiz-fb"></div>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-secondary" onclick="resetQuiz()">Restart</button>
+      <button class="btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Next →</button>
+    </div>`;
+  const timerEl = document.getElementById('qtimer');
+  quizState.timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = `⏱ ${timeLeft}s`;
+    if(timeLeft<=10) timerEl.classList.add('urgent');
+    if(timeLeft<=0){ clearInterval(quizState.timer); autoFail(q); }
+  },1000);
+}
+function answerQ(i){
+  if(quizState.answered) return;
+  quizState.answered = true;
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.current];
+  const correct = i===q.ans;
+  if(correct) quizState.score++;
+  document.querySelectorAll('.quiz-opt').forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===q.ans) b.classList.add('correct');
+    else if(idx===i && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('quiz-fb');
+  fb.className = 'quiz-feedback ' + (correct?'correct':'wrong');
+  fb.innerHTML = (correct?'✓ Correct! ':'✗ Incorrect. ') + q.exp;
+  document.getElementById('next-btn').style.display='inline-flex';
+}
+function autoFail(q){
+  quizState.answered = true;
+  document.querySelectorAll('.quiz-opt').forEach((b,idx)=>{b.disabled=true;if(idx===q.ans) b.classList.add('correct');});
+  const fb = document.getElementById('quiz-fb');
+  fb.className='quiz-feedback wrong';
+  fb.innerHTML = '⏰ Time\'s up! ' + q.exp;
+  document.getElementById('next-btn').style.display='inline-flex';
+}
+function nextQ(){ quizState.current++; renderQuestion(); }
+function resetQuiz(){
+  clearInterval(quizState.timer);
+  document.getElementById('quiz-topic-select').style.display='block';
+  document.getElementById('quiz-wrap').style.display='none';
+  document.getElementById('quiz-wrap').innerHTML='';
+}
+function showScore(){
+  clearInterval(quizState.timer);
+  const pct = Math.round(quizState.score/quizState.questions.length*100);
+  const msg = pct>=80?'🎉 Excellent work!':pct>=60?'👍 Good effort — keep revising!':'📚 Keep studying — you\'ve got this!';
+  // Save score
+  try{
+    const scores = JSON.parse(sessionStorage.getItem('ps_quiz_scores')||'[]');
+    scores.push({score:quizState.score,total:quizState.questions.length,pct,date:new Date().toLocaleDateString()});
+    sessionStorage.setItem('ps_quiz_scores',JSON.stringify(scores.slice(-5)));
+  }catch(e){}
+  document.getElementById('quiz-wrap').innerHTML=`
+    <div class="quiz-score-card">
+      <div class="score-big">${pct}%</div>
+      <div class="score-label">${quizState.score} / ${quizState.questions.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <button class="btn-primary" onclick="resetQuiz()">Try Again</button>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// PROGRESS OVERVIEW
+// ═══════════════════════════════════════════
+function renderProgressOverview(){
+  const topics = ['chem','change','systems','waves','elec','mech'];
+  const wrap = document.getElementById('progress-overview');
+  wrap.innerHTML = topics.map(t=>{
+    const total = FLASHCARDS.filter(c=>c.topic===t).length;
+    const seen = FLASHCARDS.filter((c,i)=>c.topic===t && fcViewed.has(`fc-${t}-${FLASHCARDS.filter(x=>x.topic===t).indexOf(c)}`)).length;
+    const pct = total ? Math.round(seen/total*100) : 0;
+    return `<div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem;">
+        <span style="color:var(--cream)">${topicLabel(t)}</span>
+        <span style="color:var(--muted)">${seen}/${total}</span>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════
+function setExamDate(){
+  const d = document.getElementById('exam-date').value;
+  if(!d) return;
+  try{sessionStorage.setItem('ps_exam_date',d);}catch(e){}
+  startCountdown(new Date(d));
+}
+function startCountdown(target){
+  if(examInterval) clearInterval(examInterval);
+  function tick(){
+    const now=new Date();
+    const diff=target-now;
+    if(diff<=0){
+      document.getElementById('cd-d').textContent='00';
+      document.getElementById('cd-h').textContent='00';
+      document.getElementById('cd-m').textContent='00';
+      document.getElementById('cd-s').textContent='00';
+      clearInterval(examInterval); return;
+    }
+    const days=Math.floor(diff/86400000);
+    const hrs=Math.floor((diff%86400000)/3600000);
+    const mins=Math.floor((diff%3600000)/60000);
+    const secs=Math.floor((diff%60000)/1000);
+    document.getElementById('cd-d').textContent=String(days).padStart(2,'0');
+    document.getElementById('cd-h').textContent=String(hrs).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(mins).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(secs).padStart(2,'0');
+  }
+  tick(); examInterval=setInterval(tick,1000);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  loadProgress();
+  try{
+    const d=sessionStorage.getItem('ps_exam_date');
+    if(d) startCountdown(new Date(d));
+  }catch(e){}
+});
+</script>
+</body>
+</html>
