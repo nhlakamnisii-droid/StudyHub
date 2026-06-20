@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StudyHub | Matric Business Studies Grade 12</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--dark:#0D1B2A;--gold:#F5C842;--teal:#00C9A7;--blue:#7BB8F5;--pink:#F07BAE;--white:#F0F4FF;--muted:rgba(240,244,255,0.5);--faint:rgba(240,244,255,0.08);--border:rgba(240,244,255,0.1);}
+body{font-family:'DM Sans',sans-serif;background:#0D1B2A;color:#F0F4FF;min-height:100vh;overflow-x:hidden;}
+
+/* COVER */
+#cover{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.cv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,200,66,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.cv-glow{position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,167,0.1) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.cv-glow2{position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(245,200,66,0.07) 0%,transparent 70%);bottom:80px;left:-80px;pointer-events:none;}
+.cv-top{padding:32px 24px 0;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
+.cv-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:rgba(240,244,255,0.35);}
+.cv-brand span{color:#F5C842;}
+.cv-badge{font-size:10px;font-weight:600;color:#00C9A7;background:rgba(0,201,167,0.1);border:0.5px solid rgba(0,201,167,0.3);border-radius:20px;padding:4px 10px;letter-spacing:0.06em;text-transform:uppercase;}
+.cv-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 24px 0;position:relative;z-index:2;}
+.cv-module{font-size:11px;font-weight:600;color:#F5C842;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.cv-title{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;line-height:1.05;color:#F0F4FF;margin-bottom:8px;letter-spacing:-0.5px;}
+.cv-sub{font-size:13px;color:rgba(240,244,255,0.45);line-height:1.5;margin-bottom:24px;}
+.cv-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.cv-chip{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:0.5px solid rgba(240,244,255,0.1);color:rgba(240,244,255,0.5);background:rgba(255,255,255,0.04);}
+.cv-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:28px;}
+.cv-stat{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 8px;text-align:center;}
+.cv-sv{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;line-height:1;margin-bottom:4px;}
+.cv-sl{font-size:10px;color:rgba(240,244,255,0.35);text-transform:uppercase;letter-spacing:0.05em;}
+.cv-topics{margin-bottom:28px;}
+.cv-tl{font-size:10px;color:rgba(240,244,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.cv-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.cv-tag{font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:rgba(240,244,255,0.6);}
+.cv-cta{padding:0 24px 32px;position:relative;z-index:2;}
+.cv-btn{width:100%;background:#F5C842;color:#0D1B2A;border:none;border-radius:14px;padding:16px 0;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.15s,transform 0.1s;}
+.cv-btn:hover{opacity:0.9;} .cv-btn:active{transform:scale(0.98);}
+.cv-foot{padding:12px 24px;border-top:0.5px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;}
+.cv-ft{font-size:10px;color:rgba(240,244,255,0.2);}
+
+/* MAIN APP */
+#app{display:none;min-height:100vh;flex-direction:column;}
+.topbar{background:rgba(13,27,42,0.95);backdrop-filter:blur(10px);border-bottom:0.5px solid rgba(255,255,255,0.08);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.tb-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:rgba(240,244,255,0.4);}
+.tb-brand span{color:#F5C842;}
+.tb-title{font-size:12px;color:rgba(240,244,255,0.6);font-weight:500;}
+.tb-back{font-size:11px;color:#00C9A7;cursor:pointer;background:rgba(0,201,167,0.1);border:0.5px solid rgba(0,201,167,0.25);border-radius:20px;padding:4px 10px;}
+.navtabs{display:flex;overflow-x:auto;border-bottom:0.5px solid rgba(255,255,255,0.08);background:#0D1B2A;position:sticky;top:53px;z-index:99;scrollbar-width:none;}
+.navtabs::-webkit-scrollbar{display:none;}
+.ntab{flex:0 0 auto;padding:12px 16px;font-size:12px;font-weight:500;color:rgba(240,244,255,0.4);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;}
+.ntab.active{color:#F5C842;border-bottom-color:#F5C842;}
+.ntab:hover:not(.active){color:rgba(240,244,255,0.7);}
+.panel{display:none;padding:16px;}
+.panel.active{display:block;}
+
+/* NOTES */
+.sec-header{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:20px 0 10px;padding:6px 10px;border-radius:6px;}
+.chapter-btn{width:100%;text-align:left;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.15s;}
+.chapter-btn:hover{background:rgba(255,255,255,0.07);}
+.chapter-btn.open{background:rgba(245,200,66,0.08);border-color:rgba(245,200,66,0.2);}
+.cb-left{display:flex;align-items:center;gap:10px;}
+.cb-num{font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#F5C842;min-width:28px;}
+.cb-name{font-size:13px;font-weight:500;color:#F0F4FF;}
+.cb-term{font-size:10px;color:rgba(240,244,255,0.4);margin-top:2px;}
+.cb-arrow{font-size:18px;color:rgba(240,244,255,0.3);transition:transform 0.2s;}
+.cb-arrow.open{transform:rotate(180deg);}
+.chapter-content{display:none;padding:0 0 12px 0;}
+.chapter-content.open{display:block;}
+.note-card{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;margin-bottom:8px;}
+.nc-heading{font-size:12px;font-weight:600;color:#F5C842;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;}
+.nc-point{font-size:13px;color:rgba(240,244,255,0.75);line-height:1.6;padding:4px 0 4px 14px;border-left:2px solid rgba(245,200,66,0.2);margin-bottom:4px;}
+.nc-point strong{color:#F0F4FF;font-weight:600;}
+.nc-def{font-size:12px;color:rgba(240,244,255,0.65);line-height:1.6;background:rgba(0,201,167,0.06);border-left:2px solid #00C9A7;padding:8px 12px;border-radius:0 6px 6px 0;margin:6px 0;}
+
+/* FLASHCARDS */
+.fc-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.fc-bar{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.fc-fill{height:100%;background:#00C9A7;border-radius:2px;transition:width 0.3s;}
+.fc-count{font-size:12px;color:rgba(240,244,255,0.5);}
+.fc-filter{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+.fc-filter::-webkit-scrollbar{display:none;}
+.ff-btn{flex:0 0 auto;font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:rgba(240,244,255,0.4);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.ff-btn.active{background:rgba(245,200,66,0.12);border-color:rgba(245,200,66,0.3);color:#F5C842;}
+.flashcard{min-height:220px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px 20px;cursor:pointer;position:relative;transition:all 0.2s;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.flashcard:hover{background:rgba(255,255,255,0.07);}
+.fc-topic-badge{position:absolute;top:12px;left:12px;font-size:9px;font-weight:600;color:#F5C842;background:rgba(245,200,66,0.12);border:0.5px solid rgba(245,200,66,0.2);border-radius:20px;padding:3px 8px;letter-spacing:0.05em;text-transform:uppercase;}
+.fc-hint{position:absolute;bottom:12px;right:12px;font-size:10px;color:rgba(240,244,255,0.25);}
+.fc-q{font-size:15px;font-weight:500;color:#F0F4FF;line-height:1.5;}
+.fc-a{font-size:13px;color:rgba(240,244,255,0.8);line-height:1.6;}
+.fc-a-label{font-size:10px;color:#00C9A7;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
+.fc-nav{display:flex;gap:10px;margin-top:12px;}
+.fc-nav-btn{flex:1;padding:12px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(240,244,255,0.7);transition:all 0.15s;}
+.fc-nav-btn:hover{background:rgba(255,255,255,0.08);}
+.fc-nav-btn.primary{background:#F5C842;color:#0D1B2A;border-color:#F5C842;}
+.fc-nav-btn.primary:hover{opacity:0.9;}
+
+/* QUIZ */
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.qh-score{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:#F5C842;}
+.qh-label{font-size:10px;color:rgba(240,244,255,0.4);text-transform:uppercase;letter-spacing:0.05em;}
+.quiz-progress{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:20px;overflow:hidden;}
+.qp-fill{height:100%;background:#F5C842;border-radius:2px;transition:width 0.3s;}
+.q-num{font-size:11px;color:rgba(240,244,255,0.4);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;}
+.q-text{font-size:14px;font-weight:500;color:#F0F4FF;line-height:1.55;margin-bottom:20px;}
+.q-options{display:flex;flex-direction:column;gap:8px;}
+.q-opt{width:100%;text-align:left;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(240,244,255,0.75);cursor:pointer;transition:all 0.15s;line-height:1.4;}
+.q-opt:hover:not(:disabled){background:rgba(255,255,255,0.08);}
+.q-opt.correct{background:rgba(0,201,167,0.15);border-color:rgba(0,201,167,0.4);color:#00C9A7;}
+.q-opt.wrong{background:rgba(240,123,174,0.12);border-color:rgba(240,123,174,0.3);color:#F07BAE;}
+.q-opt:disabled{cursor:default;}
+.q-explain{background:rgba(0,201,167,0.07);border:0.5px solid rgba(0,201,167,0.2);border-radius:10px;padding:12px;margin-top:12px;font-size:12px;color:rgba(240,244,255,0.7);line-height:1.6;display:none;}
+.q-explain.show{display:block;}
+.q-next{width:100%;margin-top:14px;background:#F5C842;color:#0D1B2A;border:none;border-radius:10px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:none;transition:opacity 0.15s;}
+.q-next.show{display:block;}
+.q-next:hover{opacity:0.9;}
+.quiz-result{text-align:center;padding:32px 16px;}
+.qr-score{font-family:'Syne',sans-serif;font-weight:800;font-size:56px;color:#F5C842;line-height:1;}
+.qr-label{font-size:14px;color:rgba(240,244,255,0.5);margin-top:6px;margin-bottom:24px;}
+.qr-msg{font-size:15px;color:#F0F4FF;font-weight:500;margin-bottom:8px;}
+.qr-sub{font-size:13px;color:rgba(240,244,255,0.5);margin-bottom:28px;line-height:1.5;}
+.qr-btn{background:#F5C842;color:#0D1B2A;border:none;border-radius:12px;padding:14px 32px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+
+/* ESSAYS */
+.essay-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:10px;}
+.ec-topic{font-size:10px;font-weight:600;color:#F5C842;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;}
+.ec-q{font-size:14px;font-weight:500;color:#F0F4FF;margin-bottom:10px;line-height:1.4;}
+.ec-toggle{font-size:12px;color:#00C9A7;cursor:pointer;text-decoration:underline;}
+.ec-plan{display:none;margin-top:12px;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:12px;}
+.ec-plan.open{display:block;}
+.ec-section{margin-bottom:10px;}
+.ec-sl{font-size:11px;font-weight:600;color:rgba(240,244,255,0.4);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
+.ec-point{font-size:12px;color:rgba(240,244,255,0.7);padding:3px 0 3px 12px;border-left:2px solid rgba(245,200,66,0.3);margin-bottom:3px;line-height:1.5;}
+.ec-marks{font-size:11px;color:rgba(240,244,255,0.35);margin-top:4px;}
+
+/* PAPER STRUCTURE */
+.ps-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:10px;}
+.ps-title{font-size:13px;font-weight:600;color:#F5C842;margin-bottom:10px;}
+.ps-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.06);font-size:13px;}
+.ps-row:last-child{border-bottom:none;}
+.ps-label{color:rgba(240,244,255,0.6);}
+.ps-val{color:#F0F4FF;font-weight:500;}
+.tip-card{background:rgba(0,201,167,0.07);border:0.5px solid rgba(0,201,167,0.2);border-radius:10px;padding:14px;margin-bottom:8px;}
+.tip-label{font-size:10px;font-weight:600;color:#00C9A7;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;}
+.tip-text{font-size:13px;color:rgba(240,244,255,0.75);line-height:1.6;}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#F0F4FF;margin-bottom:14px;}
+.section-sub{font-size:12px;color:rgba(240,244,255,0.4);margin-bottom:16px;line-height:1.5;}
+</style>
+<style>
+  #sh-gate {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #0D1B2A;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem 1.25rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+  }
+  #sh-gate .sh-lock {
+    width: 56px; height: 56px;
+    border: 2px solid #C9A84C; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    animation: sh-pulse 3s ease-in-out infinite;
+  }
+  #sh-gate .sh-lock svg { width: 24px; height: 24px; fill: #C9A84C; }
+  @keyframes sh-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+    50%      { box-shadow: 0 0 0 8px rgba(201,168,76,.15); }
+  }
+  #sh-gate .sh-brand { font-size: 1.6rem; font-weight: 700; color: #C9A84C; letter-spacing: .02em; margin-bottom: .25rem; text-align: center; }
+  #sh-gate .sh-sub { font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #F5F0E8; margin-bottom: .4rem; text-align: center; }
+  #sh-gate .sh-tagline { font-size: .82rem; color: #8A9AB0; margin-bottom: 2rem; text-align: center; }
+  #sh-gate .sh-card { background: #162032; border: 1px solid rgba(201,168,76,.2); border-radius: 16px; padding: 1.75rem; width: 100%; max-width: 360px; }
+  #sh-gate .sh-card label { display: block; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8A9AB0; margin-bottom: .5rem; }
+  #sh-gate .sh-row { display: flex; gap: .5rem; margin-bottom: .75rem; }
+  #sh-code { flex: 1; background: rgba(255,255,255,.05); border: 1.5px solid rgba(201,168,76,.25); border-radius: 10px; color: #F5F0E8; font-size: 1rem; font-weight: 600; letter-spacing: .12em; padding: .7rem .9rem; outline: none; text-transform: uppercase; transition: border-color .2s; }
+  #sh-code::placeholder { color: #8A9AB0; font-weight: 400; letter-spacing: .04em; }
+  #sh-code:focus { border-color: #C9A84C; }
+  #sh-unlock { background: #C9A84C; color: #0D1B2A; border: none; border-radius: 10px; padding: .7rem 1rem; font-size: .88rem; font-weight: 700; cursor: pointer; transition: background .2s, transform .1s; }
+  #sh-unlock:hover { background: #E2C06A; }
+  #sh-unlock:active { transform: scale(.97); }
+  #sh-msg { font-size: .8rem; min-height: 1.1rem; text-align: center; }
+  #sh-msg.err { color: #E05A5A; }
+  #sh-msg.ok  { color: #4CAF7D; }
+  #sh-gate .sh-hint { margin-top: 1.25rem; font-size: .74rem; color: #8A9AB0; text-align: center; line-height: 1.6; }
+  #sh-gate .sh-hint a { color: #C9A84C; text-decoration: none; }
+  @keyframes sh-shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+  .sh-shake { animation: sh-shake .35s ease; }
+</style>
+</head>
+<body>
+
+<div id="sh-gate">
+  <div class="sh-lock">
+    <svg viewBox="0 0 24 24"><path d="M18 11H17V7C17 4.24 14.76 2 12 2S7 4.24 7 7V11H6C4.9 11 4 11.9 4 13V21C4 22.1 4.9 23 6 23H18C19.1 23 20 22.1 20 21V13C20 11.9 19.1 11 18 11ZM12 18C10.9 18 10 17.1 10 16S10.9 14 12 14 14 14.9 14 16 13.1 18 12 18ZM15.1 11H8.9V7C8.9 5.29 10.29 3.9 12 3.9 13.71 3.9 15.1 5.29 15.1 7V11Z"/></svg>
+  </div>
+  <div class="sh-brand">StudyHub</div>
+  <div class="sh-sub">by Nhlaka</div>
+  <p class="sh-tagline">Enter your access code to unlock this guide</p>
+  <div class="sh-card">
+    <label for="sh-code">Access Code</label>
+    <div class="sh-row">
+      <input id="sh-code" type="text" maxlength="12" placeholder="e.g. SH-BS25" autocomplete="off" spellcheck="false"/>
+      <button id="sh-unlock" onclick="shCheck()">Unlock</button>
+    </div>
+    <p id="sh-msg"></p>
+    <p class="sh-hint">Your code was sent via WhatsApp after payment.<br/>Need help? Contact <a href="https://wa.me/27000000000">StudyHub Support</a></p>
+  </div>
+</div>
+<script>
+(function(){
+  var CODES=["SH-BS25","SH-BUS25"];
+  var KEY="sh_access_BS";
+  function shMsg(t,c){var m=document.getElementById("sh-msg");m.textContent=t;m.className=c;}
+  function shCheck(){
+    var v=document.getElementById("sh-code").value.trim().toUpperCase();
+    var c=document.querySelector(".sh-card");
+    if(!v){shMsg("Please enter your access code.","err");return;}
+    if(CODES.indexOf(v)>-1){
+      try{sessionStorage.setItem(KEY,v);}catch(e){}
+      shMsg("✓ Access granted!","ok");
+      setTimeout(function(){document.getElementById("sh-gate").style.display="none";window.scrollTo(0,0);},700);
+    }else{
+      shMsg("Incorrect code. Please check your WhatsApp message.","err");
+      c.classList.remove("sh-shake");void c.offsetWidth;c.classList.add("sh-shake");
+    }
+  }
+  window.shCheck=shCheck;
+  document.addEventListener("DOMContentLoaded",function(){
+    var inp=document.getElementById("sh-code");
+    if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") shCheck();});
+    try{
+      var s=sessionStorage.getItem(KEY);
+      if(s&&CODES.indexOf(s.toUpperCase())>-1) document.getElementById("sh-gate").style.display="none";
+    }catch(e){}
+  });
+})();
+</script>
+
+
+<!-- COVER -->
+<div id="cover">
+  <div class="cv-grid"></div><div class="cv-glow"></div><div class="cv-glow2"></div>
+  <div class="cv-top">
+    <div class="cv-brand">Study<span>Hub</span></div>
+    <div class="cv-badge">CAPS Aligned</div>
+  </div>
+  <div class="cv-main">
+    <div class="cv-module">Grade 12 · Business Studies · NSC</div>
+    <div class="cv-title">Matric<br>Business<br>Studies</div>
+    <div class="cv-sub">All Terms · Paper 1 & Paper 2 · StudyHub by Nhlaka</div>
+    <div class="cv-meta">
+      <div class="cv-chip">📅 2026</div>
+      <div class="cv-chip">🎓 Grade 12</div>
+      <div class="cv-chip">✍️ Nhlaka</div>
+    </div>
+    <div class="cv-stats">
+      <div class="cv-stat"><div class="cv-sv" style="color:#F5C842">50</div><div class="cv-sl">Flashcards</div></div>
+      <div class="cv-stat"><div class="cv-sv" style="color:#00C9A7">40</div><div class="cv-sl">Quiz Qs</div></div>
+      <div class="cv-stat"><div class="cv-sv" style="color:#7BB8F5">9</div><div class="cv-sl">Topics</div></div>
+      <div class="cv-stat"><div class="cv-sv" style="color:#F07BAE">10</div><div class="cv-sl">Essays</div></div>
+    </div>
+    <div class="cv-topics">
+      <div class="cv-tl">Topics covered</div>
+      <div class="cv-tags">
+        <div class="cv-tag">Business Environments</div>
+        <div class="cv-tag">Business Legislation</div>
+        <div class="cv-tag">Human Resources</div>
+        <div class="cv-tag">Quality of Performance</div>
+        <div class="cv-tag">Management & Leadership</div>
+        <div class="cv-tag">Investment & Insurance</div>
+        <div class="cv-tag">Ethics & Professionalism</div>
+        <div class="cv-tag">CSR & Social Responsibility</div>
+        <div class="cv-tag">Creative Thinking & Problem Solving</div>
+      </div>
+    </div>
+  </div>
+  <div class="cv-cta"><button class="cv-btn" onclick="startApp()">▶ Start Studying</button></div>
+  <div class="cv-foot">
+    <div class="cv-ft">StudyHub by Nhlaka · KwaZulu-Natal</div>
+    <div class="cv-ft">R35 · Do not share</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="tb-brand">Study<span>Hub</span></div>
+    <div class="tb-title">Business Studies Gr 12</div>
+    <div class="tb-back" onclick="showCover()">↩ Cover</div>
+  </div>
+  <div class="navtabs">
+    <div class="ntab active" onclick="switchTab('notes',this)">📖 Notes</div>
+    <div class="ntab" onclick="switchTab('flashcards',this)">🃏 Flashcards</div>
+    <div class="ntab" onclick="switchTab('quiz',this)">✏️ Quiz</div>
+    <div class="ntab" onclick="switchTab('essays',this)">📝 Essays</div>
+    <div class="ntab" onclick="switchTab('paper',this)">📋 Exam Paper</div>
+  </div>
+
+  <!-- NOTES -->
+  <div id="panel-notes" class="panel active">
+    <p class="section-sub">Tap any topic to expand. Content covers Paper 1 (Environments & Operations) and Paper 2 (Ventures & Roles).</p>
+
+    <div class="sec-header" style="color:#F5C842;background:rgba(245,200,66,0.07);">📄 PAPER 1 — Business Environments & Operations</div>
+
+    <!-- BUSINESS ENVIRONMENTS -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">01</div><div><div class="cb-name">Business Environments</div><div class="cb-term">Paper 1 · Term 1</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">The Three Business Environments</div>
+        <div class="nc-def">Every business operates within three interrelated environments that affect its decisions and performance.</div>
+        <div class="nc-point"><strong>Micro environment:</strong> internal environment the business controls — vision, mission, goals, management, employees, culture, resources</div>
+        <div class="nc-point"><strong>Market environment:</strong> factors the business can influence — customers, suppliers, competitors, intermediaries, financiers, trade unions</div>
+        <div class="nc-point"><strong>Macro environment:</strong> external factors the business CANNOT control — PESTLE factors</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">PESTLE — Macro Environment Factors</div>
+        <div class="nc-point"><strong>P</strong>olitical: government stability, elections, policy changes (e.g. land expropriation)</div>
+        <div class="nc-point"><strong>E</strong>conomic: inflation, interest rates, GDP growth, unemployment, exchange rates</div>
+        <div class="nc-point"><strong>S</strong>ocial: demographics, culture, consumer trends, urbanisation, inequality</div>
+        <div class="nc-point"><strong>T</strong>echnological: automation, e-commerce, AI, cybersecurity, load-shedding</div>
+        <div class="nc-point"><strong>L</strong>egal: legislation — LRA, BCEA, EEA, CPA, Companies Act</div>
+        <div class="nc-point"><strong>E</strong>nvironmental: climate change, sustainability, green business practices, water scarcity</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">SWOT Analysis</div>
+        <div class="nc-def">A strategic planning tool that evaluates internal and external factors affecting a business.</div>
+        <div class="nc-point"><strong>Strengths</strong> — internal positives the business controls (e.g. strong brand, skilled staff)</div>
+        <div class="nc-point"><strong>Weaknesses</strong> — internal negatives (e.g. high debt, poor management, outdated equipment)</div>
+        <div class="nc-point"><strong>Opportunities</strong> — external positives to exploit (e.g. new market, new technology)</div>
+        <div class="nc-point"><strong>Threats</strong> — external dangers (e.g. new competitors, recession, regulatory changes)</div>
+      </div>
+    </div>
+
+    <!-- LEGISLATION -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">02</div><div><div class="cb-name">Business Legislation</div><div class="cb-term">Paper 1 · Term 1</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Labour Relations Act (LRA) — Act 66 of 1995</div>
+        <div class="nc-def">Regulates the relationship between employers and employees, and promotes collective bargaining.</div>
+        <div class="nc-point"><strong>Unfair dismissal:</strong> employees can dispute dismissals at the CCMA or Labour Court</div>
+        <div class="nc-point"><strong>Strikes:</strong> employees have the right to strike legally (protected strike) or illegally (unprotected)</div>
+        <div class="nc-point"><strong>CCMA:</strong> Commission for Conciliation, Mediation and Arbitration — resolves disputes</div>
+        <div class="nc-point"><strong>Collective bargaining:</strong> trade unions negotiate wages/conditions on behalf of workers</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Basic Conditions of Employment Act (BCEA) — Act 75 of 1997</div>
+        <div class="nc-point"><strong>Working hours:</strong> max 45 hours/week; max 9 hours/day (5-day week) or 8 hours/day (6-day week)</div>
+        <div class="nc-point"><strong>Overtime:</strong> max 10 hours/week; paid at 1.5× normal rate</div>
+        <div class="nc-point"><strong>Leave:</strong> 21 consecutive days annual leave; 6 weeks sick leave per 3-year cycle; 4 months maternity leave</div>
+        <div class="nc-point"><strong>Notice periods:</strong> 1 week (under 6 months); 2 weeks (6m–1yr); 4 weeks (1yr+)</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Employment Equity Act (EEA) — Act 55 of 1998</div>
+        <div class="nc-def">Promotes equal opportunity and fair treatment in the workplace, and implements affirmative action.</div>
+        <div class="nc-point"><strong>Designated groups:</strong> Black people, women, and people with disabilities</div>
+        <div class="nc-point"><strong>Affirmative action:</strong> measures to advance designated groups in the workplace</div>
+        <div class="nc-point"><strong>Employers must:</strong> report EE plans to the DoEL, eliminate unfair discrimination</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Consumer Protection Act (CPA) — Act 68 of 2008</div>
+        <div class="nc-def">Protects consumers from unfair business practices and unsafe products.</div>
+        <div class="nc-point"><strong>Right to equality</strong> in the consumer market — no discrimination</div>
+        <div class="nc-point"><strong>Right to information</strong> — plain language contracts, full disclosure</div>
+        <div class="nc-point"><strong>Right to safety</strong> — products must not be hazardous</div>
+        <div class="nc-point"><strong>Right to return</strong> defective goods within 6 months for repair, replacement, or refund</div>
+        <div class="nc-point"><strong>Cooling-off period:</strong> 5 business days to cancel direct marketing contracts</div>
+      </div>
+    </div>
+
+    <!-- HUMAN RESOURCES -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">03</div><div><div class="cb-name">Human Resources Function</div><div class="cb-term">Paper 1 · Term 2</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Recruitment & Selection</div>
+        <div class="nc-def">Recruitment = attracting applicants. Selection = choosing the best candidate.</div>
+        <div class="nc-point"><strong>Internal recruitment:</strong> promotion from within — cheaper, motivates staff, limited talent pool</div>
+        <div class="nc-point"><strong>External recruitment:</strong> advertising, agencies, social media — wider talent pool, higher cost</div>
+        <div class="nc-point"><strong>Selection process:</strong> shortlist → interviews → psychometric tests → reference checks → appointment</div>
+        <div class="nc-point"><strong>Employment contract:</strong> must include job title, duties, remuneration, hours, leave entitlement</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Training & Development</div>
+        <div class="nc-point"><strong>Induction:</strong> orientation of new employees to the organisation</div>
+        <div class="nc-point"><strong>On-the-job training:</strong> coaching, mentoring, job rotation — done at the workplace</div>
+        <div class="nc-point"><strong>Off-the-job training:</strong> workshops, courses, simulations — done away from workplace</div>
+        <div class="nc-point"><strong>Benefits:</strong> improved productivity, reduced errors, better morale, legal compliance</div>
+        <div class="nc-point"><strong>Skills Development Act:</strong> requires businesses to contribute 1% of payroll to SETA learnerships</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Remuneration & Motivation</div>
+        <div class="nc-point"><strong>Remuneration:</strong> total package — salary, wages, benefits, bonuses, allowances</div>
+        <div class="nc-point"><strong>Maslow's Hierarchy:</strong> Physiological → Safety → Social → Esteem → Self-actualisation</div>
+        <div class="nc-point"><strong>Herzberg Two-Factor:</strong> Hygiene factors (prevent dissatisfaction) vs Motivators (create satisfaction)</div>
+        <div class="nc-point"><strong>McGregor Theory X:</strong> workers dislike work, need control. <strong>Theory Y:</strong> workers are self-motivated</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Dismissal & Termination</div>
+        <div class="nc-point"><strong>Fair dismissal:</strong> must be substantively fair (valid reason) AND procedurally fair (correct process followed)</div>
+        <div class="nc-point"><strong>Grounds for dismissal:</strong> misconduct, incapacity, operational requirements (retrenchment)</div>
+        <div class="nc-point"><strong>Disciplinary procedure:</strong> verbal warning → written warning → final warning → dismissal</div>
+        <div class="nc-point"><strong>Constructive dismissal:</strong> employer makes conditions intolerable, forcing employee to resign</div>
+      </div>
+    </div>
+
+    <!-- QUALITY OF PERFORMANCE -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">04</div><div><div class="cb-name">Quality of Performance</div><div class="cb-term">Paper 1 · Term 3</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Total Quality Management (TQM)</div>
+        <div class="nc-def">TQM is a management philosophy focused on continuous improvement and customer satisfaction in all business processes.</div>
+        <div class="nc-point"><strong>Principles:</strong> customer focus, continuous improvement (Kaizen), employee involvement, process approach</div>
+        <div class="nc-point"><strong>Zero defects:</strong> doing things right the first time to eliminate waste</div>
+        <div class="nc-point"><strong>Quality circles:</strong> small groups of employees who meet regularly to identify and solve quality problems</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">ISO Standards</div>
+        <div class="nc-def">International Organisation for Standardisation — sets global quality standards for products, services, and systems.</div>
+        <div class="nc-point"><strong>ISO 9001:</strong> quality management systems — ensures consistent product/service quality</div>
+        <div class="nc-point"><strong>ISO 14001:</strong> environmental management — reduces environmental impact of operations</div>
+        <div class="nc-point"><strong>Benefits:</strong> improved credibility, access to global markets, reduced errors, higher customer trust</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Quality Controls & Benchmarking</div>
+        <div class="nc-point"><strong>Quality control:</strong> inspection of finished products to detect defects before reaching customers</div>
+        <div class="nc-point"><strong>Quality assurance:</strong> proactive system ensuring quality is built in throughout the production process</div>
+        <div class="nc-point"><strong>Benchmarking:</strong> comparing your business performance against industry best practices or competitors</div>
+        <div class="nc-point"><strong>SABS:</strong> South African Bureau of Standards — certifies products meet SA quality and safety standards</div>
+      </div>
+    </div>
+
+    <div class="sec-header" style="color:#7BB8F5;background:rgba(123,184,245,0.07);margin-top:20px;">📄 PAPER 2 — Business Ventures & Roles</div>
+
+    <!-- MANAGEMENT & LEADERSHIP -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">05</div><div><div class="cb-name">Management & Leadership</div><div class="cb-term">Paper 2 · Term 2</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Management vs Leadership</div>
+        <div class="nc-point"><strong>Management:</strong> doing things right — planning, organising, controlling processes and resources</div>
+        <div class="nc-point"><strong>Leadership:</strong> doing the right things — inspiring, motivating, and guiding people toward a vision</div>
+        <div class="nc-point">Managers have formal authority. Leaders influence through personality and vision.</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Leadership Styles</div>
+        <div class="nc-point"><strong>Autocratic:</strong> leader makes all decisions without consulting staff. Fast, but low morale and creativity.</div>
+        <div class="nc-point"><strong>Democratic:</strong> leader involves team in decisions. High morale and buy-in, but slower decision-making.</div>
+        <div class="nc-point"><strong>Laissez-faire:</strong> leader delegates all decision-making to employees. Works for highly skilled, self-motivated teams.</div>
+        <div class="nc-point"><strong>Transactional:</strong> rewards/punishes based on performance — exchange relationship</div>
+        <div class="nc-point"><strong>Transformational:</strong> inspires employees to exceed expectations through vision and passion</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Conflict Management</div>
+        <div class="nc-def">Conflict is a disagreement arising from differences in values, goals, or interests. It can be constructive (leads to improvement) or destructive.</div>
+        <div class="nc-point"><strong>Avoidance:</strong> ignoring the conflict — short-term fix, problem remains</div>
+        <div class="nc-point"><strong>Compromise:</strong> both parties give up something — middle-ground solution</div>
+        <div class="nc-point"><strong>Collaboration:</strong> both parties work together to find a win-win solution — best approach</div>
+        <div class="nc-point"><strong>Accommodation:</strong> one party gives in to the other — keeps peace but may breed resentment</div>
+        <div class="nc-point"><strong>Forcing:</strong> one party imposes their solution — quick but damages relationships</div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT & INSURANCE -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">06</div><div><div class="cb-name">Investment & Insurance</div><div class="cb-term">Paper 2 · Term 2</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Securities (Shares)</div>
+        <div class="nc-def">A share represents a unit of ownership in a company. Shares are bought and sold on the JSE (Johannesburg Stock Exchange).</div>
+        <div class="nc-point"><strong>Ordinary shares:</strong> voting rights, variable dividends, last claim on assets if company liquidates</div>
+        <div class="nc-point"><strong>Preference shares:</strong> fixed dividends paid first, no voting rights, priority over ordinary shares on liquidation</div>
+        <div class="nc-point"><strong>JSE:</strong> regulates buying/selling of shares; provides liquidity and price discovery</div>
+        <div class="nc-point"><strong>Bull market:</strong> share prices rising, investor confidence high</div>
+        <div class="nc-point"><strong>Bear market:</strong> share prices falling, investors pessimistic</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Interest Calculations</div>
+        <div class="nc-point"><strong>Simple interest:</strong> I = P × r × t (interest on original principal only)</div>
+        <div class="nc-point"><strong>Compound interest:</strong> A = P(1 + r)ⁿ (interest earned on interest — grows faster)</div>
+        <div class="nc-point"><strong>Example:</strong> R10,000 at 10% for 3 years: Simple = R3,000 interest. Compound = R13,310 total (R3,310 interest).</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Insurance</div>
+        <div class="nc-def">Insurance transfers risk from an individual/business to an insurer in exchange for premium payments.</div>
+        <div class="nc-point"><strong>Compulsory insurance:</strong> required by law — e.g. UIF (unemployment), compensation for occupational injuries (COIDA), Road Accident Fund</div>
+        <div class="nc-point"><strong>Non-compulsory insurance:</strong> optional — e.g. fire, theft, life, vehicle, business interruption</div>
+        <div class="nc-point"><strong>Insurable interest:</strong> the insured must have a financial stake in what is insured</div>
+        <div class="nc-point"><strong>Indemnity:</strong> insurance restores you to your position before the loss — you cannot profit from a claim</div>
+      </div>
+    </div>
+
+    <!-- ETHICS & PROFESSIONALISM -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">07</div><div><div class="cb-name">Ethics & Professionalism</div><div class="cb-term">Paper 2 · Term 3</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Business Ethics</div>
+        <div class="nc-def">Ethics refers to the moral principles that guide the behaviour of individuals and businesses in society.</div>
+        <div class="nc-point"><strong>Ethical behaviour:</strong> honesty, fairness, transparency, respect, accountability</div>
+        <div class="nc-point"><strong>Unethical behaviour:</strong> fraud, bribery, corruption, false advertising, exploitation, price-fixing (cartel)</div>
+        <div class="nc-point"><strong>Code of ethics:</strong> a written document outlining expected ethical standards in an organisation</div>
+        <div class="nc-point"><strong>Whistleblowing:</strong> reporting unethical behaviour — protected by the Protected Disclosures Act in SA</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Professionalism</div>
+        <div class="nc-point">Conducting yourself with competence, integrity, and respect in the workplace</div>
+        <div class="nc-point"><strong>Attributes:</strong> punctuality, appropriate dress, effective communication, continuous learning, confidentiality</div>
+        <div class="nc-point"><strong>Professional image:</strong> how a business presents itself — branding, customer service, employee conduct</div>
+        <div class="nc-point"><strong>King IV Report:</strong> SA's governance framework promoting ethical leadership, accountability, and transparency in business</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Creative Thinking & Problem Solving</div>
+        <div class="nc-point"><strong>Creative thinking:</strong> generating new, original ideas — divergent thinking, thinking outside the box</div>
+        <div class="nc-point"><strong>Critical thinking:</strong> evaluating ideas logically and objectively — convergent thinking</div>
+        <div class="nc-point"><strong>SWOT in problem solving:</strong> identify strengths to leverage, weaknesses to address, opportunities to exploit, threats to mitigate</div>
+        <div class="nc-point"><strong>SCAMPER technique:</strong> Substitute, Combine, Adapt, Modify, Put to other uses, Eliminate, Reverse</div>
+        <div class="nc-point"><strong>Mind mapping:</strong> visual brainstorming tool to generate and organise ideas</div>
+      </div>
+    </div>
+
+    <!-- CSR -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">08</div><div><div class="cb-name">Corporate Social Responsibility (CSR)</div><div class="cb-term">Paper 2 · Term 3</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">CSR vs CSI</div>
+        <div class="nc-def"><strong>CSR (Corporate Social Responsibility):</strong> the ongoing ethical obligation of a business to act in the best interests of society, the environment, and its stakeholders.</div>
+        <div class="nc-def"><strong>CSI (Corporate Social Investment):</strong> a specific component of CSR — voluntary financial or in-kind contributions to community upliftment projects.</div>
+        <div class="nc-point">CSI often involves donating to education, health, sports, arts — e.g. Shoprite Feeding Schemes, Vodacom's Literacy Programme</div>
+        <div class="nc-point">Under B-BBEE codes, CSI counts toward a company's transformation scorecard</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Triple Bottom Line (3 Ps)</div>
+        <div class="nc-def">Businesses should be accountable across three dimensions, not just profit.</div>
+        <div class="nc-point"><strong>People:</strong> fair treatment of employees, communities, and customers</div>
+        <div class="nc-point"><strong>Planet:</strong> environmental sustainability — reducing carbon footprint, waste management</div>
+        <div class="nc-point"><strong>Profit:</strong> financial sustainability — remaining viable long term</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Human Rights, Inclusivity & Environmental Issues</div>
+        <div class="nc-point"><strong>Constitution (Section 9):</strong> right to equality — businesses may not discriminate</div>
+        <div class="nc-point"><strong>Inclusivity:</strong> accommodating people with disabilities, gender diversity, cultural diversity in the workplace</div>
+        <div class="nc-point"><strong>Environmental issues:</strong> carbon emissions, waste disposal, water usage — businesses must comply with NEMA (National Environmental Management Act)</div>
+        <div class="nc-point"><strong>Green business:</strong> renewable energy use, recycling programmes, sustainable packaging</div>
+      </div>
+    </div>
+
+    <!-- BUSINESS VENTURES -->
+    <div class="chapter-btn" onclick="toggleChap(this)">
+      <div class="cb-left"><div class="cb-num">09</div><div><div class="cb-name">Business Ventures & Entrepreneurship</div><div class="cb-term">Paper 2 · Term 1</div></div></div>
+      <div class="cb-arrow">▾</div>
+    </div>
+    <div class="chapter-content">
+      <div class="note-card">
+        <div class="nc-heading">Forms of Ownership</div>
+        <div class="nc-point"><strong>Sole trader:</strong> one owner, unlimited liability, easy to start, all profit kept</div>
+        <div class="nc-point"><strong>Partnership:</strong> 2–20 partners, shared liability, governed by Partnership Act</div>
+        <div class="nc-point"><strong>Private company (Pty) Ltd:</strong> 1–50 shareholders, limited liability, not listed on JSE</div>
+        <div class="nc-point"><strong>Public company (Ltd):</strong> unlimited shareholders, listed on JSE, must publish financials</div>
+        <div class="nc-point"><strong>Cooperative:</strong> owned and run by members for mutual benefit — e.g. stokvels, farming coops</div>
+      </div>
+      <div class="note-card">
+        <div class="nc-heading">Business Plan Components</div>
+        <div class="nc-point"><strong>Executive summary:</strong> brief overview of the entire plan</div>
+        <div class="nc-point"><strong>Business description:</strong> what the business does, vision, mission, goals</div>
+        <div class="nc-point"><strong>Market analysis:</strong> target market, competitors, SWOT</div>
+        <div class="nc-point"><strong>Marketing plan:</strong> 4 Ps — Product, Price, Place, Promotion</div>
+        <div class="nc-point"><strong>Financial plan:</strong> start-up costs, projected income statement, cash flow forecast</div>
+        <div class="nc-point"><strong>Operational plan:</strong> day-to-day running, suppliers, location, equipment</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="panel-flashcards" class="panel">
+    <div class="fc-progress">
+      <div class="fc-bar"><div class="fc-fill" id="fcFill" style="width:2%"></div></div>
+      <div class="fc-count" id="fcCount">1 / 50</div>
+    </div>
+    <div class="fc-filter">
+      <button class="ff-btn active" onclick="filterFC('All',this)">All</button>
+      <button class="ff-btn" onclick="filterFC('Environments',this)">Environments</button>
+      <button class="ff-btn" onclick="filterFC('Legislation',this)">Legislation</button>
+      <button class="ff-btn" onclick="filterFC('HR',this)">HR</button>
+      <button class="ff-btn" onclick="filterFC('Quality',this)">Quality</button>
+      <button class="ff-btn" onclick="filterFC('Management',this)">Management</button>
+      <button class="ff-btn" onclick="filterFC('Investment',this)">Investment</button>
+      <button class="ff-btn" onclick="filterFC('Ethics',this)">Ethics</button>
+      <button class="ff-btn" onclick="filterFC('CSR',this)">CSR</button>
+    </div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-topic-badge" id="fcTopic">Environments</div>
+      <div id="fcFront"><div class="fc-q" id="fcQ"></div></div>
+      <div id="fcBack" style="display:none"><div class="fc-a-label">Answer</div><div class="fc-a" id="fcA"></div></div>
+      <div class="fc-hint" id="fcHint">Tap to reveal answer</div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-nav-btn" onclick="prevCard()">◀ Previous</button>
+      <button class="fc-nav-btn primary" onclick="nextCard()">Next ▶</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="panel-quiz" class="panel">
+    <div id="quizGame">
+      <div class="quiz-header">
+        <div><div class="qh-score" id="qScore">0</div><div class="qh-label">Score</div></div>
+        <div style="text-align:right"><div class="qh-score" id="qNum" style="color:#7BB8F5">1/40</div><div class="qh-label">Question</div></div>
+      </div>
+      <div class="quiz-progress"><div class="qp-fill" id="qpFill" style="width:2.5%"></div></div>
+      <div class="q-num" id="qTopic"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-options" id="qOptions"></div>
+      <div class="q-explain" id="qExplain"></div>
+      <button class="q-next" id="qNext" onclick="nextQuestion()">Next Question →</button>
+    </div>
+    <div id="quizResult" class="quiz-result" style="display:none">
+      <div class="qr-score" id="qrScore"></div>
+      <div class="qr-label">out of 40</div>
+      <div class="qr-msg" id="qrMsg"></div>
+      <div class="qr-sub" id="qrSub"></div>
+      <button class="qr-btn" onclick="restartQuiz()">Try Again</button>
+    </div>
+  </div>
+
+  <!-- ESSAYS -->
+  <div id="panel-essays" class="panel">
+    <p class="section-sub">Essay plans for Section C. Each essay is 40 marks — format (5) + body (30) + conclusion/interpretation (5).</p>
+    <div id="essayList"></div>
+  </div>
+
+  <!-- PAPER STRUCTURE -->
+  <div id="panel-paper" class="panel">
+    <div class="section-title">NSC Exam Paper Structure</div>
+    <div class="ps-card">
+      <div class="ps-title" style="color:#F5C842">Overview</div>
+      <div class="ps-row"><div class="ps-label">Number of papers</div><div class="ps-val">2 papers</div></div>
+      <div class="ps-row"><div class="ps-label">Duration each</div><div class="ps-val">2 hours (150 marks)</div></div>
+      <div class="ps-row"><div class="ps-label">Paper 1 focus</div><div class="ps-val">Business Environments & Operations</div></div>
+      <div class="ps-row"><div class="ps-label">Paper 2 focus</div><div class="ps-val">Business Ventures & Roles</div></div>
+      <div class="ps-row"><div class="ps-label">SBA weighting</div><div class="ps-val">25% of final mark</div></div>
+      <div class="ps-row"><div class="ps-label">Exam weighting</div><div class="ps-val">75% of final mark</div></div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-title" style="color:#7BB8F5">Section A — Compulsory (40 marks)</div>
+      <div class="ps-row"><div class="ps-label">Q1.1 Multiple choice</div><div class="ps-val">5 × 2 = 10 marks</div></div>
+      <div class="ps-row"><div class="ps-label">Q1.2 Match column A to B</div><div class="ps-val">5 × 2 = 10 marks</div></div>
+      <div class="ps-row"><div class="ps-label">Q1.3 Fill in / True or False</div><div class="ps-val">5 × 2 = 10 marks</div></div>
+      <div class="ps-row"><div class="ps-label">Q1.4 Short answer</div><div class="ps-val">2 × 5 = 10 marks</div></div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-title" style="color:#00C9A7">Section B — Answer 3 of Q2–Q5 (3 × 30 = 90 marks)</div>
+      <div class="ps-row"><div class="ps-label">Each question</div><div class="ps-val">30 marks</div></div>
+      <div class="ps-row"><div class="ps-label">Sub-questions</div><div class="ps-val">Mix of short, medium, scenario-based</div></div>
+      <div class="ps-row"><div class="ps-label">Scenario/case study</div><div class="ps-val">Always included — apply theory to context</div></div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-title" style="color:#F07BAE">Section C — Answer 1 of Q6–Q7 (40 marks)</div>
+      <div class="ps-row"><div class="ps-label">Introduction/format</div><div class="ps-val">5 marks</div></div>
+      <div class="ps-row"><div class="ps-label">Body (facts)</div><div class="ps-val">30 marks (2 per point)</div></div>
+      <div class="ps-row"><div class="ps-label">Conclusion/interpretation</div><div class="ps-val">5 marks</div></div>
+    </div>
+    <div class="section-title" style="margin-top:20px;">Exam Tips</div>
+    <div class="tip-card">
+      <div class="tip-label">Section C Essay Writing</div>
+      <div class="tip-text">Use subheadings — they earn format marks. State the definition of key terms first. Write at least 15 body points (each = 2 marks). End with a mini conclusion that summarises your argument.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Scenario Questions (Section B)</div>
+      <div class="tip-text">Always quote from the scenario. Link the extract to theory explicitly. Don't just define — explain HOW it applies to the scenario. Use signal words: "As illustrated in the scenario…", "This is an example of…"</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Legislation Questions</div>
+      <div class="tip-text">Always state the full name AND the act number — e.g. "Labour Relations Act (LRA), Act 66 of 1995." Examiners reward precision. Know the differences between LRA, BCEA, EEA, and CPA.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-label">Time Management</div>
+      <div class="tip-text">Section A: 30 min. Section B: 60 min (3 questions × 20 min each). Section C: 30 min. Always attempt Section C — 5 format marks are free if you write a heading and intro.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// COVER
+function startApp(){
+  document.getElementById('cover').style.display='none';
+  const app=document.getElementById('app');
+  app.style.display='flex';app.style.flexDirection='column';
+  initFlashcards();initQuiz();initEssays();
+}
+function showCover(){
+  document.getElementById('cover').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+// TABS
+function switchTab(name,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+// NOTES
+function toggleChap(btn){
+  const content=btn.nextElementSibling;
+  const arrow=btn.querySelector('.cb-arrow');
+  const open=content.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  arrow.classList.toggle('open',open);
+}
+
+// FLASHCARDS DATA
+const allCards=[
+  {t:'Environments',q:'Name the three business environments.',a:'Micro environment (internal — controlled by business), Market environment (can be influenced), and Macro environment (external — cannot be controlled, e.g. PESTLE factors).'},
+  {t:'Environments',q:'What does PESTLE stand for?',a:'Political, Economic, Social, Technological, Legal, Environmental. These are the macro-environment factors that businesses cannot control but must respond to.'},
+  {t:'Environments',q:'What is SWOT analysis?',a:'A strategic tool assessing Strengths and Weaknesses (internal) and Opportunities and Threats (external) to guide business decision-making.'},
+  {t:'Environments',q:'Give two examples of micro environment factors.',a:'Company vision/mission, management style, organisational culture, employee skills, internal systems and resources.'},
+  {t:'Environments',q:'Give two examples of market environment factors.',a:'Customers (demand), suppliers, competitors, intermediaries (retailers/distributors), financiers, and trade unions.'},
+  {t:'Environments',q:'What is a SWOT Opportunity? Give an example.',a:'An external positive factor a business can exploit. Example: a new technology that makes production cheaper, or a gap in the market left by a competitor closing.'},
+  {t:'Legislation',q:'What does the LRA stand for and what does it regulate?',a:'Labour Relations Act (Act 66 of 1995). It regulates employer-employee relationships, promotes collective bargaining, and governs strikes, unfair dismissal, and union rights.'},
+  {t:'Legislation',q:'What is the CCMA?',a:'Commission for Conciliation, Mediation and Arbitration — an independent body that resolves labour disputes (e.g. unfair dismissal) through conciliation and arbitration.'},
+  {t:'Legislation',q:'What are the maximum working hours under the BCEA?',a:'45 hours per week. Max 9 hours per day (5-day week) or 8 hours per day (6-day week).'},
+  {t:'Legislation',q:'How much paid annual leave is an employee entitled to under the BCEA?',a:'21 consecutive days (or 15 working days based on a 5-day week) of annual leave per year.'},
+  {t:'Legislation',q:'What are the notice period requirements under the BCEA?',a:'Less than 6 months service: 1 week. 6 months to 1 year: 2 weeks. Over 1 year: 4 weeks notice.'},
+  {t:'Legislation',q:'What is the purpose of the Employment Equity Act (EEA)?',a:'To promote equal opportunity and fair treatment in employment, and to implement affirmative action measures for designated groups: Black people, women, and people with disabilities.'},
+  {t:'Legislation',q:'Name four consumer rights under the Consumer Protection Act (CPA).',a:'Right to equality, right to privacy, right to choose, right to disclosure and information, right to fair and responsible marketing, right to fair contract terms, right to safety, right to return defective goods.'},
+  {t:'Legislation',q:'What is the cooling-off period under the CPA?',a:'5 business days after signing a direct marketing agreement. The consumer can cancel the contract without penalty within this period.'},
+  {t:'HR',q:'What is the difference between recruitment and selection?',a:'Recruitment is the process of attracting suitable applicants for a job. Selection is the process of choosing the best candidate from those who applied.'},
+  {t:'HR',q:'Name two advantages of internal recruitment.',a:'Cheaper (no advertising costs), faster, motivates existing staff, recruiter already knows candidate\'s performance. Disadvantage: no fresh ideas from outside.'},
+  {t:'HR',q:'What is Maslow\'s Hierarchy of Needs?',a:'A motivation theory with 5 levels: (1) Physiological → (2) Safety → (3) Social/belonging → (4) Esteem → (5) Self-actualisation. Lower needs must be met before higher ones motivate.'},
+  {t:'HR',q:'Explain Herzberg\'s Two-Factor Theory.',a:'Hygiene factors (pay, working conditions, job security) prevent dissatisfaction but don\'t motivate. Motivators (recognition, achievement, responsibility) actively increase job satisfaction and motivation.'},
+  {t:'HR',q:'What makes a dismissal fair in South Africa?',a:'Substantive fairness (a valid, fair reason to dismiss) AND procedural fairness (the correct disciplinary procedure was followed — warnings, hearing, etc.).'},
+  {t:'HR',q:'What is constructive dismissal?',a:'When an employer deliberately creates intolerable working conditions to force an employee to resign. The employee can claim unfair dismissal at the CCMA even though they resigned.'},
+  {t:'Quality',q:'Define Total Quality Management (TQM).',a:'A management philosophy that focuses on continuous improvement, customer satisfaction, and involving all employees in achieving quality throughout all business processes.'},
+  {t:'Quality',q:'What is ISO 9001?',a:'An international standard for Quality Management Systems. It certifies that a business has consistent processes to produce quality products/services. Issued by ISO (International Organisation for Standardisation).'},
+  {t:'Quality',q:'What is the difference between quality control and quality assurance?',a:'Quality control detects defects AFTER production (inspection). Quality assurance PREVENTS defects during production by building quality into the process from the start.'},
+  {t:'Quality',q:'What is benchmarking?',a:'Comparing a business\'s performance, processes, or products against industry best practices or top competitors in order to identify areas for improvement.'},
+  {t:'Quality',q:'What is a quality circle?',a:'A small group of employees who voluntarily meet regularly to identify, analyse, and solve quality problems in their work area — a key TQM tool.'},
+  {t:'Management',q:'Distinguish between management and leadership.',a:'Management = doing things right (planning, organising, controlling resources efficiently). Leadership = doing the right things (inspiring, motivating, and guiding people toward a vision).'},
+  {t:'Management',q:'Describe the autocratic leadership style.',a:'The leader makes all decisions unilaterally without consulting staff. Fast and decisive but can lead to low morale, resentment, and reduced creativity among employees.'},
+  {t:'Management',q:'Describe the democratic leadership style.',a:'The leader involves team members in decision-making. Leads to higher morale and commitment but decisions take longer. Best for complex decisions requiring diverse input.'},
+  {t:'Management',q:'What is the difference between transactional and transformational leadership?',a:'Transactional: exchange-based — reward for performance, punishment for failure. Transformational: inspires employees to exceed expectations through vision, passion, and intellectual stimulation.'},
+  {t:'Management',q:'Name the five conflict management strategies.',a:'Avoidance (ignore), Compromise (middle ground), Collaboration (win-win), Accommodation (one side gives in), Forcing (one party imposes solution). Collaboration is generally best.'},
+  {t:'Investment',q:'What is the difference between ordinary and preference shares?',a:'Ordinary shares: voting rights, variable dividends, last claim on assets. Preference shares: fixed dividends paid first, no voting rights, priority over ordinary shareholders if company liquidates.'},
+  {t:'Investment',q:'What is the JSE?',a:'Johannesburg Stock Exchange — SA\'s stock exchange where company shares, bonds, and other securities are bought and sold. It provides liquidity and price discovery for investors.'},
+  {t:'Investment',q:'Calculate compound interest: R5,000 at 8% for 2 years.',a:'A = P(1+r)ⁿ = 5,000 × (1.08)² = 5,000 × 1.1664 = R5,832. Interest earned = R832.'},
+  {t:'Investment',q:'What is the difference between a bull and bear market?',a:'Bull market: share prices are rising, investor confidence is high, economy is growing. Bear market: share prices are falling, investors are pessimistic, often during economic downturns.'},
+  {t:'Investment',q:'What is compulsory insurance? Give two examples.',a:'Insurance required by law. Examples: UIF (Unemployment Insurance Fund), COIDA (Compensation for Occupational Injuries and Diseases Act), Road Accident Fund (RAF) contributions.'},
+  {t:'Investment',q:'What is the principle of indemnity in insurance?',a:'Insurance should restore you to the same financial position you were in before the loss — you cannot profit from an insurance claim. It prevents over-insuring for gain.'},
+  {t:'Ethics',q:'What is a code of ethics in business?',a:'A formal written document that outlines the moral principles, values, and standards of conduct expected from all employees and stakeholders of an organisation.'},
+  {t:'Ethics',q:'What is whistleblowing and how is it protected in SA?',a:'Whistleblowing is reporting unethical, illegal, or corrupt behaviour within an organisation. In SA, whistleblowers are protected by the Protected Disclosures Act (Act 26 of 2000).'},
+  {t:'Ethics',q:'What is the King IV Report?',a:'South Africa\'s corporate governance framework that promotes ethical leadership, accountability, transparency, and sustainability in business organisations.'},
+  {t:'Ethics',q:'Name three examples of unethical business behaviour.',a:'Fraud/embezzlement, bribery and corruption, false advertising, price-fixing (cartel behaviour), exploiting workers, insider trading, environmental dumping.'},
+  {t:'Ethics',q:'What is the SCAMPER technique?',a:'A creative thinking tool: Substitute, Combine, Adapt, Modify, Put to other uses, Eliminate, Reverse. Used to generate new ideas by looking at existing products/problems from different angles.'},
+  {t:'CSR',q:'Distinguish between CSR and CSI.',a:'CSR (Corporate Social Responsibility) is the ongoing ethical obligation to act in society\'s best interest. CSI (Corporate Social Investment) is voluntary contributions/donations to community projects — a subset of CSR.'},
+  {t:'CSR',q:'What is the Triple Bottom Line?',a:'A sustainability framework measuring business success across three dimensions: People (social responsibility), Planet (environmental sustainability), Profit (economic viability). Also called the 3 Ps.'},
+  {t:'CSR',q:'How does B-BBEE relate to CSR?',a:'Broad-Based Black Economic Empowerment is a government policy to transform SA\'s economy. CSI contributions count toward a company\'s B-BBEE scorecard, incentivising socially responsible spending.'},
+  {t:'CSR',q:'What is NEMA?',a:'National Environmental Management Act — SA legislation requiring businesses to manage their environmental impact responsibly, report on pollution, and comply with environmental standards.'},
+  {t:'Environments',q:'Why can\'t a business control the macro environment?',a:'Macro environment factors (PESTLE) are external forces — government policy, economic conditions, social trends, technology — that exist outside the business and affect all firms equally.'},
+  {t:'Legislation',q:'What is a protected strike under the LRA?',a:'A legal strike that follows correct procedures: dispute referred to CCMA, conciliation fails, 48-hour notice given to employer. Workers on protected strike cannot be dismissed for striking.'},
+  {t:'HR',q:'What is induction training?',a:'An orientation programme for new employees that introduces them to the organisation — its culture, policies, procedures, colleagues, and job responsibilities. Helps them settle in faster.'},
+  {t:'Management',q:'Name the four management tasks (POLC).',a:'Planning (setting goals and strategies), Organising (arranging resources and tasks), Leading (motivating and directing people), Controlling (monitoring performance against goals).'},
+  {t:'CSR',q:'Give two examples of environmental sustainability measures a business can adopt.',a:'Using renewable energy (solar, wind), recycling programmes, reducing water usage, sustainable packaging, carbon offset programmes, energy-efficient equipment, reducing single-use plastics.'},
+];
+
+let fcCards=[...allCards];
+let fcIdx=0,fcFlipped=false;
+
+function initFlashcards(){fcIdx=0;renderCard();}
+function renderCard(){
+  const c=fcCards[fcIdx];
+  document.getElementById('fcQ').textContent=c.q;
+  document.getElementById('fcA').textContent=c.a;
+  document.getElementById('fcTopic').textContent=c.t;
+  document.getElementById('fcCount').textContent=(fcIdx+1)+' / '+fcCards.length;
+  document.getElementById('fcFill').style.width=(((fcIdx+1)/fcCards.length)*100)+'%';
+  fcFlipped=false;
+  document.getElementById('fcFront').style.display='flex';
+  document.getElementById('fcBack').style.display='none';
+  document.getElementById('fcHint').textContent='Tap to reveal answer';
+}
+function flipCard(){
+  fcFlipped=!fcFlipped;
+  document.getElementById('fcFront').style.display=fcFlipped?'none':'flex';
+  document.getElementById('fcBack').style.display=fcFlipped?'block':'none';
+  document.getElementById('fcHint').textContent=fcFlipped?'Tap to see question':'Tap to reveal answer';
+}
+function nextCard(){fcIdx=(fcIdx+1)%fcCards.length;renderCard();}
+function prevCard(){fcIdx=(fcIdx-1+fcCards.length)%fcCards.length;renderCard();}
+function filterFC(topic,btn){
+  document.querySelectorAll('.ff-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  fcCards=topic==='All'?[...allCards]:allCards.filter(c=>c.t===topic);
+  fcIdx=0;renderCard();
+}
+
+// QUIZ DATA
+const quizQ=[
+  {t:'Environments',q:'A business cannot control which environment?',o:['Micro environment','Market environment','Macro environment','Internal environment'],a:2,e:'The macro environment consists of external PESTLE forces the business cannot control — only respond and adapt to.'},
+  {t:'Environments',q:'Which of the following is a micro environment factor?',o:['Competitors','Government regulations','Company culture and employees','Interest rates'],a:2,e:'The micro environment is internal and controlled by the business. Company culture, management, and employees are all internal factors.'},
+  {t:'Environments',q:'SWOT analysis identifies Opportunities and Threats from which environment?',o:['Micro environment','Internal environment','Market environment','Macro/external environment'],a:3,e:'Opportunities and Threats are external factors from the macro and market environments. Strengths and Weaknesses are internal (micro environment).'},
+  {t:'Environments',q:'Which PESTLE factor would include load-shedding in South Africa?',o:['Political','Economic','Social','Technological'],a:3,e:'Load-shedding relates to energy infrastructure — a technological factor. It impacts business operations through unreliable power supply.'},
+  {t:'Legislation',q:'The LRA stands for:',o:['Labour Regulation Act','Labour Relations Act','Labour Rights Act','Labour Remuneration Act'],a:1,e:'The Labour Relations Act (Act 66 of 1995) regulates workplace relationships, collective bargaining, strikes, and unfair dismissal.'},
+  {t:'Legislation',q:'Under the BCEA, how many hours per week may an employee work?',o:['40 hours','48 hours','45 hours','50 hours'],a:2,e:'The BCEA sets a maximum of 45 ordinary hours per week. Overtime is limited to 10 extra hours per week at 1.5× normal pay.'},
+  {t:'Legislation',q:'The CCMA resolves disputes between:',o:['Businesses and government','Employers and employees','Businesses and consumers','Shareholders and directors'],a:1,e:'The CCMA (Commission for Conciliation, Mediation and Arbitration) is an independent body resolving labour disputes between employers and employees.'},
+  {t:'Legislation',q:'What is the cooling-off period for direct marketing under the CPA?',o:['3 business days','7 calendar days','5 business days','10 working days'],a:2,e:'The CPA gives consumers 5 business days after signing a direct marketing agreement to cancel without penalty.'},
+  {t:'Legislation',q:'The Employment Equity Act\'s affirmative action measures target:',o:['All South African citizens','Skilled workers only','Designated groups: Black people, women, and people with disabilities','Foreign nationals working in SA'],a:2,e:'The EEA\'s affirmative action targets designated groups historically disadvantaged by apartheid: Black people, women, and people with disabilities.'},
+  {t:'Legislation',q:'What notice period applies to an employee who has worked for 2 years?',o:['1 week','2 weeks','4 weeks','1 month'],a:2,e:'Under the BCEA, employees with more than 1 year of service are entitled to 4 weeks notice before termination.'},
+  {t:'HR',q:'Which of the following is an example of on-the-job training?',o:['University degree','External workshop','Mentoring and job rotation','Online course from home'],a:2,e:'On-the-job training happens at the workplace — mentoring, job rotation, coaching, and shadowing are all examples.'},
+  {t:'HR',q:'According to Maslow, which need must be met FIRST?',o:['Esteem needs','Safety needs','Social/belonging needs','Physiological needs'],a:3,e:'Maslow\'s Hierarchy starts with physiological needs (food, water, shelter, sleep) — the most basic survival needs that must be satisfied before others motivate.'},
+  {t:'HR',q:'Herzberg\'s hygiene factors:',o:['Actively motivate employees','Create job satisfaction','Prevent dissatisfaction but don\'t motivate','Are the same as motivators'],a:2,e:'Hygiene factors (pay, working conditions, job security) only prevent dissatisfaction. They don\'t actively create motivation — that\'s the role of motivators.'},
+  {t:'HR',q:'A dismissal is procedurally fair when:',o:['The employee was warned verbally only','The correct disciplinary process was followed','The employee agreed to be dismissed','The employer gave a reason'],a:1,e:'Procedural fairness means the correct process was followed — warnings, a disciplinary hearing where the employee could state their case, and proper documentation.'},
+  {t:'HR',q:'What is constructive dismissal?',o:['Firing an employee without reason','An employee resigning due to unbearable conditions created by employer','A mutual agreement to end employment','Dismissal for poor performance'],a:1,e:'Constructive dismissal: employer makes conditions intolerable, forcing the employee to resign. The employee can still claim unfair dismissal at the CCMA.'},
+  {t:'Quality',q:'TQM stands for:',o:['Total Task Management','Technical Quality Measurement','Total Quality Management','Team Quality Monitoring'],a:2,e:'Total Quality Management is a philosophy of continuous improvement and customer satisfaction involving all employees and all processes.'},
+  {t:'Quality',q:'ISO 9001 certifies a business\'s:',o:['Financial performance','Environmental management system','Quality management system','Human resources system'],a:2,e:'ISO 9001 is an international standard that certifies a business has effective quality management systems to consistently deliver quality products/services.'},
+  {t:'Quality',q:'What is benchmarking?',o:['Setting internal targets','Testing product quality in a lab','Comparing performance against best-in-class competitors','Conducting employee performance reviews'],a:2,e:'Benchmarking means measuring your own processes/performance against industry leaders or competitors to identify improvement opportunities.'},
+  {t:'Quality',q:'Quality CONTROL differs from quality ASSURANCE in that control:',o:['Prevents defects during production','Is proactive','Detects defects after production','Involves all employees'],a:2,e:'Quality control is reactive — it inspects finished products for defects. Quality assurance is proactive — it builds quality into the process to prevent defects occurring.'},
+  {t:'Quality',q:'SABS stands for:',o:['South African Business Standards','South African Bureau of Standards','Standards Authority of Business SA','SA Board of Standards'],a:1,e:'South African Bureau of Standards — the national body that certifies products meet SA quality and safety standards. The SABS mark on a product indicates compliance.'},
+  {t:'Management',q:'Which leadership style involves employees most in decision-making?',o:['Autocratic','Transactional','Laissez-faire','Democratic'],a:3,e:'Democratic leadership actively involves team members in decision-making. It leads to higher morale and commitment, though decisions take more time.'},
+  {t:'Management',q:'Transformational leadership is best described as:',o:['Rewarding performance with incentives','Inspiring employees to exceed expectations through vision','Delegating all decisions to employees','Making all decisions alone'],a:1,e:'Transformational leaders inspire, motivate, and intellectually stimulate employees to go beyond what is expected through shared vision and passion.'},
+  {t:'Management',q:'The POLC framework refers to:',o:['Planning, Operating, Leading, Controlling','Planning, Organising, Leading, Controlling','Productivity, Organising, Labour, Compliance','Policy, Operations, Legislation, Communication'],a:1,e:'The four management tasks are Planning, Organising, Leading (directing), and Controlling. These form the core functions of any manager.'},
+  {t:'Management',q:'Which conflict resolution strategy aims for a win-win outcome?',o:['Avoidance','Forcing','Accommodation','Collaboration'],a:3,e:'Collaboration seeks a solution that satisfies all parties. Both sides work together to find a mutually beneficial outcome — the most constructive approach.'},
+  {t:'Management',q:'An autocratic leader is MOST suitable in which situation?',o:['Creative brainstorming sessions','Emergency/crisis requiring fast decisions','Building team consensus for a new strategy','Mentoring junior staff'],a:1,e:'Autocratic leadership is most effective when fast, decisive action is needed — emergencies, crisis situations, or when working with unskilled workers who need clear direction.'},
+  {t:'Investment',q:'The main difference between ordinary and preference shares is:',o:['Ordinary shareholders get fixed dividends','Preference shareholders have voting rights','Preference shareholders get dividends first','Ordinary shares are only for private companies'],a:2,e:'Preference shareholders receive fixed dividends before ordinary shareholders. However, preference shareholders typically have no voting rights.'},
+  {t:'Investment',q:'The formula for compound interest is:',o:['I = P × r × t','A = P(1 + r)ⁿ','A = P + (P × r × t)','I = A - P(1 + r)'],a:1,e:'Compound interest: A = P(1 + r)ⁿ where P = principal, r = interest rate per period, n = number of periods. Interest grows faster than simple interest because you earn interest on interest.'},
+  {t:'Investment',q:'A "bear market" means:',o:['Share prices are rising steadily','Investor confidence is high','Share prices are falling','The economy is in a boom'],a:2,e:'A bear market is characterised by falling share prices (typically 20%+ decline), low investor confidence, and often coincides with economic downturns or recessions.'},
+  {t:'Investment',q:'UIF is an example of:',o:['Voluntary insurance','Compulsory insurance','Short-term insurance','Life insurance'],a:1,e:'UIF (Unemployment Insurance Fund) contributions are compulsory — required by law for all qualifying employers and employees. It provides temporary relief during unemployment.'},
+  {t:'Investment',q:'The principle of indemnity in insurance means:',o:['You are fully compensated for any future losses','Insurance restores you to pre-loss position — no profit','The insurer always pays the full sum insured','You must insure all assets'],a:1,e:'Indemnity means insurance puts you back in the same financial position before the loss — you cannot use insurance to make a profit from a claim.'},
+  {t:'Ethics',q:'A code of ethics in a business is:',o:['A legal document required by the Companies Act','A marketing tool for customers','A written document outlining expected ethical standards for all staff','A government regulation'],a:2,e:'A code of ethics is a voluntary internal document that outlines the moral principles and standards of conduct expected from employees and stakeholders.'},
+  {t:'Ethics',q:'Whistleblowing in South Africa is protected by:',o:['The Labour Relations Act','The Protected Disclosures Act','The Consumer Protection Act','The King IV Report'],a:1,e:'The Protected Disclosures Act (Act 26 of 2000) protects employees who report illegal or unethical conduct in their organisations from being victimised or dismissed.'},
+  {t:'Ethics',q:'The King IV Report promotes:',o:['Minimum wage compliance','Share market investment','Ethical leadership and corporate governance','Consumer rights'],a:2,e:'King IV is SA\'s corporate governance code promoting ethical leadership, accountability, transparency, and integrated thinking in business organisations.'},
+  {t:'Ethics',q:'Price-fixing between competing firms is an example of:',o:['Good business strategy','Ethical competitive behaviour','Unethical behaviour/cartel behaviour','Legal protectionism'],a:2,e:'Price-fixing (cartel behaviour) is when competing firms collude to set prices artificially. It is illegal in SA under the Competition Act and deeply unethical.'},
+  {t:'Ethics',q:'The SCAMPER technique is used for:',o:['Quality control','Strategic planning','Financial analysis','Creative thinking and problem solving'],a:3,e:'SCAMPER (Substitute, Combine, Adapt, Modify, Put to other uses, Eliminate, Reverse) is a creative thinking technique to generate new ideas and solve problems innovatively.'},
+  {t:'CSR',q:'CSI (Corporate Social Investment) is best described as:',o:['Mandatory government tax on businesses','Voluntary contributions to community upliftment projects','Shareholder dividend payments','A type of business insurance'],a:1,e:'CSI is the voluntary investment of money, time, or resources by a business in social upliftment projects (education, health, sports) — a key part of CSR.'},
+  {t:'CSR',q:'The Triple Bottom Line refers to:',o:['Profit, Production, and Personnel','People, Planet, and Profit','Product, Price, and Promotion','Planning, Performance, and Productivity'],a:1,e:'The Triple Bottom Line (3 Ps) measures business success across People (social), Planet (environmental), and Profit (economic) dimensions — not just financial profit.'},
+  {t:'CSR',q:'B-BBEE stands for:',o:['Better Business and Economic Empowerment','Broad-Based Black Economic Empowerment','Basic Business and Employment Equity','Black Business and Environmental Ethics'],a:1,e:'Broad-Based Black Economic Empowerment is SA\'s government policy to economically empower Black South Africans through ownership, management, employment equity, skills development, and enterprise support.'},
+  {t:'CSR',q:'Which SA act requires businesses to manage their environmental impact?',o:['Companies Act','Consumer Protection Act','NEMA (National Environmental Management Act)','Skills Development Act'],a:2,e:'NEMA (National Environmental Management Act) is SA\'s key environmental legislation. It requires businesses to prevent, minimise, and remedy environmental damage from their operations.'},
+  {t:'CSR',q:'Which of the following is an example of green business practice?',o:['Increasing production output','Advertising on social media','Installing solar panels and recycling waste','Outsourcing to cheaper labour markets'],a:2,e:'Green business practices reduce environmental impact — solar energy, recycling, water conservation, sustainable packaging, and reducing carbon emissions are all examples.'},
+];
+
+let qIdx=0,qScore=0,qAnswered=false,qShuffled=[];
+
+function initQuiz(){
+  qShuffled=[...quizQ].sort(()=>Math.random()-0.5);
+  qIdx=0;qScore=0;qAnswered=false;renderQuestion();
+}
+function renderQuestion(){
+  if(qIdx>=qShuffled.length){showResult();return;}
+  const q=qShuffled[qIdx];
+  document.getElementById('quizGame').style.display='block';
+  document.getElementById('quizResult').style.display='none';
+  document.getElementById('qScore').textContent=qScore;
+  document.getElementById('qNum').textContent=(qIdx+1)+'/'+qShuffled.length;
+  document.getElementById('qpFill').style.width=((qIdx/qShuffled.length)*100)+'%';
+  document.getElementById('qTopic').textContent=q.t;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qExplain').className='q-explain';
+  document.getElementById('qNext').className='q-next';
+  qAnswered=false;
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='q-opt';btn.textContent=opt;
+    btn.onclick=()=>answerQ(i,btn);
+    opts.appendChild(btn);
+  });
+}
+function answerQ(i,btn){
+  if(qAnswered)return;
+  qAnswered=true;
+  const q=qShuffled[qIdx];
+  document.querySelectorAll('.q-opt').forEach(b=>b.disabled=true);
+  if(i===q.a){qScore++;btn.classList.add('correct');}
+  else{btn.classList.add('wrong');document.querySelectorAll('.q-opt')[q.a].classList.add('correct');}
+  document.getElementById('qScore').textContent=qScore;
+  const ex=document.getElementById('qExplain');
+  ex.textContent=q.e;ex.className='q-explain show';
+  document.getElementById('qNext').className='q-next show';
+}
+function nextQuestion(){qIdx++;renderQuestion();}
+function showResult(){
+  document.getElementById('quizGame').style.display='none';
+  document.getElementById('quizResult').style.display='block';
+  const pct=Math.round((qScore/qShuffled.length)*100);
+  document.getElementById('qrScore').textContent=qScore;
+  let msg,sub;
+  if(pct>=80){msg='Excellent! 🎉 You are exam ready.';sub='Strong command of Business Studies. Polish your essay structure for full marks in Section C.';}
+  else if(pct>=60){msg='Good work! Almost there.';sub='Solid understanding. Revisit the topics you missed and retry — especially legislation details.';}
+  else if(pct>=40){msg='Fair. Keep practising.';sub:'Revise each topic using the Notes tab, then come back and try again.';}
+  else{msg='Keep going — you\'re building the base.';sub='Work through the Notes tab chapter by chapter before retrying the quiz.';}
+  document.getElementById('qrMsg').textContent=msg;
+  document.getElementById('qrSub').textContent=sub;
+}
+function restartQuiz(){
+  qShuffled=[...quizQ].sort(()=>Math.random()-0.5);
+  qIdx=0;qScore=0;qAnswered=false;
+  document.getElementById('quizGame').style.display='block';
+  document.getElementById('quizResult').style.display='none';
+  renderQuestion();
+}
+
+// ESSAYS
+const essays=[
+  {t:'Environments',q:'Discuss the impact of the macro environment on a South African business of your choice.',plan:{intro:['Define the macro environment as external factors a business cannot control','Introduce PESTLE as the framework for analysing macro factors'],body:['Political: policy uncertainty, land reform debates affect investor confidence','Economic: high inflation, 32%+ unemployment reduce consumer spending power','Economic: load-shedding increases production costs for businesses','Social: urbanisation creates new market opportunities; inequality limits mass-market growth','Technological: e-commerce enables new sales channels (e.g. Takealot); cybercrime is a threat','Legal: LRA, BCEA, EEA, CPA create compliance costs and obligations for businesses','Environmental: water scarcity and climate change force businesses to invest in sustainability','Business response: conduct regular SWOT analysis to identify threats and opportunities','Business response: scenario planning, diversification, and contingency plans','SA example: a retailer like Pick n Pay must respond to inflation by managing pricing competitively'],conc:['Evaluate whether SA businesses are adequately adapting to macro environment challenges']},marks:'40 marks · Section C'},
+  {t:'Legislation',q:'Discuss the rights of consumers under the Consumer Protection Act (CPA) and evaluate the obligations it places on businesses.',plan:{intro:['Define the CPA (Act 68 of 2008) and its purpose: to protect consumers from unfair business practices','State that it applies to all transactions in SA\'s consumer market'],body:['Right to equality: businesses may not discriminate in pricing or service delivery','Right to privacy: consumers control how their information is used — no unsolicited marketing without consent','Right to choose: consumers may cancel a fixed-term contract with 20 days notice','Right to disclosure: all fees, risks, and product information must be clearly communicated in plain language','Right to fair and responsible marketing: no misleading, deceptive, or pressure-selling tactics','Right to fair contract terms: no fine print that unfairly disadvantages the consumer','Right to safety: products must not pose a health or safety hazard to consumers','Right to return: defective goods may be returned within 6 months for repair, replacement, or refund','Cooling-off period: 5 business days to cancel direct marketing agreements','Business obligations: train staff on CPA, review contracts, ensure after-sales service processes comply','SA example: a cell phone retailer must honour the 6-month return policy on defective handsets'],conc:['Evaluate the CPA\'s effectiveness in protecting SA consumers; note enforcement challenges']},marks:'40 marks · Section C'},
+  {t:'HR',q:'Discuss the factors that a business should consider when recruiting and selecting employees, and evaluate the impact of effective human resource management on business performance.',plan:{intro:['Define recruitment (attracting applicants) and selection (choosing the best fit)','State that effective HRM is a strategic advantage that drives business performance'],body:['Job analysis: define the job role, requirements, and responsibilities before advertising','Internal vs external recruitment: weigh cost, time, and talent pool considerations','Advertising channels: social media (LinkedIn), newspapers, recruitment agencies, company website','Application screening: check qualifications, experience, and EEA requirements','Interview process: structured interviews, panel interviews, psychometric testing','Reference and background checks: verify credentials and previous employment','EEA compliance: ensure designated groups are considered in line with equity targets','Employment contract: must include all BCEA requirements — role, pay, hours, leave, notice','Induction training: integrate new employees effectively to reduce turnover','Impact of effective HRM: higher productivity, lower absenteeism, reduced turnover costs, improved morale','Poor HRM consequences: high staff turnover, legal disputes at CCMA, low morale, brand damage'],conc:['Evaluate how strategic HRM gives businesses a competitive edge in SA\'s challenging labour market']},marks:'40 marks · Section C'},
+  {t:'Quality',q:'Discuss the role of Total Quality Management (TQM) in improving business performance and evaluate its implementation in a South African context.',plan:{intro:['Define TQM as a management philosophy focusing on continuous improvement and customer satisfaction','State that TQM involves all employees and all processes in pursuit of quality'],body:['Customer focus: understanding and meeting customer needs is the primary goal','Continuous improvement (Kaizen): small, ongoing improvements rather than large, infrequent changes','Employee involvement: all staff — not just managers — are responsible for quality','Process approach: focus on improving processes, not just outcomes','Zero defects: build quality in from the start; right first time reduces waste and rework','Quality circles: teams of employees meet regularly to solve quality problems in their area','ISO 9001 certification: international recognition of quality management systems','Benchmarking: compare against industry best practice to set improvement targets','SABS mark: SA product quality certification builds consumer trust','Benefits: reduced waste and costs, higher customer satisfaction, improved market reputation','SA challenges: skills shortages, cost of training, resistance to culture change, SME constraints'],conc:['Evaluate whether TQM is feasible for South African SMMEs given resource constraints']},marks:'40 marks · Section C'},
+  {t:'Management',q:'Discuss FIVE leadership styles and evaluate which style is most appropriate for managing a team in a South African business.',plan:{intro:['Define leadership as the ability to influence and inspire people toward a shared goal','State that different situations require different leadership styles'],body:['Autocratic: leader decides alone; fast but stifles creativity; suits crises and unskilled workers','Democratic: team involved in decisions; boosts morale and buy-in; suits creative and complex tasks','Laissez-faire: full delegation; suits highly skilled, self-motivated teams; risky with inexperienced staff','Transactional: rewards performance, punishes failure; useful for structured, target-driven environments','Transformational: inspires and motivates through vision; drives innovation; suits organisations undergoing change','SA context: diverse workforces with varied skill levels need adaptable, situational leadership','King IV: promotes ethical, servant leadership where leaders serve the organisation\'s stakeholders','Conflict management: leaders must also manage conflicts — collaboration is the preferred approach','Emotional intelligence: SA leaders need high EQ to manage diverse, multicultural teams','Most appropriate: transformational leadership suits SA\'s need for economic growth, innovation, and inclusion'],conc:['Evaluate why transformational leadership is most aligned with SA\'s developmental business environment']},marks:'40 marks · Section C'},
+  {t:'Investment',q:'Discuss the factors that influence investment decisions and evaluate the role of the JSE in the South African economy.',plan:{intro:['Define investment as the use of funds to generate future income or capital growth','Introduce the JSE as SA\'s primary platform for securities investment'],body:['Risk vs return: higher potential return usually comes with higher risk','Liquidity: how easily the investment can be converted to cash','Diversification: spreading investments across asset classes reduces overall risk','Ordinary vs preference shares: voting rights, dividend priority, and risk differ','JSE role: provides a regulated, transparent market for buying and selling shares','JSE price discovery: share prices reflect all available information about companies','JSE and economic growth: channels savings into productive business investment','Bull vs bear market: investor confidence affected by economic conditions and political stability','Impact of rand weakness: foreign investors wary of currency risk when investing in SA','Interest rates: rising rates make fixed deposits more attractive, reducing share market investment','Compound vs simple interest: compound interest grows wealth faster over time'],conc:['Evaluate whether the JSE is accessible and beneficial to ordinary South African investors']},marks:'40 marks · Section C'},
+  {t:'Ethics',q:'Discuss the importance of ethical behaviour and professionalism in business, with reference to South Africa.',plan:{intro:['Define business ethics as moral principles guiding business behaviour','State that ethical businesses create long-term value and stakeholder trust'],body:['Honesty and transparency: accurate reporting, fair advertising, truthful communication','Fairness: equitable treatment of employees, customers, and suppliers','Accountability: accepting responsibility for decisions and their consequences','Code of ethics: formalises expected behaviour — reduces misconduct and guides decision-making','King IV: promotes ethical governance — applies to all registered companies in SA','Whistleblowing: protected under the Protected Disclosures Act — encourages reporting of corruption','Consequences of unethical behaviour: loss of reputation, legal penalties, fines, prosecution','SA context: state capture showed the devastating economic impact of large-scale corporate corruption','Professionalism: punctuality, appropriate dress, communication, continuous learning improve brand image','Consumer trust: ethical businesses retain loyal customers and attract quality employees','Unethical examples: price-fixing (bread cartel), false advertising, insider trading on JSE'],conc:['Evaluate whether SA businesses have made adequate progress in embedding ethical cultures']},marks:'40 marks · Section C'},
+  {t:'CSR',q:'Evaluate the role of Corporate Social Responsibility (CSR) and Corporate Social Investment (CSI) in a South African business context.',plan:{intro:['Define CSR as the ongoing ethical obligation to act in society\'s best interest','Define CSI as voluntary financial/in-kind contributions to community projects','State that both go beyond legal compliance — they reflect business values'],body:['Triple Bottom Line: People, Planet, Profit — measuring success beyond financials','B-BBEE: CSI contributions count toward scorecard — incentivises socially responsible spending','SA urgency: Gini coefficient of ≈0.63, 32%+ unemployment — businesses must contribute to social development','Education CSI: bursaries, school infrastructure, literacy programmes (e.g. Investec, Standard Bank)','Health CSI: HIV/AIDS programmes, clinic support (e.g. Anglo American\'s HIV programme)','Environmental responsibility: NEMA compliance, green initiatives, carbon footprint reduction','Community upliftment: SMMEs supported by large corporations create employment and income','Reputational benefit: socially responsible businesses attract customers, talent, and investors','Risk of greenwashing: when businesses exaggerate or falsify CSR claims — damaging if exposed','Human rights: businesses must uphold the Bill of Rights — non-discrimination, fair labour practices'],conc:['Evaluate whether SA business CSR is genuine social commitment or primarily B-BBEE compliance strategy']},marks:'40 marks · Section C'},
+  {t:'Environments',q:'Discuss how a business can use SWOT analysis to develop a business strategy.',plan:{intro:['Define SWOT as a strategic planning tool assessing internal (SW) and external (OT) factors','State its purpose: aligning internal capabilities with external opportunities while managing threats'],body:['Strengths: identify and leverage competitive advantages (e.g. strong brand, skilled workforce)','Weaknesses: acknowledge internal gaps and develop plans to address them (e.g. skills training)','Opportunities: scan macro/market environment for growth possibilities (e.g. new technology, export markets)','Threats: identify external dangers and develop contingency responses (e.g. new competitor, economic downturn)','SO strategy: use strengths to exploit opportunities — aggressive growth approach','ST strategy: use strengths to counter threats — defensive positioning','WO strategy: overcome weaknesses to exploit opportunities — investment and development','WT strategy: minimise weaknesses and avoid threats — survival/retrenchment strategy','SWOT in SA: load-shedding as threat; renewable energy as opportunity; skills shortage as weakness','Regular review: business environment changes rapidly — SWOT must be updated regularly','Connection to environmental analysis: SWOT draws on PESTLE and market environment scanning'],conc:['Evaluate the limitations of SWOT analysis and when it is most useful as a strategic tool']},marks:'40 marks · Section C'},
+  {t:'HR',q:'Discuss the impact of the Labour Relations Act (LRA) and Basic Conditions of Employment Act (BCEA) on the employer-employee relationship.',plan:{intro:['State that SA\'s labour legislation is designed to balance employer operational needs with employee rights and dignity','Introduce LRA (Act 66 of 1995) and BCEA (Act 75 of 1997) as the two key acts'],body:['LRA — promotes collective bargaining between employers and registered trade unions','LRA — employees have the right to join a union and participate in union activities','LRA — protected strikes: follow correct dispute resolution procedure; workers cannot be dismissed for striking','LRA — unfair dismissal: dismissed employees can refer to CCMA within 30 days','LRA — CCMA: conciliation, then arbitration — employer vs employee disputes','BCEA — maximum working hours: 45/week; limits overtime to 10 hours/week at 1.5× rate','BCEA — mandatory leave: 21 days annual, 6 weeks sick per cycle, 4 months maternity','BCEA — notice periods: protects employees from sudden termination without preparation time','BCEA — pay slips: employers must provide a written pay slip every pay period','Impact: businesses must design HR policies that comply or face CCMA referrals and fines','Impact: compliance costs — HR managers, record keeping, legal advice — burden on SMMEs'],conc:['Evaluate whether SA labour legislation is appropriately balanced or a barrier to employment creation']},marks:'40 marks · Section C'},
+];
+
+function initEssays(){
+  const list=document.getElementById('essayList');
+  list.innerHTML='';
+  essays.forEach((e,i)=>{
+    const card=document.createElement('div');
+    card.className='essay-card';
+    card.innerHTML=`<div class="ec-topic">${e.t}</div><div class="ec-q">${e.q}</div><div class="ec-marks">${e.marks}</div><div class="ec-toggle" onclick="toggleEssay(${i})">▸ Show essay plan</div><div class="ec-plan" id="ep${i}"></div>`;
+    const plan=card.querySelector(`#ep${i}`);
+    let html=`<div class="ec-section"><div class="ec-sl">Introduction (5 marks)</div>`;
+    e.plan.intro.forEach(p=>{html+=`<div class="ec-point">${p}</div>`;});
+    html+=`</div><div class="ec-section"><div class="ec-sl">Body (30 marks — 2 marks per point)</div>`;
+    e.plan.body.forEach(p=>{html+=`<div class="ec-point">${p}</div>`;});
+    html+=`</div><div class="ec-section"><div class="ec-sl">Conclusion (5 marks)</div>`;
+    e.plan.conc.forEach(p=>{html+=`<div class="ec-point">${p}</div>`;});
+    html+=`</div>`;
+    plan.innerHTML=html;
+    list.appendChild(card);
+  });
+}
+function toggleEssay(i){
+  const plan=document.getElementById('ep'+i);
+  const toggle=plan.previousElementSibling;
+  const open=plan.classList.toggle('open');
+  toggle.textContent=open?'▾ Hide essay plan':'▸ Show essay plan';
+}
+</script>
+</body>
+</html>
