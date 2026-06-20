@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 12 Mathematics — StudyHub by Nhlaka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── GATE ── */
+#sh-gate{position:fixed;inset:0;z-index:99999;background:#0D1B2A;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.25rem;font-family:'Inter',sans-serif;}
+#sh-gate .sh-lock{width:56px;height:56px;border:2px solid #C9A84C;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:sh-pulse 3s ease-in-out infinite;}
+#sh-gate .sh-lock svg{width:24px;height:24px;fill:#C9A84C;}
+@keyframes sh-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0);}50%{box-shadow:0 0 0 8px rgba(201,168,76,.15);}}
+#sh-gate .sh-brand{font-size:1.6rem;font-weight:700;color:#C9A84C;letter-spacing:.02em;margin-bottom:.25rem;text-align:center;}
+#sh-gate .sh-sub{font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#F5F0E8;margin-bottom:.4rem;text-align:center;}
+#sh-gate .sh-tagline{font-size:.82rem;color:#8A9AB0;margin-bottom:2rem;text-align:center;}
+#sh-gate .sh-card{background:#162032;border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:1.75rem;width:100%;max-width:360px;}
+#sh-gate .sh-card label{display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8A9AB0;margin-bottom:.5rem;}
+#sh-gate .sh-row{display:flex;gap:.5rem;margin-bottom:.75rem;}
+#sh-code{flex:1;background:rgba(255,255,255,.05);border:1.5px solid rgba(201,168,76,.25);border-radius:10px;color:#F5F0E8;font-size:1rem;font-weight:600;letter-spacing:.12em;padding:.7rem .9rem;outline:none;text-transform:uppercase;transition:border-color .2s;}
+#sh-code::placeholder{color:#8A9AB0;font-weight:400;letter-spacing:.04em;}
+#sh-code:focus{border-color:#C9A84C;}
+#sh-unlock{background:#C9A84C;color:#0D1B2A;border:none;border-radius:10px;padding:.7rem 1rem;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s;}
+#sh-unlock:hover{background:#E2C06A;}#sh-unlock:active{transform:scale(.97);}
+#sh-msg{font-size:.8rem;min-height:1.1rem;text-align:center;}
+#sh-msg.err{color:#E05A5A;}#sh-msg.ok{color:#4CAF7D;}
+#sh-gate .sh-hint{margin-top:1.25rem;font-size:.74rem;color:#8A9AB0;text-align:center;line-height:1.6;}
+#sh-gate .sh-hint a{color:#C9A84C;text-decoration:none;}
+@keyframes sh-shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+.sh-shake{animation:sh-shake .35s ease;}
+
+/* ── BASE ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0D1B2A;--navy2:#162032;--navy3:#1E2D42;
+  --gold:#C9A84C;--gold2:#E2C06A;
+  --cream:#F5F0E8;--muted:#8A9AB0;
+  --blue:#4A9EE0;--green:#4CAF7D;--red:#E05A5A;--purple:#9B72CF;--orange:#E8944A;
+  --border:rgba(201,168,76,.18);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(13,27,42,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);flex-shrink:0;}
+.nav-brand span{color:var(--cream);font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;display:block;}
+.nav-tabs{display:flex;gap:.3rem;flex-wrap:wrap;}
+.nav-tab{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.32rem .65rem;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Inter',sans-serif;}
+.nav-tab.active,.nav-tab:hover{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gold);}
+
+/* ── HERO ── */
+.hero{min-height:58vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1.25rem 2rem;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 65%),var(--navy);position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;pointer-events:none;opacity:.04;}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:.5;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,7vw,3.6rem);line-height:1.12;margin-bottom:1rem;}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:.9rem;color:var(--muted);max-width:440px;line-height:1.7;margin-bottom:1.75rem;}
+.hero-badges{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem;}
+.badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:20px;padding:.28rem .7rem;font-size:.7rem;font-weight:600;color:var(--muted);}
+
+/* ── COUNTDOWN ── */
+.countdown-wrap{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.2rem;max-width:460px;width:100%;margin:0 auto 2rem;}
+.countdown-label{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;text-align:center;}
+.countdown-grid{display:flex;gap:.7rem;justify-content:center;}
+.cd-block{text-align:center;}
+.cd-num{font-family:'JetBrains Mono',monospace;font-size:1.9rem;font-weight:600;color:var(--gold);line-height:1;display:block;}
+.cd-unit{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.2rem;}
+.cd-sep{font-size:1.7rem;color:var(--border);align-self:center;padding-bottom:.25rem;}
+.countdown-setup{display:flex;gap:.5rem;justify-content:center;align-items:center;margin-top:.7rem;flex-wrap:wrap;}
+.countdown-setup input{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--cream);padding:.38rem .6rem;font-size:.78rem;width:130px;outline:none;font-family:'Inter',sans-serif;}
+.countdown-setup input:focus{border-color:var(--gold);}
+.btn-sm{background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.38rem .85rem;font-size:.76rem;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif;}
+.btn-sm:hover{background:var(--gold2);}
+.btn-sm.ghost{background:var(--navy3);color:var(--muted);border:1px solid var(--border);}
+.btn-sm.ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── SECTIONS ── */
+.section{display:none;padding:1.5rem 1.25rem 3rem;max-width:920px;margin:0 auto;}
+.section.active{display:block;}
+.sec-eyebrow{font-size:.67rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.35rem,4vw,1.85rem);color:var(--cream);margin-bottom:.45rem;}
+.sec-desc{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:1.75rem;}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.f-btn{background:var(--navy3);color:var(--muted);border:1px solid var(--border);border-radius:7px;padding:.3rem .65rem;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.f-btn.active,.f-btn:hover{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gold);}
+
+/* ── PROGRESS ── */
+.prog-label{font-size:.72rem;color:var(--muted);margin-bottom:.35rem;}
+.prog-wrap{background:rgba(255,255,255,.06);border-radius:99px;height:6px;margin-bottom:1.5rem;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease;}
+
+/* ── FLASHCARDS ── */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;}
+.fc-scene{height:190px;perspective:900px;cursor:pointer;}
+.fc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.fc-scene.flipped .fc-card{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:12px;padding:1.2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.fc-front{background:var(--navy2);border:1px solid var(--border);}
+.fc-back{background:var(--navy3);border:1px solid rgba(201,168,76,.3);transform:rotateY(180deg);}
+.fc-topic{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;}
+.fc-q{font-size:.86rem;font-weight:600;color:var(--cream);line-height:1.45;}
+.fc-a{font-size:.82rem;color:var(--gold);line-height:1.5;}
+.fc-formula{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--blue);margin-top:.4rem;line-height:1.4;}
+.fc-hint{font-size:.62rem;color:var(--muted);position:absolute;bottom:.55rem;right:.7rem;}
+
+/* ── FORMULAS ── */
+.formula-list{display:flex;flex-direction:column;gap:.7rem;}
+.formula-item{background:var(--navy2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:.95rem 1.1rem;}
+.formula-name{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.formula-eq{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--gold);margin-bottom:.28rem;}
+.formula-explain{font-size:.76rem;color:var(--cream);line-height:1.5;}
+
+/* ── DIAGRAMS ── */
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.25rem;}
+.diag-card{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.2rem;}
+.diag-title{font-size:.8rem;font-weight:700;color:var(--gold);margin-bottom:.7rem;}
+.diag-card svg{width:100%;height:auto;display:block;}
+.diag-desc{font-size:.74rem;color:var(--muted);margin-top:.7rem;line-height:1.6;}
+
+/* ── TOPIC OVERVIEW ── */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem;margin-bottom:1.75rem;}
+.topic-card{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:1.05rem;cursor:pointer;transition:all .2s;}
+.topic-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.tc-icon{font-size:1.35rem;margin-bottom:.45rem;}
+.tc-title{font-size:.86rem;font-weight:700;color:var(--cream);margin-bottom:.2rem;}
+.tc-sub{font-size:.71rem;color:var(--muted);}
+
+/* ── QUIZ ── */
+.quiz-wrap{max-width:600px;margin:0 auto;}
+.q-prog-text{font-size:.76rem;color:var(--muted);margin-bottom:.45rem;}
+.q-timer{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--gold);text-align:right;margin-bottom:.45rem;}
+.q-timer.urgent{color:var(--red);}
+.q-box{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin-bottom:1rem;}
+.q-text{font-size:.97rem;font-weight:600;color:var(--cream);margin-bottom:1.2rem;line-height:1.55;}
+.q-opts{display:flex;flex-direction:column;gap:.55rem;}
+.q-opt{background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:10px;padding:.72rem 1rem;font-size:.86rem;color:var(--cream);cursor:pointer;text-align:left;transition:all .2s;font-family:'Inter',sans-serif;}
+.q-opt:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.q-opt.correct{border-color:var(--green);background:rgba(76,175,125,.12);color:var(--green);}
+.q-opt.wrong{border-color:var(--red);background:rgba(224,90,90,.1);color:var(--red);}
+.q-opt:disabled{cursor:default;}
+.q-fb{font-size:.8rem;margin-top:.7rem;padding:.6rem .9rem;border-radius:8px;line-height:1.5;}
+.q-fb.correct{background:rgba(76,175,125,.1);color:var(--green);border:1px solid rgba(76,175,125,.3);}
+.q-fb.wrong{background:rgba(224,90,90,.08);color:#F08080;border:1px solid rgba(224,90,90,.25);}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.1rem;gap:.7rem;}
+.btn-primary{background:var(--gold);color:var(--navy);border:none;border-radius:10px;padding:.68rem 1.35rem;font-size:.86rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn-primary:hover{background:var(--gold2);}
+.btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:.68rem 1.15rem;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.score-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center;}
+.score-big{font-family:'Playfair Display',serif;font-size:3.4rem;color:var(--gold);font-weight:700;}
+.score-lbl{font-size:.78rem;color:var(--muted);margin-bottom:.9rem;}
+.score-msg{font-size:.97rem;color:var(--cream);margin-bottom:1.4rem;}
+
+body::after{content:'Do Not Share — StudyHub by Nhlaka';position:fixed;bottom:10px;right:14px;font-size:.6rem;color:rgba(201,168,76,.15);pointer-events:none;z-index:9998;letter-spacing:.06em;}
+
+@media(max-width:480px){.nav-tabs{gap:.2rem;}.nav-tab{font-size:.62rem;padding:.28rem .45rem;}.cd-num{font-size:1.45rem;}.fc-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="sh-gate">
+  <div class="sh-lock"><svg viewBox="0 0 24 24"><path d="M18 11H17V7C17 4.24 14.76 2 12 2S7 4.24 7 7V11H6C4.9 11 4 11.9 4 13V21C4 22.1 4.9 23 6 23H18C19.1 23 20 22.1 20 21V13C20 11.9 19.1 11 18 11ZM12 18C10.9 18 10 17.1 10 16S10.9 14 12 14 14 14.9 14 16 13.1 18 12 18ZM15.1 11H8.9V7C8.9 5.29 10.29 3.9 12 3.9 13.71 3.9 15.1 5.29 15.1 7V11Z"/></svg></div>
+  <div class="sh-brand">StudyHub</div>
+  <div class="sh-sub">by Nhlaka</div>
+  <p class="sh-tagline">Enter your access code to unlock this guide</p>
+  <div class="sh-card">
+    <label for="sh-code">Access Code</label>
+    <div class="sh-row">
+      <input id="sh-code" type="text" maxlength="12" placeholder="e.g. SH-MATH25" autocomplete="off" spellcheck="false"/>
+      <button id="sh-unlock" onclick="shCheck()">Unlock</button>
+    </div>
+    <p id="sh-msg"></p>
+    <p class="sh-hint">Your code was sent via WhatsApp after payment.<br/>Need help? Contact <a href="https://wa.me/27640081459">StudyHub Support</a></p>
+  </div>
+</div>
+<script>
+(function(){
+  var CODES=["SH-MATH25","SH-MATHS25"];
+  var KEY="sh_access_MATH";
+  function shMsg(t,c){var m=document.getElementById("sh-msg");m.textContent=t;m.className=c;}
+  function shCheck(){
+    var v=document.getElementById("sh-code").value.trim().toUpperCase();
+    var c=document.querySelector(".sh-card");
+    if(!v){shMsg("Please enter your access code.","err");return;}
+    if(CODES.indexOf(v)>-1){
+      try{sessionStorage.setItem(KEY,v);}catch(e){}
+      shMsg("✓ Access granted!","ok");
+      setTimeout(function(){document.getElementById("sh-gate").style.display="none";window.scrollTo(0,0);},700);
+    }else{
+      shMsg("Incorrect code. Please check your WhatsApp message.","err");
+      c.classList.remove("sh-shake");void c.offsetWidth;c.classList.add("sh-shake");
+    }
+  }
+  window.shCheck=shCheck;
+  document.addEventListener("DOMContentLoaded",function(){
+    var inp=document.getElementById("sh-code");
+    if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") shCheck();});
+    try{var s=sessionStorage.getItem(KEY);if(s&&CODES.indexOf(s.toUpperCase())>-1) document.getElementById("sh-gate").style.display="none";}catch(e){}
+  });
+})();
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">StudyHub <span>Mathematics Gr 12</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSec('overview')">Overview</button>
+    <button class="nav-tab" onclick="showSec('flashcards')">Flashcards</button>
+    <button class="nav-tab" onclick="showSec('formulas')">Formulas</button>
+    <button class="nav-tab" onclick="showSec('diagrams')">Graphs</button>
+    <button class="nav-tab" onclick="showSec('quiz')">Quiz</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <text x="20" y="60" font-size="48" fill="#C9A84C" font-family="serif" opacity=".5">∫</text>
+      <text x="80" y="120" font-size="36" fill="#C9A84C" font-family="serif">π</text>
+      <text x="150" y="80" font-size="30" fill="#C9A84C" font-family="serif">Σ</text>
+      <text x="220" y="140" font-size="40" fill="#C9A84C" font-family="serif">√</text>
+      <text x="300" y="70" font-size="32" fill="#C9A84C" font-family="serif">θ</text>
+      <text x="340" y="160" font-size="28" fill="#C9A84C" font-family="serif">Δ</text>
+      <text x="60" y="200" font-size="26" fill="#C9A84C" font-family="serif">lim</text>
+      <text x="160" y="220" font-size="34" fill="#C9A84C" font-family="serif">f'(x)</text>
+      <text x="280" y="230" font-size="24" fill="#C9A84C" font-family="serif">n!</text>
+    </svg>
+  </div>
+  <div class="hero-eyebrow">Grade 12 CAPS · Mathematics</div>
+  <h1>Master the<br/><em>numbers.</em></h1>
+  <p class="hero-sub">All 8 CAPS topics — algebra, calculus, trigonometry, geometry and more — in one interactive guide built for exam success.</p>
+  <div class="hero-badges">
+    <span class="badge">📐 Algebra</span>
+    <span class="badge">📈 Functions</span>
+    <span class="badge">∫ Calculus</span>
+    <span class="badge">🔺 Trigonometry</span>
+    <span class="badge">📍 Analytical Geometry</span>
+    <span class="badge">🔵 Euclidean Geometry</span>
+    <span class="badge">Σ Sequences</span>
+    <span class="badge">🎲 Probability</span>
+  </div>
+  <div class="countdown-wrap">
+    <div class="countdown-label">⏳ Exam Countdown</div>
+    <div class="countdown-grid">
+      <div class="cd-block"><span class="cd-num" id="cd-d">--</span><div class="cd-unit">Days</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-h">--</span><div class="cd-unit">Hrs</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-m">--</span><div class="cd-unit">Min</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-block"><span class="cd-num" id="cd-s">--</span><div class="cd-unit">Sec</div></div>
+    </div>
+    <div class="countdown-setup">
+      <input type="date" id="exam-date"/>
+      <button class="btn-sm" onclick="setExamDate()">Set Date</button>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section active" id="sec-overview">
+  <div class="sec-eyebrow">What's inside</div>
+  <div class="sec-title">All 8 CAPS Topics</div>
+  <div class="sec-desc">Tap any topic to jump straight to its flashcards.</div>
+  <div class="topic-grid">
+    <div class="topic-card" onclick="showSec('flashcards','algebra')"><div class="tc-icon">📐</div><div class="tc-title">Algebra &amp; Equations</div><div class="tc-sub">Surds, logs, quadratics, inequalities</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','functions')"><div class="tc-icon">📈</div><div class="tc-title">Functions &amp; Graphs</div><div class="tc-sub">Parabola, hyperbola, exponential, logs</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','calculus')"><div class="tc-icon">∫</div><div class="tc-title">Calculus</div><div class="tc-sub">Limits, differentiation, cubic graphs, optimisation</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','trig')"><div class="tc-icon">🔺</div><div class="tc-title">Trigonometry</div><div class="tc-sub">Identities, reduction, sine &amp; cosine rules</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','analytical')"><div class="tc-icon">📍</div><div class="tc-title">Analytical Geometry</div><div class="tc-sub">Lines, circles, midpoints, gradients</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','euclidean')"><div class="tc-icon">🔵</div><div class="tc-title">Euclidean Geometry</div><div class="tc-sub">Circle theorems, proportionality, proofs</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','sequences')"><div class="tc-icon">Σ</div><div class="tc-title">Sequences &amp; Series</div><div class="tc-sub">Arithmetic, geometric, sigma notation, finance</div></div>
+    <div class="topic-card" onclick="showSec('flashcards','probability')"><div class="tc-icon">🎲</div><div class="tc-title">Probability &amp; Counting</div><div class="tc-sub">Fundamental counting, permutations, combinations</div></div>
+  </div>
+  <div class="sec-eyebrow" style="margin-top:2rem;">Your progress</div>
+  <div class="sec-title">Study Tracker</div>
+  <div id="progress-overview"></div>
+</section>
+
+<!-- FLASHCARDS -->
+<section class="section" id="sec-flashcards">
+  <div class="sec-eyebrow">Active Recall</div>
+  <div class="sec-title">Flashcards</div>
+  <div class="sec-desc">Tap a card to flip it and reveal the answer.</div>
+  <div class="filter-bar" id="fc-filter-bar"></div>
+  <div class="prog-label" id="fc-prog-label">0 / 0 cards viewed</div>
+  <div class="prog-wrap"><div class="prog-fill" id="fc-prog-fill" style="width:0%"></div></div>
+  <div class="fc-grid" id="fc-grid"></div>
+</section>
+
+<!-- FORMULAS -->
+<section class="section" id="sec-formulas">
+  <div class="sec-eyebrow">Quick Reference</div>
+  <div class="sec-title">Formula Sheet</div>
+  <div class="sec-desc">All key formulas for Grade 12 Mathematics — filterable by topic.</div>
+  <div class="filter-bar" id="formula-filter-bar"></div>
+  <div class="formula-list" id="formula-list"></div>
+</section>
+
+<!-- DIAGRAMS -->
+<section class="section" id="sec-diagrams">
+  <div class="sec-eyebrow">Visual Learning</div>
+  <div class="sec-title">Graphs &amp; Diagrams</div>
+  <div class="sec-desc">Key graphs and geometric figures to visualise the concepts.</div>
+  <div class="diag-grid" id="diag-grid"></div>
+</section>
+
+<!-- QUIZ -->
+<section class="section" id="sec-quiz">
+  <div class="sec-eyebrow">Test Yourself</div>
+  <div class="sec-title">Timed Quiz</div>
+  <div class="sec-desc">30 seconds per question. Choose a topic to begin.</div>
+  <div id="quiz-select">
+    <div class="topic-grid">
+      <div class="topic-card" onclick="startQuiz('all')"><div class="tc-icon">🎯</div><div class="tc-title">All Topics</div><div class="tc-sub">Mixed questions</div></div>
+      <div class="topic-card" onclick="startQuiz('algebra')"><div class="tc-icon">📐</div><div class="tc-title">Algebra</div></div>
+      <div class="topic-card" onclick="startQuiz('functions')"><div class="tc-icon">📈</div><div class="tc-title">Functions</div></div>
+      <div class="topic-card" onclick="startQuiz('calculus')"><div class="tc-icon">∫</div><div class="tc-title">Calculus</div></div>
+      <div class="topic-card" onclick="startQuiz('trig')"><div class="tc-icon">🔺</div><div class="tc-title">Trigonometry</div></div>
+      <div class="topic-card" onclick="startQuiz('sequences')"><div class="tc-icon">Σ</div><div class="tc-title">Sequences</div></div>
+      <div class="topic-card" onclick="startQuiz('analytical')"><div class="tc-icon">📍</div><div class="tc-title">Analytical Geometry</div></div>
+      <div class="topic-card" onclick="startQuiz('probability')"><div class="tc-icon">🎲</div><div class="tc-title">Probability</div></div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz-wrap" style="display:none;"></div>
+</section>
+
+<script>
+// ══════════════════════════════════
+// DATA
+// ══════════════════════════════════
+const TOPICS = [
+  {id:'algebra',label:'📐 Algebra'},
+  {id:'functions',label:'📈 Functions'},
+  {id:'calculus',label:'∫ Calculus'},
+  {id:'trig',label:'🔺 Trigonometry'},
+  {id:'analytical',label:'📍 Analytical Geom.'},
+  {id:'euclidean',label:'🔵 Euclidean Geom.'},
+  {id:'sequences',label:'Σ Sequences'},
+  {id:'probability',label:'🎲 Probability'},
+];
+
+const CARDS = [
+  // ALGEBRA
+  {t:'algebra',q:'What is the quadratic formula?',a:'Used to solve ax² + bx + c = 0.',f:'x = (-b ± √(b²-4ac)) / 2a'},
+  {t:'algebra',q:'What does the discriminant tell you?',a:'Δ = b²-4ac. If Δ>0: 2 real roots. If Δ=0: 1 real root. If Δ<0: no real roots.'},
+  {t:'algebra',q:'How do you solve a quadratic inequality like x²-x-6 > 0?',a:'Factorise: (x-3)(x+2)>0. Critical values: x=-2 and x=3. Since leading coeff>0 and inequality is >, answer is x<-2 or x>3.'},
+  {t:'algebra',q:'What is log_a(x) = y equivalent to?',a:'The logarithm is the inverse of the exponential.',f:'log_a(x) = y  ⟺  aʸ = x'},
+  {t:'algebra',q:'State the three laws of logarithms.',a:'Product: log(AB)=log A+log B. Quotient: log(A/B)=log A-log B. Power: log(Aⁿ)=n·log A.'},
+  {t:'algebra',q:'What is the change of base formula?',a:'Converts a logarithm from one base to another.',f:'log_a(x) = log(x) / log(a)'},
+  {t:'algebra',q:'How do you simplify surds like √12?',a:'Break into perfect square factors.',f:'√12 = √(4×3) = 2√3'},
+  {t:'algebra',q:'What is the nature of roots when Δ = 0?',a:'Two equal real roots (a repeated root). The parabola touches the x-axis at exactly one point.'},
+
+  // FUNCTIONS
+  {t:'functions',q:'What is the equation of a parabola and its key features?',a:'Shape: ∩ if a<0, ∪ if a>0. Axis of symmetry at x = -b/2a. y-intercept at (0,c).',f:'y = ax² + bx + c'},
+  {t:'functions',q:'What is the equation of a hyperbola and its asymptotes?',a:'Asymptotes at x=p (vertical) and y=q (horizontal). a>0: quadrants 1&3. a<0: quadrants 2&4.',f:'y = a/(x-p) + q'},
+  {t:'functions',q:'What is the equation of an exponential function?',a:'Asymptote at y=q. If a>0 and b>1: increasing. If 0<b<1: decreasing.',f:'y = a·bˣ + q'},
+  {t:'functions',q:'What is the inverse of y = aˣ?',a:'The logarithmic function. Reflect the exponential graph over the line y=x.',f:'y = log_a(x)'},
+  {t:'functions',q:'What does f⁻¹(x) mean?',a:'The inverse function — it swaps x and y values. To find it: swap x and y, then solve for y.'},
+  {t:'functions',q:'How do you find the domain and range of y = √(x-2)?',a:'Domain: x-2 ≥ 0 → x ≥ 2. Range: y ≥ 0 (square root is always non-negative).'},
+  {t:'functions',q:'What is the effect of a in y = a·f(x)?',a:'If |a|>1: vertical stretch. If 0<|a|<1: vertical compression. If a<0: reflection over x-axis.'},
+
+  // CALCULUS
+  {t:'calculus',q:'What is the definition of a derivative (first principles)?',a:'The gradient of the tangent — limit of the gradient of a chord as h→0.',f:"f'(x) = lim[h→0] (f(x+h)-f(x))/h"},
+  {t:'calculus',q:'What is the power rule for differentiation?',a:'Multiply by the power, then reduce the power by 1.',f:"d/dx [xⁿ] = nxⁿ⁻¹"},
+  {t:'calculus',q:"What does f'(x) = 0 tell you?",a:'The function has a stationary point (turning point or point of inflection). Substitute back into f(x) to get the y-coordinate.'},
+  {t:'calculus',q:"How do you determine if a stationary point is a max or min?",a:"Use f''(x): if f''(x)<0 it's a local maximum. If f''(x)>0 it's a local minimum."},
+  {t:'calculus',q:'What is the gradient of the tangent to a curve at x=a?',a:"Substitute x=a into f'(x) to get the gradient, then use y-y₁=m(x-x₁) for the equation."},
+  {t:'calculus',q:'How do you find where a cubic function is increasing?',a:"Find f'(x), set f'(x)>0 and solve the inequality. The function increases where the derivative is positive."},
+  {t:'calculus',q:'What does the second derivative tell us about concavity?',a:"f''(x)>0: concave up (∪ shape). f''(x)<0: concave down (∩ shape). f''(x)=0: possible inflection point."},
+
+  // TRIGONOMETRY
+  {t:'trig',q:'State the three basic trig ratios in a right-angled triangle.',a:'SOH-CAH-TOA: Sine=Opposite/Hypotenuse, Cosine=Adjacent/Hypotenuse, Tangent=Opposite/Adjacent.'},
+  {t:'trig',q:'State the Pythagorean identity.',a:'Fundamental identity derived from the unit circle — valid for all angles.',f:'sin²θ + cos²θ = 1'},
+  {t:'trig',q:'What is the sine rule?',a:'Used when you know two sides and an opposite angle, or two angles and any side.',f:'a/sinA = b/sinB = c/sinC'},
+  {t:'trig',q:'What is the cosine rule?',a:'Used when you know three sides, or two sides and the included angle.',f:'a² = b² + c² - 2bc·cosA'},
+  {t:'trig',q:'What are the reduction formulae for sin(180°-θ)?',a:'Reduction formulae use the CAST diagram — only the sign changes based on the quadrant.',f:'sin(180°-θ) = sinθ\ncos(180°-θ) = -cosθ'},
+  {t:'trig',q:'What are the compound angle formulae?',a:'Double angle: sin2θ=2sinθcosθ and cos2θ=cos²θ-sin²θ=2cos²θ-1=1-2sin²θ.',f:'sin(A±B) = sinAcosB ± cosAsinB'},
+  {t:'trig',q:'How do you solve sinθ = 0.5 for θ ∈ [0°,360°]?',a:'Reference angle = 30°. Sine is positive in Q1 and Q2. So θ = 30° or θ = 150°.'},
+
+  // ANALYTICAL GEOMETRY
+  {t:'analytical',q:'What is the distance formula between two points?',a:'Derived from Pythagoras — the straight-line distance between two coordinate points.',f:'d = √((x₂-x₁)² + (y₂-y₁)²)'},
+  {t:'analytical',q:'What is the midpoint formula?',a:'The average of the x-coordinates and y-coordinates gives the midpoint.',f:'M = ((x₁+x₂)/2 , (y₁+y₂)/2)'},
+  {t:'analytical',q:'What is the gradient formula?',a:'The gradient measures the steepness of a line between two points.',f:'m = (y₂-y₁)/(x₂-x₁)'},
+  {t:'analytical',q:'What is the equation of a circle with centre (a,b) and radius r?',a:'All points (x,y) that are exactly r units from the centre (a,b).',f:'(x-a)² + (y-b)² = r²'},
+  {t:'analytical',q:'When are two lines perpendicular?',a:'Their gradients multiply to give -1.',f:'m₁ × m₂ = -1'},
+  {t:'analytical',q:'How do you find the equation of a tangent to a circle at a point?',a:'1. Find gradient of radius to the point. 2. Perpendicular gradient = -1/m. 3. Use point-slope form.'},
+
+  // EUCLIDEAN GEOMETRY
+  {t:'euclidean',q:'State the theorem: angle at centre vs angle at circumference.',a:'The angle subtended by an arc at the centre is twice the angle subtended at any point on the circle.',f:'∠AOB = 2 × ∠ACB'},
+  {t:'euclidean',q:'What is the theorem about angles in a semicircle?',a:'An angle inscribed in a semicircle (subtended by a diameter) is always 90°.'},
+  {t:'euclidean',q:'What does the theorem of equal chords state?',a:'Equal chords subtend equal angles at the centre, and equal angles at the centre have equal chords.'},
+  {t:'euclidean',q:'State the tan-chord angle theorem.',a:'The angle between a tangent and a chord equals the inscribed angle subtending the same arc (tan-chord = angle in alternate segment).'},
+  {t:'euclidean',q:'What is the Basic Proportionality Theorem?',a:'A line drawn parallel to one side of a triangle divides the other two sides proportionally.',f:'If DE∥BC: AD/DB = AE/EC'},
+  {t:'euclidean',q:'What are the conditions for similar triangles?',a:'AAA (three equal angles), or sides in proportion. Similar triangles have equal angles and proportional sides.'},
+
+  // SEQUENCES & SERIES
+  {t:'sequences',q:'What is the general term of an arithmetic sequence?',a:'Each term increases by a constant common difference d. First term is a.',f:'Tₙ = a + (n-1)d'},
+  {t:'sequences',q:'What is the sum of an arithmetic series?',a:'Two equivalent formulas — use the second when you know the last term l.',f:'Sₙ = n/2[2a+(n-1)d]  or  Sₙ = n/2(a+l)'},
+  {t:'sequences',q:'What is the general term of a geometric sequence?',a:'Each term is multiplied by a constant common ratio r. First term is a.',f:'Tₙ = a·rⁿ⁻¹'},
+  {t:'sequences',q:'What is the sum of a geometric series?',a:'Use r≠1 formula normally. For infinite series (|r|<1), use S∞ = a/(1-r).',f:'Sₙ = a(rⁿ-1)/(r-1) for r≠1'},
+  {t:'sequences',q:'What is sigma notation?',a:'Σ (sigma) means "sum of". The number below is the starting value of n, above is the ending value.',f:'Σᵢ₌₁ⁿ i = n(n+1)/2'},
+  {t:'sequences',q:'What are the future and present value annuity formulas?',a:'Future value: saving money over time. Present value: borrowing money (loans).',f:'F = x[(1+i)ⁿ-1]/i  |  P = x[1-(1+i)⁻ⁿ]/i'},
+
+  // PROBABILITY
+  {t:'probability',q:'What is the Fundamental Counting Principle?',a:'If event A can happen in m ways and event B in n ways, then both can happen in m × n ways.'},
+  {t:'probability',q:'What is a permutation?',a:'An arrangement where ORDER matters.',f:'ₙPᵣ = n!/(n-r)!'},
+  {t:'probability',q:'What is a combination?',a:'A selection where ORDER does NOT matter.',f:'ₙCᵣ = n!/[r!(n-r)!]'},
+  {t:'probability',q:'What is the addition rule for probability?',a:'For events that can both occur (not mutually exclusive).',f:'P(A or B) = P(A) + P(B) - P(A and B)'},
+  {t:'probability',q:'What is the multiplication rule for independent events?',a:'Two events are independent if one does not affect the other.',f:'P(A and B) = P(A) × P(B)'},
+  {t:'probability',q:'What does P(A|B) mean?',a:'Conditional probability — the probability of A given that B has already occurred.',f:"P(A|B) = P(A and B) / P(B)"},
+  {t:'probability',q:'What is n! (n factorial)?',a:'The product of all positive integers from 1 to n. Used in counting arrangements.',f:'n! = n×(n-1)×(n-2)×...×2×1\ne.g. 4! = 24'},
+];
+
+const FORMULAS = [
+  {c:'algebra',n:'Quadratic Formula',e:'x = (-b ± √(b²-4ac)) / 2a',x:'Solves ax²+bx+c=0. Discriminant Δ=b²-4ac determines nature of roots.'},
+  {c:'algebra',n:'Discriminant',e:'Δ = b² - 4ac',x:'Δ>0: 2 real roots. Δ=0: 1 real root. Δ<0: no real roots.'},
+  {c:'algebra',n:'Log Definition',e:'log_a(x) = y  ⟺  aʸ = x',x:'The log is the inverse of the exponential.'},
+  {c:'algebra',n:'Log Laws',e:'log(AB)=logA+logB\nlog(A/B)=logA-logB\nlog(Aⁿ)=n·logA',x:'Three key laws for simplifying and solving log equations.'},
+  {c:'algebra',n:'Change of Base',e:'log_a(x) = log(x)/log(a)',x:'Converts any log to base 10 (or any other base).'},
+  {c:'functions',n:'Parabola',e:'y = a(x-p)² + q  or  y = ax²+bx+c',x:'TP at (p,q). Axis of sym: x=-b/2a. y-int: (0,c).'},
+  {c:'functions',n:'Hyperbola',e:'y = a/(x-p) + q',x:'Vertical asymptote: x=p. Horizontal asymptote: y=q.'},
+  {c:'functions',n:'Exponential',e:'y = a·bˣ + q  (b>0, b≠1)',x:'Asymptote at y=q. Increasing if b>1, decreasing if 0<b<1.'},
+  {c:'calculus',n:'First Principles',e:"f'(x) = lim[h→0] [f(x+h)-f(x)]/h",x:'Definition of the derivative — gradient of the tangent at x.'},
+  {c:'calculus',n:'Power Rule',e:"d/dx[xⁿ] = nxⁿ⁻¹",x:'Multiply by power, reduce power by 1.'},
+  {c:'calculus',n:'Constant Rule',e:"d/dx[k] = 0  |  d/dx[kx] = k",x:'Derivative of a constant is 0. Derivative of kx is k.'},
+  {c:'trig',n:'Pythagorean Identity',e:'sin²θ + cos²θ = 1',x:'Derived from unit circle. Also: 1+tan²θ=sec²θ.'},
+  {c:'trig',n:'Sine Rule',e:'a/sinA = b/sinB = c/sinC',x:'Use when 2 angles + 1 side known, or 2 sides + opposite angle.'},
+  {c:'trig',n:'Cosine Rule',e:'a² = b² + c² - 2bc·cosA',x:'Use when 3 sides known, or 2 sides + included angle.'},
+  {c:'trig',n:'Area of Triangle',e:'Area = ½ab·sinC',x:'Use when two sides and the included angle are known.'},
+  {c:'trig',n:'Double Angle',e:'sin2θ = 2sinθcosθ\ncos2θ = cos²θ-sin²θ',x:'Compound angle with A=B=θ. Three forms for cos2θ.'},
+  {c:'analytical',n:'Distance Formula',e:'d = √((x₂-x₁)²+(y₂-y₁)²)',x:'Straight-line distance between two points.'},
+  {c:'analytical',n:'Midpoint Formula',e:'M = ((x₁+x₂)/2,(y₁+y₂)/2)',x:'Average of coordinates gives the midpoint.'},
+  {c:'analytical',n:'Gradient',e:'m = (y₂-y₁)/(x₂-x₁)',x:'Perpendicular lines: m₁×m₂=-1. Parallel: m₁=m₂.'},
+  {c:'analytical',n:'Circle Equation',e:'(x-a)²+(y-b)²=r²',x:'Centre (a,b), radius r.'},
+  {c:'sequences',n:'Arithmetic — General Term',e:'Tₙ = a + (n-1)d',x:'a = first term, d = common difference.'},
+  {c:'sequences',n:'Arithmetic — Sum',e:'Sₙ = n/2[2a+(n-1)d]',x:'Sum of n terms. Also: Sₙ=n/2(a+l) where l is the last term.'},
+  {c:'sequences',n:'Geometric — General Term',e:'Tₙ = a·rⁿ⁻¹',x:'a = first term, r = common ratio.'},
+  {c:'sequences',n:'Geometric — Sum',e:'Sₙ = a(rⁿ-1)/(r-1)',x:'For |r|<1 infinite series: S∞ = a/(1-r).'},
+  {c:'sequences',n:'Future Value Annuity',e:'F = x[(1+i)ⁿ-1]/i',x:'Saving equal amounts x at interest rate i for n periods.'},
+  {c:'sequences',n:'Present Value Annuity',e:'P = x[1-(1+i)⁻ⁿ]/i',x:'Loan of P, repaid with equal instalments x.'},
+  {c:'probability',n:'Permutations',e:'ₙPᵣ = n!/(n-r)!',x:'Arrangements where ORDER matters. r items from n.'},
+  {c:'probability',n:'Combinations',e:'ₙCᵣ = n!/[r!(n-r)!]',x:'Selections where ORDER does NOT matter.'},
+  {c:'probability',n:'Addition Rule',e:'P(A∪B) = P(A)+P(B)-P(A∩B)',x:'Subtract intersection to avoid double-counting.'},
+  {c:'probability',n:'Multiplication Rule',e:'P(A∩B) = P(A)×P(B)',x:'Valid for INDEPENDENT events only.'},
+];
+
+const QUIZ = [
+  {c:'algebra',q:'Solve x² - 5x + 6 = 0. What are the roots?',o:['x=2 or x=3','x=-2 or x=-3','x=1 or x=6','x=2 or x=-3'],a:0,e:'Factorise: (x-2)(x-3)=0 → x=2 or x=3'},
+  {c:'algebra',q:'The discriminant of 2x²-4x+2=0 is:',o:['0','8','-8','4'],a:0,e:'Δ=(-4)²-4(2)(2)=16-16=0. One equal real root.'},
+  {c:'algebra',q:'log₂(8) = ?',o:['2','3','4','8'],a:1,e:'2³=8, so log₂(8)=3.'},
+  {c:'algebra',q:'log(x²) = ?',o:['2log(x)','log(2x)','log(x)+2','x²'],a:0,e:'Power law: log(xⁿ)=n·log(x), so log(x²)=2log(x).'},
+  {c:'functions',q:'For y = 3/(x-1)+2, the vertical asymptote is at:',o:['x=2','y=1','x=1','y=2'],a:2,e:'Vertical asymptote at x=p=1 (denominator = 0).'},
+  {c:'functions',q:'The turning point of y = (x-3)²+5 is at:',o:['(3,5)','(-3,5)','(3,-5)','(5,3)'],a:0,e:'In y=a(x-p)²+q form, turning point is (p,q)=(3,5).'},
+  {c:'functions',q:'The inverse of y=2ˣ is:',o:['y=x/2','y=log₂(x)','y=2⁻ˣ','y=½ˣ'],a:1,e:'Swap x and y: x=2ʸ → y=log₂(x).'},
+  {c:'calculus',q:"If f(x) = x³ - 3x, then f'(x) = ?",o:['3x²','3x²-3','x²-3','3x²+3'],a:1,e:"Power rule: d/dx[x³]=3x², d/dx[-3x]=-3. So f'(x)=3x²-3."},
+  {c:'calculus',q:"f(x) = x⁴ - 8x² has turning points. f'(x) = 0 gives x = ?",o:['x=0 only','x=2 or x=-2','x=0, x=2, x=-2','x=4 or x=-4'],a:2,e:"f'(x)=4x³-16x=4x(x²-4)=4x(x-2)(x+2)=0 → x=0, x=2, x=-2."},
+  {c:'calculus',q:'The gradient of the tangent to y=x²+1 at x=3 is:',o:['6','9','10','7'],a:0,e:"f'(x)=2x. At x=3: f'(3)=6."},
+  {c:'trig',q:'sin(150°) = ?',o:['½','−½','√3/2','−√3/2'],a:0,e:'sin(180°-30°)=sin(30°)=½. Sine is positive in Q2.'},
+  {c:'trig',q:'cos(180°+θ) = ?',o:['cosθ','-cosθ','sinθ','-sinθ'],a:1,e:'180°+θ is in Q3. Cosine is negative in Q3. cos(180°+θ)=-cosθ.'},
+  {c:'trig',q:'sin2θ = ?',o:['2sinθ','sin²θ+cos²θ','2sinθcosθ','2cosθ'],a:2,e:'Double angle formula: sin2θ=2sinθcosθ.'},
+  {c:'trig',q:'In △ABC, a=7, b=5, C=60°. Area = ?',o:['35√3/4','17.5','35/4','15.2'],a:0,e:'Area=½ab·sinC=½×7×5×sin60°=35/2×√3/2=35√3/4.'},
+  {c:'analytical',q:'Distance between (1,2) and (4,6) is:',o:['5','7','√7','25'],a:0,e:'d=√((4-1)²+(6-2)²)=√(9+16)=√25=5.'},
+  {c:'analytical',q:'Midpoint of (2,4) and (8,10) is:',o:['(5,7)','(6,7)','(5,6)','(10,14)'],a:0,e:'M=((2+8)/2,(4+10)/2)=(5,7).'},
+  {c:'analytical',q:'A circle has equation (x-3)²+(y+2)²=16. Its radius is:',o:['16','4','8','√16'],a:1,e:'r²=16, so r=√16=4.'},
+  {c:'sequences',q:'In arithmetic sequence 3, 7, 11, ... T₁₀ = ?',o:['39','43','41','40'],a:0,e:'a=3, d=4. T₁₀=3+(10-1)×4=3+36=39.'},
+  {c:'sequences',q:'In geometric sequence 2, 6, 18, ... the common ratio r = ?',o:['3','4','2','8'],a:0,e:'r = T₂/T₁ = 6/2 = 3.'},
+  {c:'sequences',q:'S∞ of 8 + 4 + 2 + 1 + ... = ?',o:['16','14','20','12'],a:0,e:'|r|=0.5<1. S∞=a/(1-r)=8/(1-0.5)=8/0.5=16.'},
+  {c:'probability',q:'How many ways can 5 people be arranged in a row?',o:['25','120','20','60'],a:1,e:'5! = 5×4×3×2×1 = 120.'},
+  {c:'probability',q:'How many ways can 3 people be chosen from 8 (order not important)?',o:['56','336','24','512'],a:0,e:'₈C₃=8!/(3!×5!)=56.'},
+  {c:'probability',q:'P(A)=0.4, P(B)=0.3, A and B independent. P(A and B)=?',o:['0.7','0.12','0.58','0.1'],a:1,e:'Independent: P(A∩B)=P(A)×P(B)=0.4×0.3=0.12.'},
+  {c:'euclidean',q:'An angle inscribed in a semicircle is always:',o:['45°','60°','90°','180°'],a:2,e:'Theorem: angle in a semicircle = 90° (angle subtended by diameter).'},
+  {c:'euclidean',q:'The angle at the centre is ___ the angle at the circumference (same arc):',o:['Equal to','Half','Twice','Three times'],a:2,e:'Central angle theorem: angle at centre = 2 × angle at circumference.'},
+];
+
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+let fcViewed=new Set(), curFilter='all', curFFilter='all';
+let qState={qs:[],cur:0,score:0,timer:null,answered:false};
+let examInt=null;
+
+function saveProg(){try{sessionStorage.setItem('math_fc',JSON.stringify([...fcViewed]));}catch(e){}}
+function loadProg(){try{const d=sessionStorage.getItem('math_fc');if(d)fcViewed=new Set(JSON.parse(d));}catch(e){}}
+
+// ══════════════════════════════════
+// NAV
+// ══════════════════════════════════
+function showSec(id,filter){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const tab=document.querySelector(`.nav-tab[onclick*="'${id}'"]`);
+  if(tab)tab.classList.add('active');
+  if(id==='flashcards')renderFC(filter||'all');
+  if(id==='formulas')renderFormulas();
+  if(id==='diagrams')renderDiagrams();
+  if(id==='overview')renderOverview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════
+function buildFilterBar(containerId,onClickFn,active){
+  const bar=document.getElementById(containerId);
+  bar.innerHTML='';
+  const allBtn=document.createElement('button');
+  allBtn.className='f-btn'+(active==='all'?' active':'');
+  allBtn.textContent='All';
+  allBtn.onclick=()=>onClickFn('all');
+  bar.appendChild(allBtn);
+  TOPICS.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='f-btn'+(active===t.id?' active':'');
+    b.textContent=t.label;
+    b.onclick=()=>onClickFn(t.id);
+    bar.appendChild(b);
+  });
+}
+
+function renderFC(filter){
+  curFilter=filter||'all';
+  buildFilterBar('fc-filter-bar',f=>{renderFC(f);},curFilter);
+  const cards=curFilter==='all'?CARDS:CARDS.filter(c=>c.t===curFilter);
+  const grid=document.getElementById('fc-grid');
+  grid.innerHTML='';
+  cards.forEach((card,i)=>{
+    const id=`fc-${curFilter}-${i}`;
+    const seen=fcViewed.has(id);
+    const div=document.createElement('div');
+    div.className='fc-scene'+(seen?' flipped':'');
+    div.dataset.id=id;
+    const tl=topicLabel(card.t);
+    div.innerHTML=`<div class="fc-card">
+      <div class="fc-front"><div class="fc-topic">${tl}</div><div class="fc-q">${card.q}</div><div class="fc-hint">Tap to flip ↓</div></div>
+      <div class="fc-back"><div class="fc-topic">${tl}</div><div class="fc-a">${card.a}</div>${card.f?`<div class="fc-formula">${card.f}</div>`:''}</div>
+    </div>`;
+    div.addEventListener('click',()=>{
+      div.classList.toggle('flipped');
+      if(div.classList.contains('flipped')){fcViewed.add(id);saveProg();updateFCProg(cards);}
+    });
+    grid.appendChild(div);
+  });
+  updateFCProg(cards);
+}
+function updateFCProg(cards){
+  const total=cards.length;
+  const seen=cards.filter((_,i)=>fcViewed.has(`fc-${curFilter}-${i}`)).length;
+  const pct=total?Math.round(seen/total*100):0;
+  document.getElementById('fc-prog-label').textContent=`${seen} / ${total} cards viewed (${pct}%)`;
+  document.getElementById('fc-prog-fill').style.width=pct+'%';
+}
+
+// ══════════════════════════════════
+// FORMULAS
+// ══════════════════════════════════
+function renderFormulas(filter){
+  curFFilter=filter||curFFilter;
+  buildFilterBar('formula-filter-bar',f=>{renderFormulas(f);},curFFilter);
+  const items=curFFilter==='all'?FORMULAS:FORMULAS.filter(f=>f.c===curFFilter);
+  document.getElementById('formula-list').innerHTML=items.map(f=>`
+    <div class="formula-item">
+      <div class="formula-name">${topicLabel(f.c)} — ${f.n}</div>
+      <div class="formula-eq">${f.e.replace(/\n/g,'<br/>')}</div>
+      <div class="formula-explain">${f.x}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════
+// DIAGRAMS
+// ══════════════════════════════════
+function renderDiagrams(){
+  document.getElementById('diag-grid').innerHTML=`
+  <!-- Parabola -->
+  <div class="diag-card">
+    <div class="diag-title">📈 Parabola y = x² - 4 (a>0, ∪ shape)</div>
+    <svg viewBox="-5 -5 10 10" xmlns="http://www.w3.org/2000/svg" style="height:200px;">
+      <line x1="-4.5" y1="0" x2="4.5" y2="0" stroke="#8A9AB0" stroke-width=".08"/>
+      <line x1="0" y1="4.5" x2="0" y2="-4.5" stroke="#8A9AB0" stroke-width=".08"/>
+      <path d="M-3,5 Q-2.5,2.25 -2,0 Q-1.5,-1.75 -1,-3 Q-.5,-3.75 0,-4 Q.5,-3.75 1,-3 Q1.5,-1.75 2,0 Q2.5,2.25 3,5" fill="none" stroke="#4A9EE0" stroke-width=".15"/>
+      <circle cx="0" cy="-4" r=".18" fill="#C9A84C"/>
+      <text x=".25" y="-3.8" font-size=".55" fill="#C9A84C">TP(0,-4)</text>
+      <circle cx="-2" cy="0" r=".15" fill="#4CAF7D"/>
+      <circle cx="2" cy="0" r=".15" fill="#4CAF7D"/>
+      <text x="-2.8" y=".5" font-size=".45" fill="#4CAF7D">(-2,0)</text>
+      <text x="1.5" y=".5" font-size=".45" fill="#4CAF7D">(2,0)</text>
+      <circle cx="0" cy="-4" r=".12" fill="#C9A84C"/>
+      <text x="-4" y="-.2" font-size=".45" fill="#8A9AB0">x</text>
+      <text x=".15" y="-4.2" font-size=".45" fill="#8A9AB0">y</text>
+    </svg>
+    <div class="diag-desc">Turning point at (0,-4). x-intercepts at x=±2. Axis of symmetry: x=0. y-intercept at (0,-4).</div>
+  </div>
+
+  <!-- Hyperbola -->
+  <div class="diag-card">
+    <div class="diag-title">📈 Hyperbola y = 2/(x-1) + 3</div>
+    <svg viewBox="-4 -2 10 10" xmlns="http://www.w3.org/2000/svg" style="height:200px;">
+      <line x1="-3.5" y1="0" x2="6" y2="0" stroke="#8A9AB0" stroke-width=".09"/>
+      <line x1="0" y1="-1.5" x2="0" y2="8" stroke="#8A9AB0" stroke-width=".09"/>
+      <!-- Asymptotes -->
+      <line x1="1" y1="-1.5" x2="1" y2="8" stroke="#E05A5A" stroke-width=".07" stroke-dasharray=".3,.2"/>
+      <line x1="-3.5" y1="3" x2="6" y2="3" stroke="#9B72CF" stroke-width=".07" stroke-dasharray=".3,.2"/>
+      <text x="1.1" y="-.5" font-size=".5" fill="#E05A5A">x=1</text>
+      <text x="3.5" y="2.7" font-size=".5" fill="#9B72CF">y=3</text>
+      <!-- Curve Q1 region -->
+      <path d="M1.2,13 Q1.5,7 2,5 Q3,4 4,3.5 Q5,3.25 6,3.1" fill="none" stroke="#4A9EE0" stroke-width=".13"/>
+      <!-- Curve Q3 region -->
+      <path d="-3.5,2.5 Q-2,2.7 -1,2.8 Q-.5,2.9 -.1,1" fill="none" stroke="#4A9EE0" stroke-width=".13"/>
+      <path d="M-3.5,2.6 Q-1,2.75 -.5,2.85 Q-.2,2.9 -.05,1.5" fill="none" stroke="#4A9EE0" stroke-width=".13"/>
+    </svg>
+    <div class="diag-desc">Vertical asymptote x=1 (set denominator=0). Horizontal asymptote y=3. Domain: x≠1. Range: y≠3.</div>
+  </div>
+
+  <!-- Cubic -->
+  <div class="diag-card">
+    <div class="diag-title">∫ Cubic Graph f(x) = x³ - 3x</div>
+    <svg viewBox="-3 -3 6 6" xmlns="http://www.w3.org/2000/svg" style="height:200px;">
+      <line x1="-2.8" y1="0" x2="2.8" y2="0" stroke="#8A9AB0" stroke-width=".08"/>
+      <line x1="0" y1="-2.8" x2="0" y2="2.8" stroke="#8A9AB0" stroke-width=".08"/>
+      <path d="M-2,-2 Q-1.8,-1.5 -1.5,-.5 Q-1.2,.3 -1,2 Q-.5,2.5 0,0 Q.5,-2.5 1,-2 Q1.2,-.3 1.5,.5 Q1.8,1.5 2,2" fill="none" stroke="#4A9EE0" stroke-width=".14"/>
+      <!-- Local max (-1,2) -->
+      <circle cx="-1" cy="2" r=".15" fill="#C9A84C"/>
+      <text x="-2.2" y="2.1" font-size=".45" fill="#C9A84C">Max(-1,2)</text>
+      <!-- Local min (1,-2) -->
+      <circle cx="1" cy="-2" r=".15" fill="#E05A5A"/>
+      <text x=".5" y="-2.1" font-size=".45" fill="#E05A5A">Min(1,-2)</text>
+      <!-- x-intercepts -->
+      <circle cx="-1.73" cy="0" r=".12" fill="#4CAF7D"/>
+      <circle cx="0" cy="0" r=".12" fill="#4CAF7D"/>
+      <circle cx="1.73" cy="0" r=".12" fill="#4CAF7D"/>
+    </svg>
+    <div class="diag-desc">f'(x)=3x²-3=0 → x=±1. Local max at (-1,2), local min at (1,-2). x-intercepts at x=0, x=±√3.</div>
+  </div>
+
+  <!-- Trig graphs -->
+  <div class="diag-card">
+    <div class="diag-title">🔺 Sine vs Cosine Graph (0° to 360°)</div>
+    <svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="80" x2="370" y2="80" stroke="#8A9AB0" stroke-width="1"/>
+      <line x1="20" y1="20" x2="20" y2="140" stroke="#8A9AB0" stroke-width="1"/>
+      <!-- x labels -->
+      <text x="20" y="155" text-anchor="middle" fill="#8A9AB0" font-size="9">0</text>
+      <text x="110" y="155" text-anchor="middle" fill="#8A9AB0" font-size="9">90°</text>
+      <text x="195" y="155" text-anchor="middle" fill="#8A9AB0" font-size="9">180°</text>
+      <text x="280" y="155" text-anchor="middle" fill="#8A9AB0" font-size="9">270°</text>
+      <text x="365" y="155" text-anchor="middle" fill="#8A9AB0" font-size="9">360°</text>
+      <!-- Sine -->
+      <path d="M20,80 Q65,20 110,80 Q155,140 200,80 Q245,20 290,80 Q335,140 365,80" fill="none" stroke="#4A9EE0" stroke-width="2"/>
+      <!-- Cosine -->
+      <path d="M20,20 Q65,80 110,140 Q155,80 200,20 Q245,80 290,140 Q335,80 365,20" fill="none" stroke="#C9A84C" stroke-width="2" stroke-dasharray="5,3"/>
+      <!-- Legend -->
+      <line x1="30" y1="12" x2="55" y2="12" stroke="#4A9EE0" stroke-width="2"/>
+      <text x="58" y="16" fill="#4A9EE0" font-size="9">sin(x)</text>
+      <line x1="100" y1="12" x2="125" y2="12" stroke="#C9A84C" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="128" y="16" fill="#C9A84C" font-size="9">cos(x)</text>
+    </svg>
+    <div class="diag-desc">sin(0°)=0, max at 90°. cos(0°)=1, max at 0°. Both have period 360°, amplitude 1. cos(x) = sin(x+90°).</div>
+  </div>
+
+  <!-- Circle theorems -->
+  <div class="diag-card">
+    <div class="diag-title">🔵 Circle Theorem — Angle at Centre</div>
+    <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="110" cy="100" r="75" fill="none" stroke="#8A9AB0" stroke-width="1.5"/>
+      <circle cx="110" cy="100" r="4" fill="#C9A84C"/>
+      <text x="115" y="103" fill="#C9A84C" font-size="9">O (centre)</text>
+      <!-- A, B on circle -->
+      <circle cx="60" cy="155" r="4" fill="#4A9EE0"/>
+      <text x="42" y="168" fill="#4A9EE0" font-size="9">A</text>
+      <circle cx="170" cy="148" r="4" fill="#4A9EE0"/>
+      <text x="174" y="155" fill="#4A9EE0" font-size="9">B</text>
+      <!-- C on circle -->
+      <circle cx="110" cy="28" r="4" fill="#4CAF7D"/>
+      <text x="113" y="26" fill="#4CAF7D" font-size="9">C</text>
+      <!-- Lines from O -->
+      <line x1="110" y1="100" x2="60" y2="155" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="110" y1="100" x2="170" y2="148" stroke="#C9A84C" stroke-width="1.5"/>
+      <!-- Lines from C -->
+      <line x1="110" y1="28" x2="60" y2="155" stroke="#4CAF7D" stroke-width="1.5"/>
+      <line x1="110" y1="28" x2="170" y2="148" stroke="#4CAF7D" stroke-width="1.5"/>
+      <!-- Labels -->
+      <text x="95" y="120" fill="#C9A84C" font-size="9">2θ</text>
+      <text x="98" y="50" fill="#4CAF7D" font-size="9">θ</text>
+      <text x="30" y="100" fill="#F5F0E8" font-size="8">∠AOB = 2×∠ACB</text>
+    </svg>
+    <div class="diag-desc">The angle subtended by arc AB at the centre O is twice the angle subtended at any point C on the remaining arc.</div>
+  </div>
+
+  <!-- Arithmetic vs Geometric -->
+  <div class="diag-card">
+    <div class="diag-title">Σ Arithmetic vs Geometric Growth</div>
+    <svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="140" x2="210" y2="140" stroke="#8A9AB0" stroke-width="1"/>
+      <line x1="30" y1="10" x2="30" y2="145" stroke="#8A9AB0" stroke-width="1"/>
+      <text x="20" y="148" fill="#8A9AB0" font-size="7">0</text>
+      <!-- Arithmetic (linear) dots -->
+      <circle cx="55" cy="128" r="4" fill="#4A9EE0"/>
+      <circle cx="90" cy="112" r="4" fill="#4A9EE0"/>
+      <circle cx="125" cy="96" r="4" fill="#4A9EE0"/>
+      <circle cx="160" cy="80" r="4" fill="#4A9EE0"/>
+      <circle cx="195" cy="64" r="4" fill="#4A9EE0"/>
+      <line x1="55" y1="128" x2="195" y2="64" stroke="#4A9EE0" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="170" y="58" fill="#4A9EE0" font-size="8">Arithmetic (+d)</text>
+      <!-- Geometric (exponential) dots -->
+      <circle cx="55" cy="135" r="4" fill="#C9A84C"/>
+      <circle cx="90" cy="125" r="4" fill="#C9A84C"/>
+      <circle cx="125" cy="100" r="4" fill="#C9A84C"/>
+      <circle cx="160" cy="60" r="4" fill="#C9A84C"/>
+      <circle cx="195" cy="18" r="4" fill="#C9A84C"/>
+      <path d="M55,135 Q90,125 125,100 Q160,65 195,18" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+      <text x="120" y="15" fill="#C9A84C" font-size="8">Geometric (×r)</text>
+      <!-- Axis labels -->
+      <text x="90" y="158" fill="#8A9AB0" font-size="8">n (term number)</text>
+      <text x="2" y="80" fill="#8A9AB0" font-size="7" transform="rotate(-90 2 80)">Tₙ</text>
+    </svg>
+    <div class="diag-desc">Arithmetic sequences grow linearly (add d each time). Geometric sequences grow exponentially (multiply by r each time).</div>
+  </div>
+  `;
+}
+
+// ══════════════════════════════════
+// OVERVIEW PROGRESS
+// ══════════════════════════════════
+function renderOverview(){
+  const wrap=document.getElementById('progress-overview');
+  wrap.innerHTML=TOPICS.map(t=>{
+    const topicCards=CARDS.filter(c=>c.t===t.id);
+    const total=topicCards.length;
+    const seen=topicCards.filter((_,i)=>fcViewed.has(`fc-${t.id}-${i}`)).length;
+    const pct=total?Math.round(seen/total*100):0;
+    return `<div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:.3rem;">
+        <span>${t.label}</span><span style="color:var(--muted)">${seen}/${total}</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════
+// QUIZ
+// ══════════════════════════════════
+function startQuiz(cat){
+  document.getElementById('quiz-select').style.display='none';
+  document.getElementById('quiz-wrap').style.display='block';
+  let pool=cat==='all'?QUIZ:QUIZ.filter(q=>q.c===cat);
+  qState.qs=shuffle([...pool]).slice(0,Math.min(12,pool.length));
+  qState.cur=0;qState.score=0;
+  renderQ();
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function renderQ(){
+  clearInterval(qState.timer);
+  const wrap=document.getElementById('quiz-wrap');
+  const q=qState.qs[qState.cur];
+  if(!q){showScore();return;}
+  qState.answered=false;
+  let t=30;
+  wrap.innerHTML=`
+    <div class="q-prog-text">Question ${qState.cur+1} of ${qState.qs.length} &nbsp;·&nbsp; Score: ${qState.score}</div>
+    <div class="prog-wrap"><div class="prog-fill" id="qpb" style="width:${(qState.cur/qState.qs.length)*100}%"></div></div>
+    <div class="q-timer" id="qtimer">⏱ ${t}s</div>
+    <div class="q-box">
+      <div class="q-text">${topicLabel(q.c)}<br/><br/>${q.q}</div>
+      <div class="q-opts">${q.o.map((o,i)=>`<button class="q-opt" id="qo${i}" onclick="ansQ(${i})">${o}</button>`).join('')}</div>
+      <div id="qfb"></div>
+    </div>
+    <div class="q-nav">
+      <button class="btn-secondary" onclick="resetQuiz()">Restart</button>
+      <button class="btn-primary" id="nxtbtn" onclick="nextQ()" style="display:none">Next →</button>
+    </div>`;
+  const te=document.getElementById('qtimer');
+  qState.timer=setInterval(()=>{
+    t--;te.textContent=`⏱ ${t}s`;
+    if(t<=10)te.classList.add('urgent');
+    if(t<=0){clearInterval(qState.timer);autoFail(q);}
+  },1000);
+}
+function ansQ(i){
+  if(qState.answered)return;
+  qState.answered=true;clearInterval(qState.timer);
+  const q=qState.qs[qState.cur];
+  const ok=i===q.a;if(ok)qState.score++;
+  document.querySelectorAll('.q-opt').forEach((b,idx)=>{b.disabled=true;if(idx===q.a)b.classList.add('correct');else if(idx===i&&!ok)b.classList.add('wrong');});
+  const fb=document.getElementById('qfb');
+  fb.className='q-fb '+(ok?'correct':'wrong');
+  fb.innerHTML=(ok?'✓ Correct! ':'✗ Incorrect. ')+q.e;
+  document.getElementById('nxtbtn').style.display='inline-flex';
+}
+function autoFail(q){
+  qState.answered=true;
+  document.querySelectorAll('.q-opt').forEach((b,idx)=>{b.disabled=true;if(idx===q.a)b.classList.add('correct');});
+  const fb=document.getElementById('qfb');fb.className='q-fb wrong';fb.innerHTML='⏰ Time\'s up! '+q.e;
+  document.getElementById('nxtbtn').style.display='inline-flex';
+}
+function nextQ(){qState.cur++;renderQ();}
+function resetQuiz(){
+  clearInterval(qState.timer);
+  document.getElementById('quiz-select').style.display='block';
+  document.getElementById('quiz-wrap').style.display='none';
+  document.getElementById('quiz-wrap').innerHTML='';
+}
+function showScore(){
+  clearInterval(qState.timer);
+  const pct=Math.round(qState.score/qState.qs.length*100);
+  const msg=pct>=80?'🎉 Outstanding! You\'re exam ready!':pct>=60?'👍 Good effort — keep going!':'📚 Keep studying — you\'ve got this!';
+  document.getElementById('quiz-wrap').innerHTML=`
+    <div class="score-card">
+      <div class="score-big">${pct}%</div>
+      <div class="score-lbl">${qState.score} / ${qState.qs.length} correct</div>
+      <div class="score-msg">${msg}</div>
+      <button class="btn-primary" onclick="resetQuiz()">Try Again</button>
+    </div>`;
+}
+
+// ══════════════════════════════════
+// COUNTDOWN
+// ══════════════════════════════════
+function setExamDate(){
+  const d=document.getElementById('exam-date').value;
+  if(!d)return;
+  try{sessionStorage.setItem('math_exam_date',d);}catch(e){}
+  startCountdown(new Date(d));
+}
+function startCountdown(target){
+  if(examInt)clearInterval(examInt);
+  function tick(){
+    const diff=target-new Date();
+    if(diff<=0){['d','h','m','s'].forEach(u=>document.getElementById('cd-'+u).textContent='00');clearInterval(examInt);return;}
+    document.getElementById('cd-d').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('cd-h').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  tick();examInt=setInterval(tick,1000);
+}
+
+// ══════════════════════════════════
+// HELPERS
+// ══════════════════════════════════
+function topicLabel(id){
+  const t=TOPICS.find(x=>x.id===id);return t?t.label:id;
+}
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  loadProg();
+  renderOverview();
+  try{const d=sessionStorage.getItem('math_exam_date');if(d)startCountdown(new Date(d));}catch(e){}
+});
+</script>
+</body>
+</html>
