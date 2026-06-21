@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 12 Accounting | StudyHub by Nhlaka</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --midnight: #0D1B2A;
+    --navy: #112240;
+    --navy-light: #1a3358;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6E2E;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+    --text: #E8E6E0;
+    --text-dim: #9AABB8;
+    --green: #4CAF82;
+    --red: #E05C5C;
+    --purple: #9B7FD4;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  /* ── PASSWORD GATE ── */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--midnight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 24px;
+  }
+
+  .gate-box {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  }
+
+  .gate-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .gate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .gate-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .gate-input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--white);
+    text-align: center;
+    letter-spacing: 3px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .gate-input:focus { border-color: var(--gold); }
+  .gate-input.shake {
+    animation: shake 0.4s ease;
+    border-color: var(--red);
+  }
+
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+
+  .gate-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--midnight);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+
+  .gate-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(201,168,76,0.3); }
+
+  .gate-error {
+    font-size: 12px;
+    color: var(--red);
+    min-height: 18px;
+    margin-bottom: 8px;
+  }
+
+  .gate-footer {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .gate-footer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── END GATE ── */
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── WATERMARK ── */
+  body::after {
+    content: "DO NOT SHARE · StudyHub by Nhlaka · DO NOT SHARE · StudyHub by Nhlaka · DO NOT SHARE · StudyHub by Nhlaka";
+    position: fixed;
+    bottom: 12px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(201,168,76,0.18);
+    letter-spacing: 2px;
+    pointer-events: none;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── LANDING / COVER ── */
+  #cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    background: radial-gradient(ellipse at 50% 0%, #1a3358 0%, var(--midnight) 70%);
+    position: relative;
+  }
+
+  #cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 60px,
+      rgba(201,168,76,0.03) 60px,
+      rgba(201,168,76,0.03) 61px
+    );
+  }
+
+  .cover-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .cover-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(13px, 3vw, 16px);
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 8vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .cover-title span {
+    color: var(--gold);
+  }
+
+  .cover-sub {
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .cover-caps {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .cover-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 680px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .topic-pill {
+    background: rgba(17,34,64,0.8);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .topic-pill:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-2px);
+  }
+
+  .topic-pill .tp-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .topic-pill .tp-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .cover-cta {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--midnight);
+    border: none;
+    padding: 16px 48px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .cover-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.35);
+  }
+
+  /* ── MAIN APP ── */
+  #app { display: none; }
+
+  .app-header {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 60px;
+  }
+
+  .app-header .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .app-header .current-topic {
+    font-size: 13px;
+    color: var(--text-dim);
+    flex: 1;
+  }
+
+  .progress-bar-wrap {
+    width: 120px;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.4s;
+  }
+
+  .btn-home {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-home:hover { background: rgba(201,168,76,0.1); }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 16px 24px;
+    background: var(--midnight);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-dim);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .nav-tab.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--midnight);
+    font-weight: 700;
+  }
+
+  .nav-tab:hover:not(.active) {
+    border-color: var(--gold-dim);
+    color: var(--gold-light);
+  }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .section-header p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── CARDS / NOTES ── */
+  .card {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card p, .card li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .card ul { padding-left: 18px; }
+
+  .highlight-box {
+    background: rgba(201,168,76,0.08);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 14px;
+    color: var(--gold-light);
+  }
+
+  .formula-box {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold-light);
+    line-height: 1.8;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ── T-ACCOUNT TABLE ── */
+  .t-account {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+
+  .t-account th {
+    background: rgba(201,168,76,0.2);
+    color: var(--gold);
+    padding: 8px 12px;
+    font-weight: 700;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .t-account td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+  }
+
+  .t-account tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .t-account .total-row td { font-weight: 700; color: var(--gold-light); border-top: 2px solid var(--gold-dim); }
+
+  /* ── FLASHCARDS ── */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .flashcard {
+    perspective: 1000px;
+    cursor: pointer;
+    height: 180px;
+  }
+
+  .flashcard-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 20px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .flashcard-front {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .flashcard-back {
+    background: linear-gradient(135deg, var(--navy-light), var(--navy));
+    border: 1px solid var(--gold-dim);
+    transform: rotateY(180deg);
+  }
+
+  .flashcard-front .fc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .flashcard-front .fc-q {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .flashcard-back .fc-a {
+    font-size: 14px;
+    color: var(--gold-light);
+    line-height: 1.6;
+  }
+
+  .flashcard-hint {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-question {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .quiz-question .q-num {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .quiz-question .q-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .q-options { display: flex; flex-direction: column; gap: 10px; }
+
+  .q-option {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .q-option:hover:not(:disabled) {
+    border-color: var(--gold-dim);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .q-option.correct { background: rgba(76,175,130,0.15); border-color: var(--green); color: var(--green); }
+  .q-option.wrong { background: rgba(224,92,92,0.12); border-color: var(--red); color: var(--red); }
+  .q-option:disabled { cursor: default; }
+
+  .q-explanation {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(201,168,76,0.07);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--text-dim);
+    display: none;
+  }
+
+  .q-explanation.show { display: block; }
+
+  .quiz-score {
+    text-align: center;
+    padding: 32px;
+    background: var(--navy);
+    border-radius: var(--radius);
+    border: 1px solid rgba(201,168,76,0.3);
+    margin-top: 24px;
+  }
+
+  .quiz-score h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .quiz-score p { color: var(--text-dim); margin-bottom: 20px; }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--midnight);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201,168,76,0.3); }
+
+  /* ── TOPIC MENU ── */
+  .topic-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .topic-card {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  .topic-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+  .topic-card:hover::before { transform: scaleX(1); }
+
+  .topic-card .tc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .topic-card h3 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .topic-card p { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+  /* ── DONE BADGE ── */
+  .done-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(76,175,130,0.12);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin: 2px 3px 2px 0;
+  }
+
+  /* Hidden */
+  .hidden { display: none !important; }
+
+  /* Exam tips */
+  .tip-box {
+    background: rgba(155,127,212,0.08);
+    border: 1px solid rgba(155,127,212,0.3);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #c4b0e8;
+  }
+  .tip-box strong { color: var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ PASSWORD GATE ══════════════ -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-brand">StudyHub by Nhlaka</div>
+    <div class="gate-title">Grade 12 Accounting</div>
+    <div class="gate-sub">Enter your access code to unlock this guide.</div>
+    <input
+      class="gate-input"
+      id="gateInput"
+      type="password"
+      placeholder="ACCESS CODE"
+      maxlength="20"
+      autocomplete="off"
+      onkeydown="if(event.key==='Enter')checkGate()"
+    />
+    <div class="gate-error" id="gateError"></div>
+    <button class="gate-btn" onclick="checkGate()">Unlock Guide →</button>
+    <div class="gate-footer">
+      Don't have a code? Purchase via WhatsApp<br>
+      <a href="https://wa.me/27657702577" target="_blank">wa.me/27657702577</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ COVER ══════════════ -->
+<div id="cover">
+  <div class="cover-badge">Interactive Study Guide</div>
+  <div class="cover-brand">StudyHub by Nhlaka</div>
+  <h1 class="cover-title">Grade 12<br><span>Accounting</span></h1>
+  <p class="cover-sub">CAPS-Aligned · Full Curriculum Coverage</p>
+  <div class="cover-caps">NSC · MATRIC · GRADE 12</div>
+
+  <div class="cover-grid">
+    <div class="topic-pill"><div class="tp-num">01</div><div class="tp-name">Financial Statements</div></div>
+    <div class="topic-pill"><div class="tp-num">02</div><div class="tp-name">Budgets & Cash Flow</div></div>
+    <div class="topic-pill"><div class="tp-num">03</div><div class="tp-name">Cost Accounting</div></div>
+    <div class="topic-pill"><div class="tp-num">04</div><div class="tp-name">Companies &amp; GAAP</div></div>
+    <div class="topic-pill"><div class="tp-num">05</div><div class="tp-name">Inventory Systems</div></div>
+    <div class="topic-pill"><div class="tp-num">06</div><div class="tp-name">Partnerships</div></div>
+    <div class="topic-pill"><div class="tp-num">07</div><div class="tp-name">Reconciliations</div></div>
+    <div class="topic-pill"><div class="tp-num">08</div><div class="tp-name">Analysis &amp; Interpretation</div></div>
+  </div>
+
+  <button class="cover-cta" onclick="launchApp()">Start Studying →</button>
+</div>
+
+<!-- ══════════════ APP ══════════════ -->
+<div id="app">
+  <header class="app-header">
+    <div class="brand">StudyHub</div>
+    <div class="current-topic" id="currentTopicLabel">Grade 12 Accounting</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <button class="btn-home" onclick="showHome()">☰ Topics</button>
+  </header>
+
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" onclick="switchTab('notes',this)">📖 Notes</button>
+    <button class="nav-tab" onclick="switchTab('flashcards',this)">🃏 Flashcards</button>
+    <button class="nav-tab" onclick="switchTab('quiz',this)">✏️ Quiz</button>
+  </div>
+
+  <div class="content">
+    <!-- HOME / TOPIC SELECTOR -->
+    <div id="homeView">
+      <div class="section-header">
+        <h2>Choose a Topic</h2>
+        <p>Work through each topic in order, or jump to what you need. Track your progress as you go.</p>
+      </div>
+      <div class="topic-menu" id="topicMenu"></div>
+    </div>
+
+    <!-- NOTES VIEW -->
+    <div id="notesView" class="hidden"></div>
+
+    <!-- FLASHCARDS VIEW -->
+    <div id="flashcardsView" class="hidden"></div>
+
+    <!-- QUIZ VIEW -->
+    <div id="quizView" class="hidden"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// PASSWORD GATE
+// ══════════════════════════════════════════════
+const ACCESS_CODE = 'SH-ACC25';
+const STORAGE_KEY = 'sh_acc_unlocked';
+
+function checkGate() {
+  const val = document.getElementById('gateInput').value.trim().toUpperCase();
+  const errEl = document.getElementById('gateError');
+  const input = document.getElementById('gateInput');
+
+  if (val === ACCESS_CODE) {
+    sessionStorage.setItem(STORAGE_KEY, '1');
+    document.getElementById('gate').style.display = 'none';
+  } else {
+    errEl.textContent = 'Incorrect code. Purchase via WhatsApp to get yours.';
+    input.classList.add('shake');
+    input.value = '';
+    setTimeout(() => input.classList.remove('shake'), 450);
+  }
+}
+
+// Auto-unlock if already authenticated this session
+(function() {
+  if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const gate = document.getElementById('gate');
+      if (gate) gate.style.display = 'none';
+    });
+  }
+})();
+
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+const TOPICS = [
+  {
+    id: 'financial-statements',
+    num: '01',
+    name: 'Financial Statements',
+    desc: 'Income Statement, Balance Sheet, Cash Flow Statement for companies',
+    notes: `
+      <div class="section-header"><h2>Financial Statements</h2><p>The backbone of Grade 12 Accounting — master these and you master the exam.</p></div>
+
+      <div class="card">
+        <h3>📋 The Three Main Financial Statements</h3>
+        <div class="grid-2">
+          <div>
+            <div class="highlight-box"><strong>1. Income Statement</strong><br>Shows profitability over a period. Revenue − Expenses = Net Profit/Loss</div>
+            <div class="highlight-box"><strong>2. Balance Sheet</strong><br>Financial position at a specific date. Assets = Equity + Liabilities</div>
+          </div>
+          <div>
+            <div class="highlight-box"><strong>3. Cash Flow Statement</strong><br>Movement of cash: Operating, Investing, Financing activities</div>
+            <div class="highlight-box"><strong>4. Notes to Fin. Statements</strong><br>Disclose accounting policies, detail breakdowns</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Income Statement Structure</h3>
+        <table class="t-account">
+          <tr><th colspan="2">ABC Ltd — Income Statement for year ended 28 Feb 20XX</th></tr>
+          <tr><td>Sales / Turnover</td><td style="text-align:right">R 800 000</td></tr>
+          <tr><td>Less: Cost of Sales</td><td style="text-align:right">(R 480 000)</td></tr>
+          <tr><td><strong>Gross Profit</strong></td><td style="text-align:right"><strong>R 320 000</strong></td></tr>
+          <tr><td>Other Income (rent received, interest)</td><td style="text-align:right">R 12 000</td></tr>
+          <tr><td>Less: Operating Expenses</td><td style="text-align:right">(R 140 000)</td></tr>
+          <tr><td><strong>Operating Profit (EBIT)</strong></td><td style="text-align:right"><strong>R 192 000</strong></td></tr>
+          <tr><td>Less: Interest Expense</td><td style="text-align:right">(R 18 000)</td></tr>
+          <tr><td><strong>Net Profit Before Tax</strong></td><td style="text-align:right"><strong>R 174 000</strong></td></tr>
+          <tr><td>Less: Tax (28%)</td><td style="text-align:right">(R 48 720)</td></tr>
+          <tr class="total-row"><td><strong>Net Profit After Tax</strong></td><td style="text-align:right"><strong>R 125 280</strong></td></tr>
+        </table>
+        <div class="tip-box"><strong>💡 Exam Tip:</strong> Gross Profit = Sales − Cost of Sales. Never deduct selling expenses from sales to get GP. Common error!</div>
+      </div>
+
+      <div class="card">
+        <h3>🏦 Balance Sheet (Statement of Financial Position)</h3>
+        <table class="t-account">
+          <tr><th colspan="2">ASSETS</th><th colspan="2">EQUITY & LIABILITIES</th></tr>
+          <tr><td><strong>Non-Current Assets</strong></td><td></td><td><strong>Shareholders' Equity</strong></td><td></td></tr>
+          <tr><td>Property, Plant & Equipment</td><td>R 350 000</td><td>Ordinary Share Capital</td><td>R 200 000</td></tr>
+          <tr><td>Investments</td><td>R 50 000</td><td>Retained Income</td><td>R 125 000</td></tr>
+          <tr><td><strong>Current Assets</strong></td><td></td><td><strong>Non-Current Liabilities</strong></td><td></td></tr>
+          <tr><td>Inventories</td><td>R 80 000</td><td>Mortgage Loan</td><td>R 100 000</td></tr>
+          <tr><td>Trade Debtors</td><td>R 65 000</td><td><strong>Current Liabilities</strong></td><td></td></tr>
+          <tr><td>Cash & Bank</td><td>R 30 000</td><td>Trade Creditors</td><td>R 90 000</td></tr>
+          <tr><td></td><td></td><td>SARS (Income Tax)</td><td>R 60 000</td></tr>
+          <tr class="total-row"><td><strong>TOTAL ASSETS</strong></td><td><strong>R 575 000</strong></td><td><strong>TOTAL E & L</strong></td><td><strong>R 575 000</strong></td></tr>
+        </table>
+        <div class="formula-box">
+          Assets = Equity + Liabilities (The Accounting Equation)
+          Net Assets = Shareholders' Equity = Total Assets − Total Liabilities
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💰 Cash Flow Statement</h3>
+        <p>Three sections you must know:</p>
+        <ul>
+          <li><strong>Operating Activities:</strong> Day-to-day cash flows (profit adjusted for non-cash items like depreciation)</li>
+          <li><strong>Investing Activities:</strong> Buying/selling of long-term assets (land, equipment)</li>
+          <li><strong>Financing Activities:</strong> Loans raised/repaid, shares issued, dividends paid</li>
+        </ul>
+        <div class="formula-box">
+          Cash from Operations = Net Profit + Depreciation ± Working Capital Changes
+          Working Capital Change = Decrease in Debtors + Increase in Creditors − Increase in Inventory
+        </div>
+        <div class="tip-box"><strong>💡 Remember:</strong> Depreciation is added back — it's a non-cash expense. If debtors increased, cash DECREASED (subtract it).</div>
+      </div>
+
+      <div class="card">
+        <h3>📝 Retained Income Note</h3>
+        <div class="formula-box">
+          Opening Retained Income
+          + Net Profit After Tax
+          − Dividends Declared
+          = Closing Retained Income
+        </div>
+        <div class="highlight-box">This links the Income Statement to the Balance Sheet. Always check your closing figure matches the Balance Sheet!</div>
+      </div>
+    `,
+    flashcards: [
+      {q:'What does the Income Statement show?', a:'Profitability over a period — Revenue minus Expenses equals Net Profit or Loss.'},
+      {q:'What does the Balance Sheet show?', a:'Financial position at a specific date. Assets = Equity + Liabilities.'},
+      {q:'How is Gross Profit calculated?', a:'Gross Profit = Sales − Cost of Sales (NOT operating expenses).'},
+      {q:'What are the three sections of the Cash Flow Statement?', a:'1. Operating Activities, 2. Investing Activities, 3. Financing Activities.'},
+      {q:'Why is depreciation added back in the Cash Flow Statement?', a:'Depreciation is a non-cash expense — it reduces profit but no cash leaves the business.'},
+      {q:'How is Retained Income calculated?', a:'Opening Retained Income + Net Profit After Tax − Dividends Declared = Closing Retained Income.'},
+      {q:'What is "Working Capital"?', a:'Current Assets minus Current Liabilities. It measures short-term liquidity.'},
+      {q:'What is EBIT?', a:'Earnings Before Interest and Tax — also called Operating Profit.'},
+    ],
+    quiz: [
+      {q:'Which statement shows profitability over a period of time?',opts:['Balance Sheet','Income Statement','Cash Flow Statement','Notes to Financial Statements'],ans:1,exp:'The Income Statement (or Statement of Comprehensive Income) shows revenues and expenses over a period, resulting in net profit or loss.'},
+      {q:'Gross Profit is calculated as:',opts:['Sales − Operating Expenses','Sales − Cost of Sales','Net Profit + Tax','Revenue − All Expenses'],ans:1,exp:'GP = Sales − Cost of Sales ONLY. Operating expenses are deducted after to get Operating Profit.'},
+      {q:'Which item is found under Non-Current Assets on the Balance Sheet?',opts:['Inventory','Trade Debtors','Bank','Property, Plant & Equipment'],ans:3,exp:'PPE is held for more than one year — a Non-Current Asset. Inventory, debtors and bank are current assets.'},
+      {q:'If debtors INCREASE during the year, what is the effect in the Cash Flow Statement?',opts:['Cash inflow — debtors paid us','Cash outflow — we collected less cash','No effect on cash','Add it to profit'],ans:1,exp:'An increase in debtors means customers owe us MORE — we collected LESS cash than our sales figure, so it is subtracted in operating activities.'},
+      {q:'Dividends paid are shown in which section of the Cash Flow Statement?',opts:['Operating Activities','Investing Activities','Financing Activities','Not shown'],ans:2,exp:'Dividends paid to shareholders are a financing activity — they relate to how the company returns money to its financiers.'},
+    ]
+  },
+
+  {
+    id: 'budgets',
+    num: '02',
+    name: 'Budgets & Cash Flow',
+    desc: 'Projected income statements, cash budgets, debtors & creditors collections',
+    notes: `
+      <div class="section-header"><h2>Budgets & Projected Statements</h2><p>Planning the future using past data and assumptions.</p></div>
+      <div class="card">
+        <h3>📅 Types of Budgets</h3>
+        <ul>
+          <li><strong>Projected Income Statement:</strong> Expected sales, GP% and expenses for a future period</li>
+          <li><strong>Cash Budget:</strong> Expected cash inflows and outflows month by month</li>
+          <li><strong>Debtors Collection Schedule:</strong> When debtors actually pay (not when sales are made)</li>
+          <li><strong>Creditors Payment Schedule:</strong> When we pay suppliers</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💳 Debtors Collection Schedule</h3>
+        <p>Key concept: Sales on credit are NOT received in the same month. Common collection pattern:</p>
+        <div class="formula-box">
+          Month of sale: collect X%
+          One month later: collect Y%
+          Two months later: collect Z%
+          Bad debts (never collected): remaining %
+        </div>
+        <div class="tip-box"><strong>💡 Example:</strong> If sales are R100 000 in March and the collection is 30% in month of sale, 60% next month, 10% two months later:<br>
+        March cash = R30 000 | April cash = R60 000 | May cash = R10 000</div>
+      </div>
+      <div class="card">
+        <h3>📋 Cash Budget Format</h3>
+        <table class="t-account">
+          <tr><th></th><th>Jan</th><th>Feb</th><th>Mar</th></tr>
+          <tr><td><strong>RECEIPTS</strong></td><td></td><td></td><td></td></tr>
+          <tr><td>Cash sales</td><td>R20 000</td><td>R22 000</td><td>R25 000</td></tr>
+          <tr><td>Debtors collections</td><td>R35 000</td><td>R40 000</td><td>R38 000</td></tr>
+          <tr><td><strong>Total Receipts (A)</strong></td><td><strong>R55 000</strong></td><td><strong>R62 000</strong></td><td><strong>R63 000</strong></td></tr>
+          <tr><td><strong>PAYMENTS</strong></td><td></td><td></td><td></td></tr>
+          <tr><td>Creditors payments</td><td>R28 000</td><td>R30 000</td><td>R32 000</td></tr>
+          <tr><td>Salaries</td><td>R15 000</td><td>R15 000</td><td>R15 500</td></tr>
+          <tr><td>Other expenses</td><td>R8 000</td><td>R7 000</td><td>R9 000</td></tr>
+          <tr><td><strong>Total Payments (B)</strong></td><td><strong>R51 000</strong></td><td><strong>R52 000</strong></td><td><strong>R56 500</strong></td></tr>
+          <tr><td>Net Cash (A−B)</td><td>R4 000</td><td>R10 000</td><td>R6 500</td></tr>
+          <tr><td>Opening Balance</td><td>R5 000</td><td>R9 000</td><td>R19 000</td></tr>
+          <tr class="total-row"><td><strong>Closing Balance</strong></td><td><strong>R9 000</strong></td><td><strong>R19 000</strong></td><td><strong>R25 500</strong></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>📈 Projected Income Statement Tips</h3>
+        <ul>
+          <li>If GP% is given: Cost of Sales = Sales × (1 − GP%)</li>
+          <li>Mark-up % is on cost: Selling Price = Cost × (1 + mark-up%)</li>
+          <li>GP% is on selling price: GP = Sales × GP%</li>
+        </ul>
+        <div class="formula-box">
+          If Mark-up = 40%: Selling Price = Cost + 40% of Cost
+          If GP% = 30%: GP = 30% × Sales; COS = 70% × Sales
+        </div>
+      </div>
+    `,
+    flashcards: [
+      {q:'What is the difference between a Cash Budget and an Income Statement?', a:'A Cash Budget shows CASH movements (when money actually flows). An Income Statement shows income/expenses when EARNED or INCURRED (accrual basis).'},
+      {q:'If mark-up is 25%, what is the GP%?', a:'GP% = Mark-up ÷ (1 + Mark-up) = 25 ÷ 125 = 20%.'},
+      {q:'A debtors collection schedule of 50%/40%/10% means what?', a:'50% collected in month of sale, 40% one month later, 10% two months later.'},
+      {q:'Why might a business show profit but have a negative cash balance?', a:'Because profit is on accrual basis — debtors may not have paid yet, or large asset purchases consume cash.'},
+      {q:'What is a creditors payment schedule?', a:'A plan showing when the business pays its suppliers — based on credit terms (e.g. 30 days after purchase).'},
+    ],
+    quiz: [
+      {q:'A business uses a 40% mark-up on cost. If cost of sales is R60 000, what are the sales?',opts:['R84 000','R96 000','R100 000','R60 000'],ans:0,exp:'Sales = Cost × 1.40 = R60 000 × 1.40 = R84 000.'},
+      {q:'Which of the following is NOT a cash receipt in a Cash Budget?',opts:['Cash sales','Loan received','Debtors collections','Depreciation received'],ans:3,exp:'Depreciation is a non-cash expense — it never appears in a Cash Budget as it involves no cash movement.'},
+      {q:'The closing cash balance of January becomes:',opts:['The net profit for February','The opening balance of February','A liability in February','Retained income'],ans:1,exp:'The closing balance of one period rolls forward as the opening balance of the next period.'},
+      {q:'If GP% = 35%, and Sales = R200 000, what is Cost of Sales?',opts:['R70 000','R130 000','R65 000','R135 000'],ans:1,exp:'COS = (1 − 0.35) × R200 000 = 0.65 × R200 000 = R130 000.'},
+    ]
+  },
+
+  {
+    id: 'cost-accounting',
+    num: '03',
+    name: 'Cost Accounting',
+    desc: 'Manufacturing cost statements, unit costs, break-even analysis',
+    notes: `
+      <div class="section-header"><h2>Cost Accounting</h2><p>Understanding the cost of producing goods — essential for manufacturers.</p></div>
+      <div class="card">
+        <h3>🏭 Types of Costs</h3>
+        <div class="grid-2">
+          <div class="highlight-box"><strong>Fixed Costs</strong><br>Stay the same regardless of output. E.g. rent, depreciation, salaries.</div>
+          <div class="highlight-box"><strong>Variable Costs</strong><br>Change with output. E.g. direct material, direct labour per unit.</div>
+        </div>
+        <div class="tip-box"><strong>Semi-variable costs</strong> have both a fixed and variable component (e.g. electricity: fixed line fee + usage cost).</div>
+      </div>
+      <div class="card">
+        <h3>🔧 Manufacturing Cost Statement</h3>
+        <table class="t-account">
+          <tr><th colspan="2">Cost of Production Statement</th></tr>
+          <tr><td>Direct Material</td><td style="text-align:right">R 120 000</td></tr>
+          <tr><td>Direct Labour</td><td style="text-align:right">R 80 000</td></tr>
+          <tr><td><strong>Prime Cost</strong></td><td style="text-align:right"><strong>R 200 000</strong></td></tr>
+          <tr><td>Factory Overhead (Fixed + Variable)</td><td style="text-align:right">R 60 000</td></tr>
+          <tr><td><strong>Total Factory Cost</strong></td><td style="text-align:right"><strong>R 260 000</strong></td></tr>
+          <tr><td>+ Opening WIP</td><td style="text-align:right">R 10 000</td></tr>
+          <tr><td>− Closing WIP</td><td style="text-align:right">(R 8 000)</td></tr>
+          <tr class="total-row"><td><strong>Cost of Finished Goods</strong></td><td style="text-align:right"><strong>R 262 000</strong></td></tr>
+        </table>
+        <div class="formula-box">
+          Prime Cost = Direct Material + Direct Labour
+          Total Factory Cost = Prime Cost + Factory Overhead
+        </div>
+      </div>
+      <div class="card">
+        <h3>📉 Break-Even Analysis</h3>
+        <div class="formula-box">
+          Break-Even Point (units) = Fixed Costs ÷ Contribution per unit
+          Contribution per unit = Selling Price − Variable Cost per unit
+          Break-Even Point (rand) = Fixed Costs ÷ Contribution Ratio
+          Contribution Ratio (%) = Contribution per unit ÷ Selling Price × 100
+        </div>
+        <div class="tip-box"><strong>💡 Example:</strong> SP = R50, VC = R30, FC = R40 000<br>
+        Contribution = R50 − R30 = R20 per unit<br>
+        BEP = R40 000 ÷ R20 = 2 000 units</div>
+        <div class="highlight-box"><strong>Margin of Safety</strong> = Actual Sales − Break-Even Sales. Shows how much sales can drop before a loss occurs.</div>
+      </div>
+      <div class="card">
+        <h3>📦 Unit Cost Calculation</h3>
+        <div class="formula-box">
+          Unit Cost = Total Production Cost ÷ Units Produced
+          If 1 000 units produced at R262 000 → Unit Cost = R262
+        </div>
+        <p>Exam questions often ask you to compare unit cost to selling price to determine profit per unit.</p>
+      </div>
+    `,
+    flashcards: [
+      {q:'What is Prime Cost?', a:'Direct Material + Direct Labour. The basic cost of making one unit before overhead.'},
+      {q:'How is Break-Even Point (units) calculated?', a:'BEP = Fixed Costs ÷ Contribution per unit. Contribution = Selling Price − Variable Cost per unit.'},
+      {q:'What is a variable cost?', a:'A cost that changes in proportion to production output (e.g. raw materials, direct labour per unit).'},
+      {q:'What does Margin of Safety mean?', a:'The difference between actual sales and break-even sales — how much sales can fall before losses occur.'},
+      {q:'What is Work-In-Progress (WIP)?', a:'Partially completed goods at the end of a period — added to opening WIP and deducted for closing WIP in the cost statement.'},
+      {q:'What is the Contribution Ratio?', a:'Contribution per unit ÷ Selling Price × 100. Used to find break-even in rand value.'},
+    ],
+    quiz: [
+      {q:'Selling Price = R80, Variable Cost = R50, Fixed Costs = R90 000. What is the BEP in units?',opts:['1 125 units','3 000 units','1 800 units','2 250 units'],ans:1,exp:'Contribution = R80 − R50 = R30. BEP = R90 000 ÷ R30 = 3 000 units.'},
+      {q:'Prime Cost is made up of:',opts:['Direct Labour + Factory Overhead','Direct Material + Factory Overhead','Direct Material + Direct Labour','Total Cost − Overhead'],ans:2,exp:'Prime Cost = Direct Material + Direct Labour. Factory overhead is added separately to get Total Factory Cost.'},
+      {q:'Which of the following is a FIXED cost?',opts:['Raw materials','Direct labour per unit','Factory rent','Electricity usage'],ans:2,exp:'Factory rent stays constant regardless of production volume — it is a fixed cost.'},
+      {q:'If 5 000 units are produced at a total cost of R300 000, the unit cost is:',opts:['R50','R60','R55','R65'],ans:1,exp:'Unit Cost = R300 000 ÷ 5 000 = R60 per unit.'},
+    ]
+  },
+
+  {
+    id: 'companies',
+    num: '04',
+    name: 'Companies & GAAP',
+    desc: 'Share capital, dividends, GAAP principles, directors\' fees & audit',
+    notes: `
+      <div class="section-header"><h2>Companies & GAAP Principles</h2><p>Understanding company structure and the principles that govern accounting.</p></div>
+      <div class="card">
+        <h3>🏢 Types of Companies (SA Context)</h3>
+        <ul>
+          <li><strong>Public Company (Ltd):</strong> Shares listed on JSE, public can buy shares, must publish financial statements</li>
+          <li><strong>Private Company (Pty Ltd):</strong> Up to 50 shareholders, shares not publicly traded</li>
+          <li><strong>Non-Profit Company (NPC):</strong> Registered not to distribute profits to members</li>
+        </ul>
+        <div class="highlight-box">In Gr 12 CAPS, we focus on <strong>companies (Ltd)</strong> — their shares, dividends, and financial statements.</div>
+      </div>
+      <div class="card">
+        <h3>📊 Share Capital</h3>
+        <div class="formula-box">
+          Authorised Shares = Maximum shares the company is ALLOWED to issue
+          Issued Shares = Shares actually sold to shareholders
+          Share Capital = Number of Issued Shares × Issue Price
+        </div>
+        <ul>
+          <li><strong>Par Value shares:</strong> Issued at a fixed nominal (face) value</li>
+          <li><strong>No Par Value (NPV) shares:</strong> No fixed price — all proceeds go to stated capital</li>
+        </ul>
+        <div class="tip-box">South Africa's Companies Act (2008) abolished par value shares — all new companies issue NPV shares. However CAPS exams still test both!</div>
+      </div>
+      <div class="card">
+        <h3>💵 Dividends</h3>
+        <ul>
+          <li><strong>Ordinary dividends:</strong> Paid to ordinary shareholders from profits. Variable amount.</li>
+          <li><strong>Preference dividends:</strong> Fixed percentage on preference share capital — paid first.</li>
+          <li>Dividends reduce Retained Income on the Balance Sheet.</li>
+          <li>Dividends declared = liability (Shareholders for Dividends)</li>
+        </ul>
+        <div class="formula-box">
+          Dividend per share = Total Dividends ÷ Number of Issued Shares
+          Dividend Yield = Dividend per share ÷ Market Price × 100
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚖️ GAAP Principles (Generally Accepted Accounting Practice)</h3>
+        <table class="t-account">
+          <tr><th>Principle</th><th>Meaning</th></tr>
+          <tr><td>Historical Cost</td><td>Record assets at original purchase price</td></tr>
+          <tr><td>Prudence (Conservatism)</td><td>Recognise losses immediately, delay recognising profits until realised</td></tr>
+          <tr><td>Matching (Accruals)</td><td>Match income and expenses to the period they relate to</td></tr>
+          <tr><td>Consistency</td><td>Use the same accounting methods from year to year</td></tr>
+          <tr><td>Going Concern</td><td>Assume the business will continue operating indefinitely</td></tr>
+          <tr><td>Materiality</td><td>Disclose all significant information that affects decision-making</td></tr>
+          <tr><td>Business Entity</td><td>Keep owner's finances separate from business finances</td></tr>
+          <tr><td>Objectivity</td><td>Accounting must be based on verifiable evidence, not opinion</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>📌 Internal Controls & Audit</h3>
+        <ul>
+          <li><strong>Internal Audit:</strong> Done by employees of the company — checks that systems work correctly</li>
+          <li><strong>External Audit:</strong> Done by independent auditors — verifies financial statements are fair</li>
+          <li><strong>Internal Controls:</strong> Procedures to prevent fraud/errors (e.g. segregation of duties, authorisation)</li>
+        </ul>
+        <div class="tip-box"><strong>Exam Question Type:</strong> "Identify the GAAP principle violated" — look for things like recording assets below cost (violates Historical Cost), or not disclosing debts (violates Materiality).</div>
+      </div>
+    `,
+    flashcards: [
+      {q:'What is the difference between authorised and issued shares?', a:'Authorised = maximum shares allowed. Issued = shares actually sold. Issued ≤ Authorised.'},
+      {q:'What is the Prudence/Conservatism principle?', a:'Recognise losses immediately when likely, but only recognise profits when they are actually realised.'},
+      {q:'What does the Going Concern principle assume?', a:'The business will continue to operate for the foreseeable future — assets are not valued at liquidation prices.'},
+      {q:'What is the Matching Principle?', a:'Income and expenses must be recorded in the period they occur, not when cash is received/paid.'},
+      {q:'What is Dividend Yield?', a:'Dividend per share ÷ Market Price × 100. Measures return on investment.'},
+      {q:'What is an external audit?', a:'An independent review of financial statements by outside auditors to confirm they show a true and fair view.'},
+      {q:'What GAAP principle says keep owner finances separate from business?', a:'The Business Entity principle.'},
+    ],
+    quiz: [
+      {q:'A company records land at its current market value instead of what was paid for it. Which GAAP principle is violated?',opts:['Consistency','Matching','Historical Cost','Business Entity'],ans:2,exp:'The Historical Cost principle requires assets to be recorded at their original purchase price, not current market value.'},
+      {q:'Preference dividends differ from ordinary dividends because:',opts:['They are only paid in good years','They are fixed and paid first','They are paid to directors','They reduce share capital'],ans:1,exp:'Preference dividends are a fixed percentage of preference share capital and must be paid before ordinary dividends.'},
+      {q:'The Business Entity principle means:',opts:['The owner can use business money freely','Owner and business finances must be kept separate','Business must never take loans','The business must be profitable'],ans:1,exp:'Business Entity separates the owner\'s personal finances from the business — a fundamental accounting principle.'},
+      {q:'Which of the following is an example of an internal control?',opts:['External audit report','Segregation of duties','Publishing the annual report','GAAP compliance statement'],ans:1,exp:'Segregation of duties (different people handle cash, recording, authorisation) is a key internal control to prevent fraud.'},
+    ]
+  },
+
+  {
+    id: 'inventory',
+    num: '05',
+    name: 'Inventory Systems',
+    desc: 'Periodic vs perpetual, FIFO, weighted average, stock valuation',
+    notes: `
+      <div class="section-header"><h2>Inventory (Stock) Systems</h2><p>How businesses track and value what they sell.</p></div>
+      <div class="card">
+        <h3>🔄 Two Inventory Systems</h3>
+        <div class="grid-2">
+          <div class="highlight-box"><strong>Periodic System</strong><br>Stock counted at end of period. COS calculated as: Opening Stock + Purchases − Closing Stock.</div>
+          <div class="highlight-box"><strong>Perpetual System</strong><br>Stock updated after EVERY transaction. Running balance kept. Used with FIFO and Weighted Average.</div>
+        </div>
+        <div class="tip-box">Grade 12 CAPS focuses heavily on the <strong>Perpetual System</strong> with FIFO and Weighted Average methods.</div>
+      </div>
+      <div class="card">
+        <h3>📦 FIFO Method (First In, First Out)</h3>
+        <p>First items purchased are the first ones sold.</p>
+        <table class="t-account">
+          <tr><th>Date</th><th>Purchases</th><th>Sales</th><th>Balance</th></tr>
+          <tr><td>01 Mar</td><td>100 units @ R20</td><td>—</td><td>100 @ R20 = R2 000</td></tr>
+          <tr><td>10 Mar</td><td>80 units @ R25</td><td>—</td><td>100@R20 + 80@R25</td></tr>
+          <tr><td>15 Mar</td><td>—</td><td>120 units</td><td>SELL: 100@R20 + 20@R25 = R2 500 COS</td></tr>
+          <tr class="total-row"><td>Balance</td><td></td><td></td><td>60 units @ R25 = R1 500</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>⚖️ Weighted Average Method</h3>
+        <p>Calculate a new average cost after EACH purchase.</p>
+        <div class="formula-box">
+          Weighted Average Cost = Total Value in Stock ÷ Total Units in Stock
+        </div>
+        <table class="t-account">
+          <tr><th>Date</th><th>Units</th><th>Cost</th><th>Total Value</th><th>Avg Cost</th></tr>
+          <tr><td>01 Mar</td><td>100</td><td>R20</td><td>R2 000</td><td>R20.00</td></tr>
+          <tr><td>10 Mar (buy 80)</td><td>180</td><td>—</td><td>R4 000</td><td>R22.22</td></tr>
+          <tr><td>15 Mar (sell 120)</td><td>60</td><td>—</td><td>R2 666.67</td><td>R22.22</td></tr>
+        </table>
+        <div class="highlight-box">After buying 80 @ R25: Total = R2000 + R2000 = R4000 ÷ 180 units = R22.22 per unit</div>
+      </div>
+      <div class="card">
+        <h3>⚠️ Lower of Cost or Net Realisable Value (NRV)</h3>
+        <p>At year-end, value inventory at the LOWER of:</p>
+        <ul>
+          <li><strong>Cost:</strong> What was paid for it</li>
+          <li><strong>NRV:</strong> Estimated selling price minus costs to sell</li>
+        </ul>
+        <div class="formula-box">
+          If NRV < Cost → write down to NRV (loss recognised — Prudence principle)
+        </div>
+      </div>
+    `,
+    flashcards: [
+      {q:'What does FIFO stand for and how does it work?', a:'First In, First Out — the first items bought are the first items sold. Older stock is used first.'},
+      {q:'How is Weighted Average Cost calculated?', a:'Total Value of Stock ÷ Total Units in Stock. Recalculated after every new purchase.'},
+      {q:'What is Net Realisable Value (NRV)?', a:'The expected selling price of stock minus any costs needed to complete and sell it.'},
+      {q:'Under the Periodic system, how is Cost of Sales calculated?', a:'Opening Stock + Purchases − Closing Stock = Cost of Sales.'},
+      {q:'When should inventory be written down?', a:'When NRV is below cost — apply the Lower of Cost or NRV rule (based on Prudence principle).'},
+    ],
+    quiz: [
+      {q:'Under FIFO, which stock is assumed to be sold first?',opts:['Most recent purchases','Oldest purchases','Average cost','Highest cost'],ans:1,exp:'FIFO = First In, First Out. The oldest (first purchased) inventory is sold first.'},
+      {q:'A business has 200 units at R10 average and buys 100 more at R13. What is the new weighted average?',opts:['R11.00','R11.50','R11.00','R12.00'],ans:0,exp:'(200×R10 + 100×R13) ÷ 300 = (R2000 + R1300) ÷ 300 = R3300 ÷ 300 = R11.00.'},
+      {q:'Stock that cost R5 000 can only be sold for R4 200. It should be valued at:',opts:['R5 000 (Historical Cost)','R4 200 (NRV)','R4 600 (average)','R5 000 minus 10%'],ans:1,exp:'Lower of Cost or NRV: R4 200 < R5 000, so value at R4 200. This follows the Prudence principle.'},
+      {q:'Which system updates stock records after every transaction?',opts:['Periodic system','Accrual system','Perpetual system','Annual system'],ans:2,exp:'The Perpetual system keeps a continuous running balance of stock after every purchase and sale.'},
+    ]
+  },
+
+  {
+    id: 'partnerships',
+    num: '06',
+    name: 'Partnerships',
+    desc: 'Capital accounts, current accounts, partnership agreements, dissolution',
+    notes: `
+      <div class="section-header"><h2>Partnerships</h2><p>When two or more people run a business together.</p></div>
+      <div class="card">
+        <h3>🤝 Key Features of a Partnership</h3>
+        <ul>
+          <li>2 or more persons (max 20 in South Africa)</li>
+          <li>Governed by a <strong>Partnership Agreement</strong></li>
+          <li>No separate legal entity — partners are personally liable</li>
+          <li>Profit/loss shared according to the agreement</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📊 Capital and Current Accounts</h3>
+        <div class="grid-2">
+          <div class="highlight-box"><strong>Capital Account</strong><br>Fixed. Records initial investment and additional capital contributed. Does NOT change with profit/drawings.</div>
+          <div class="highlight-box"><strong>Current Account</strong><br>Changes every year. Records: salary allowances, interest on capital, share of profit/loss, drawings.</div>
+        </div>
+        <div class="formula-box">
+          Current Account:
+          Opening Balance
+          + Salary Allowance
+          + Interest on Capital
+          + Share of Net Profit
+          − Drawings
+          − Interest on Drawings
+          = Closing Balance
+        </div>
+      </div>
+      <div class="card">
+        <h3>💼 Appropriation Account</h3>
+        <p>Shows how net profit is DISTRIBUTED between partners.</p>
+        <table class="t-account">
+          <tr><th>Item</th><th>Partner A</th><th>Partner B</th></tr>
+          <tr><td>Salary allowance</td><td>R60 000</td><td>R48 000</td></tr>
+          <tr><td>Interest on capital (10%)</td><td>R20 000</td><td>R15 000</td></tr>
+          <tr><td>Share of residual profit (60:40)</td><td>R30 000</td><td>R20 000</td></tr>
+          <tr class="total-row"><td><strong>Total to each partner</strong></td><td><strong>R110 000</strong></td><td><strong>R83 000</strong></td></tr>
+        </table>
+        <div class="tip-box"><strong>Step 1:</strong> Deduct salaries and interest from Net Profit → get Residual Profit.<br><strong>Step 2:</strong> Share residual profit in agreed ratio.</div>
+      </div>
+      <div class="card">
+        <h3>🚪 Admission & Dissolution</h3>
+        <ul>
+          <li><strong>New partner admitted:</strong> Goodwill may be raised (revaluation of assets), existing partners share any revaluation gains</li>
+          <li><strong>Dissolution:</strong> Assets sold, liabilities paid, remaining cash distributed to partners in capital ratio</li>
+          <li><strong>Goodwill:</strong> Intangible asset representing reputation/business value above net asset value</li>
+        </ul>
+      </div>
+    `,
+    flashcards: [
+      {q:'What is the difference between a Capital Account and a Current Account in a partnership?', a:'Capital Account is fixed (investment). Current Account changes yearly with salary, interest, profit share, and drawings.'},
+      {q:'What is the Appropriation Account?', a:'It shows how net profit is distributed between partners — salaries, interest on capital, and residual profit share.'},
+      {q:'What is Goodwill in a partnership?', a:'An intangible asset representing the business\'s reputation and customer base — valued above net assets when a new partner joins.'},
+      {q:'What happens if a partner\'s Current Account shows a debit balance?', a:'The partner owes money to the partnership — they have drawn out more than their entitlement.'},
+      {q:'How is residual profit calculated?', a:'Net Profit minus salary allowances minus interest on capital = Residual Profit (then shared in agreed ratio).'},
+    ],
+    quiz: [
+      {q:'Partner A has a salary of R40 000 and interest on capital of R8 000. Net profit before appropriation is R100 000. How much residual profit is shared between partners?',opts:['R52 000','R60 000','R48 000','R100 000'],ans:0,exp:'Residual = R100 000 − R40 000 salary − R8 000 interest = R52 000 (assuming only Partner A has salary/interest for this question).'},
+      {q:'A debit balance in a partner\'s Current Account means:',opts:['The partner is owed money by the business','The partner owes money to the business','Extra capital was contributed','Goodwill was raised'],ans:1,exp:'A debit balance means drawings exceeded salary + profit share — the partner owes the business.'},
+      {q:'The Capital Account of a partner is CREDITED when:',opts:['Drawings are made','A loss is allocated','Additional capital is invested','Interest on drawings is charged'],ans:2,exp:'Capital accounts are credited when additional capital (new investment) is put in by the partner.'},
+      {q:'Interest on capital in a partnership is calculated on:',opts:['Current Account balance','Drawings','Capital Account balance','Net Profit'],ans:2,exp:'Interest on capital is calculated as a percentage of the Capital Account balance — rewarding partners for their investment.'},
+    ]
+  },
+
+  {
+    id: 'reconciliations',
+    num: '07',
+    name: 'Reconciliations',
+    desc: 'Bank reconciliation, debtors control, creditors control',
+    notes: `
+      <div class="section-header"><h2>Reconciliations</h2><p>Matching records to find errors and unrecorded items.</p></div>
+      <div class="card">
+        <h3>🏦 Bank Reconciliation Statement</h3>
+        <p>Reconciles the bank balance in the Cash Book with the bank statement balance.</p>
+        <div class="formula-box">
+          Balance per Bank Statement
+          + Deposits Outstanding (not yet on statement)
+          − Outstanding Cheques (issued but not yet cleared)
+          = Balance per Cash Book (Adjusted)
+        </div>
+        <div class="tip-box">
+          <strong>Common differences:</strong><br>
+          • Outstanding deposits — recorded in cash book but not yet on bank statement<br>
+          • Outstanding/unpresented cheques — issued but bank hasn't processed<br>
+          • Bank charges — on statement but not yet in cash book<br>
+          • Interest credited — on statement but not in cash book<br>
+          • Dishonoured cheques — bounced cheques must be reversed
+        </div>
+      </div>
+      <div class="card">
+        <h3>📒 Debtors Control Account</h3>
+        <p>Summarises all debtor transactions. Must agree with the Debtors Ledger total.</p>
+        <table class="t-account">
+          <tr><th colspan="2">DR Side</th><th colspan="2">CR Side</th></tr>
+          <tr><td>Opening balance</td><td>R80 000</td><td>Receipts from debtors</td><td>R55 000</td></tr>
+          <tr><td>Credit sales</td><td>R70 000</td><td>Discount allowed</td><td>R2 000</td></tr>
+          <tr><td>Dishonoured cheques</td><td>R3 000</td><td>Returns inward</td><td>R5 000</td></tr>
+          <tr><td></td><td></td><td>Bad debts</td><td>R4 000</td></tr>
+          <tr class="total-row"><td></td><td></td><td>Closing balance (c/d)</td><td>R87 000</td></tr>
+          <tr class="total-row"><td><strong>Total</strong></td><td><strong>R153 000</strong></td><td><strong>Total</strong></td><td><strong>R153 000</strong></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>📒 Creditors Control Account</h3>
+        <p>Mirror of Debtors — summarises amounts owed to suppliers.</p>
+        <table class="t-account">
+          <tr><th colspan="2">DR Side</th><th colspan="2">CR Side</th></tr>
+          <tr><td>Payments to creditors</td><td>R40 000</td><td>Opening balance</td><td>R60 000</td></tr>
+          <tr><td>Discount received</td><td>R1 500</td><td>Credit purchases</td><td>R55 000</td></tr>
+          <tr><td>Returns outward</td><td>R3 000</td><td></td><td></td></tr>
+          <tr><td>Closing balance (c/d)</td><td>R70 500</td><td></td><td></td></tr>
+          <tr class="total-row"><td><strong>Total</strong></td><td><strong>R115 000</strong></td><td><strong>Total</strong></td><td><strong>R115 000</strong></td></tr>
+        </table>
+      </div>
+    `,
+    flashcards: [
+      {q:'What is an outstanding deposit in a bank reconciliation?', a:'A deposit recorded in the Cash Book but not yet shown on the bank statement — it is added to the bank statement balance.'},
+      {q:'What is an unpresented/outstanding cheque?', a:'A cheque issued and recorded in the Cash Book but not yet cleared by the bank — subtract from bank statement balance.'},
+      {q:'What does it mean if a debtor\'s cheque is "dishonoured"?', a:'The cheque bounced (insufficient funds). Reverse the receipt — debit Debtors Control, credit Bank.'},
+      {q:'What is Discount Allowed?', a:'A reduction given to debtors for early payment — it is an expense (debit) and reduces the debtors balance.'},
+      {q:'What is Discount Received?', a:'A reduction given by creditors for our early payment — it is income (credit) and reduces the creditors balance.'},
+    ],
+    quiz: [
+      {q:'The bank statement shows R15 000. There are outstanding cheques of R3 000 and outstanding deposits of R2 000. What is the Cash Book balance?',opts:['R14 000','R16 000','R20 000','R10 000'],ans:0,exp:'Cash Book = R15 000 + R2 000 (deposits added) − R3 000 (cheques not yet processed) = R14 000.'},
+      {q:'Bank charges appear on the bank statement but NOT in the Cash Book. To correct the Cash Book you should:',opts:['Debit Cash Book','Credit Cash Book','Ignore — bank will correct','Debit bank charges, credit bank'],ans:1,exp:'Bank charges reduce our balance — credit the Cash Book (reduce the asset). Then record the expense.'},
+      {q:'Discount Allowed appears on which side of the Debtors Control Account?',opts:['Debit side','Credit side','Both sides','Not recorded here'],ans:1,exp:'Discount Allowed reduces the amount debtors owe — it is on the CREDIT side of the Debtors Control Account.'},
+      {q:'A dishonoured cheque from a debtor means you must:',opts:['Write off as bad debt','Reverse the receipt and reinstate the debt','Ignore it','Deduct from sales'],ans:1,exp:'A dishonoured cheque means the debtor still owes the money — reverse the receipt entry and restore the debtor balance.'},
+    ]
+  },
+
+  {
+    id: 'analysis',
+    num: '08',
+    name: 'Analysis & Interpretation',
+    desc: 'Financial ratios, liquidity, profitability, solvency, gearing',
+    notes: `
+      <div class="section-header"><h2>Analysis & Interpretation of Financial Statements</h2><p>Using ratios to understand business performance — often worth 20+ marks in the exam.</p></div>
+      <div class="card">
+        <h3>📊 Liquidity Ratios (Can the business pay short-term debts?)</h3>
+        <div class="formula-box">
+          Current Ratio = Current Assets : Current Liabilities
+          Ideal range: 1.5:1 to 2:1
+
+          Acid Test (Quick) Ratio = (Current Assets − Inventories) : Current Liabilities
+          Ideal range: 0.8:1 to 1:1
+        </div>
+        <div class="tip-box"><strong>Interpretation:</strong> A current ratio of 0.8:1 means the business cannot cover short-term debts — POOR liquidity. A ratio of 3:1 means too much cash tied up — INEFFICIENT.</div>
+      </div>
+      <div class="card">
+        <h3>📈 Profitability Ratios (Is the business making good profit?)</h3>
+        <div class="formula-box">
+          Gross Profit % = Gross Profit ÷ Sales × 100
+          Net Profit % = Net Profit ÷ Sales × 100
+          Return on Equity (ROE) = Net Profit After Tax ÷ Shareholders' Equity × 100
+          Return on Assets (ROA) = Operating Profit ÷ Total Assets × 100
+        </div>
+        <div class="highlight-box">Compare GP% and NP% over time. If GP% stays the same but NP% falls → operating expenses increased. Investigate!</div>
+      </div>
+      <div class="card">
+        <h3>💳 Solvency & Gearing</h3>
+        <div class="formula-box">
+          Debt-Equity Ratio = Total Liabilities : Shareholders' Equity
+          Ideal: below 1:1 (more equity than debt)
+
+          Interest Coverage = Operating Profit ÷ Interest Expense
+          Ideal: above 3 times
+        </div>
+        <div class="tip-box"><strong>High gearing</strong> (lots of debt) = high risk but possible high returns. <strong>Low gearing</strong> = safer, more financially stable.</div>
+      </div>
+      <div class="card">
+        <h3>📦 Asset Management Ratios</h3>
+        <div class="formula-box">
+          Stock Turnover Rate = Cost of Sales ÷ Average Inventory (times per year)
+          Stock Days = 365 ÷ Stock Turnover Rate
+
+          Debtors Collection Period = (Debtors ÷ Credit Sales) × 365 days
+          Creditors Payment Period = (Creditors ÷ Credit Purchases) × 365 days
+        </div>
+        <div class="highlight-box"><strong>Rule of thumb:</strong> Collect from debtors FASTER than you pay creditors. If debtors days > creditors days → cash flow problem!</div>
+      </div>
+      <div class="card">
+        <h3>📉 Investment Ratios</h3>
+        <div class="formula-box">
+          Earnings Per Share (EPS) = Net Profit After Tax ÷ Number of Shares
+          Dividends Per Share (DPS) = Total Dividends ÷ Number of Shares
+          Price-Earnings Ratio (P:E) = Market Price ÷ EPS
+          Dividend Yield = DPS ÷ Market Price × 100
+          Net Asset Value Per Share = Shareholders' Equity ÷ Number of Shares
+        </div>
+        <div class="tip-box"><strong>Exam Tip:</strong> Compare EPS year-on-year. If EPS falls, explain why (more shares issued? profits fell?) and whether dividends are sustainable.</div>
+      </div>
+    `,
+    flashcards: [
+      {q:'What does the Current Ratio measure?', a:'Liquidity — the business\'s ability to pay short-term (current) liabilities using current assets. Ideal: 1.5:1 to 2:1.'},
+      {q:'What is the difference between Current Ratio and Acid Test Ratio?', a:'Acid Test excludes inventory (less liquid). It tests whether the business can pay debts without selling stock.'},
+      {q:'What is Return on Equity (ROE)?', a:'Net Profit After Tax ÷ Shareholders\' Equity × 100. Measures how well the business generates profit from owners\' investment.'},
+      {q:'What does Stock Turnover Rate tell you?', a:'How many times inventory is sold and replaced per year. Higher = faster-moving stock = better.'},
+      {q:'What is EPS?', a:'Earnings Per Share = Net Profit After Tax ÷ Number of Shares Issued. Key investor metric.'},
+      {q:'What does a Debt-Equity ratio above 1:1 indicate?', a:'The business has more debt than equity — high financial risk (highly geared).'},
+      {q:'Debtors collection period is 90 days, creditors payment period is 45 days. Is this good?', a:'NO — the business collects money slower than it pays suppliers, creating a cash flow problem.'},
+    ],
+    quiz: [
+      {q:'Current Assets = R120 000, Current Liabilities = R80 000. What is the Current Ratio?',opts:['0.67:1','1.5:1','2:1','1.2:1'],ans:1,exp:'Current Ratio = R120 000 ÷ R80 000 = 1.5:1. This is within the ideal range of 1.5:1 to 2:1.'},
+      {q:'GP% was 35% in 2023 and 35% in 2024, but NP% fell from 18% to 12%. The MOST likely cause is:',opts:['Sales decreased','Cost of sales increased','Operating expenses increased','Debtors increased'],ans:2,exp:'GP% unchanged means COS is fine. Falling NP% with same GP% means operating expenses (below the gross profit line) increased.'},
+      {q:'Stock Turnover = 8 times per year. How many days does stock sit before being sold?',opts:['8 days','45.6 days','46 days','30 days'],ans:2,exp:'Stock Days = 365 ÷ 8 = 45.625 ≈ 46 days.'},
+      {q:'If shares in issue = 500 000 and Net Profit After Tax = R75 000, EPS is:',opts:['R0.15','R6.67','R1.50','R15.00'],ans:0,exp:'EPS = R75 000 ÷ 500 000 = R0.15 per share.'},
+      {q:'A Debt:Equity ratio of 2.5:1 indicates:',opts:['Strong equity position','High financial risk','Low interest costs','Excellent liquidity'],ans:1,exp:'A ratio of 2.5:1 means for every R1 of equity, the business owes R2.50 in debt — this is highly geared and risky.'},
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let currentTopic = null;
+let currentTab = 'notes';
+let completedTopics = JSON.parse(localStorage.getItem('g12acc_done') || '[]');
+let quizAnswered = {};
+let quizScore = 0;
+
+// ══════════════════════════════════════════════
+// LAUNCH
+// ══════════════════════════════════════════════
+function launchApp() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  renderHome();
+}
+
+function showHome() {
+  currentTopic = null;
+  document.getElementById('currentTopicLabel').textContent = 'Grade 12 Accounting';
+  updateProgress();
+  renderHome();
+  showView('homeView');
+  document.getElementById('navTabs').style.display = 'none';
+}
+
+function updateProgress() {
+  const pct = (completedTopics.length / TOPICS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ══════════════════════════════════════════════
+// HOME
+// ══════════════════════════════════════════════
+function renderHome() {
+  const menu = document.getElementById('topicMenu');
+  menu.innerHTML = TOPICS.map(t => {
+    const done = completedTopics.includes(t.id);
+    return `
+    <div class="topic-card" onclick="openTopic('${t.id}')">
+      <div class="tc-num">${t.num}</div>
+      <h3>${t.name}</h3>
+      <p>${t.desc}</p>
+      ${done ? '<div class="done-badge">✓ Completed</div>' : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('navTabs').style.display = 'none';
+  showView('homeView');
+}
+
+// ══════════════════════════════════════════════
+// TOPIC
+// ══════════════════════════════════════════════
+function openTopic(id) {
+  currentTopic = TOPICS.find(t => t.id === id);
+  document.getElementById('currentTopicLabel').textContent = currentTopic.name;
+  document.getElementById('navTabs').style.display = 'flex';
+  quizAnswered = {};
+  quizScore = 0;
+  // activate notes tab
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  tabs[0].classList.add('active');
+  currentTab = 'notes';
+  renderNotes();
+  showView('notesView');
+  // mark visited
+  if (!completedTopics.includes(id)) {
+    completedTopics.push(id);
+    localStorage.setItem('g12acc_done', JSON.stringify(completedTopics));
+    updateProgress();
+  }
+}
+
+// ══════════════════════════════════════════════
+// SWITCH TAB
+// ══════════════════════════════════════════════
+function switchTab(tab, btn) {
+  if (!currentTopic) return;
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentTab = tab;
+  if (tab === 'notes') { renderNotes(); showView('notesView'); }
+  else if (tab === 'flashcards') { renderFlashcards(); showView('flashcardsView'); }
+  else if (tab === 'quiz') { renderQuiz(); showView('quizView'); }
+}
+
+// ══════════════════════════════════════════════
+// NOTES
+// ══════════════════════════════════════════════
+function renderNotes() {
+  document.getElementById('notesView').innerHTML = currentTopic.notes;
+}
+
+// ══════════════════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════════════════
+function renderFlashcards() {
+  const cards = currentTopic.flashcards;
+  const html = `
+    <div class="section-header"><h2>Flashcards</h2><p>${cards.length} cards for ${currentTopic.name}. Tap to reveal the answer.</p></div>
+    <p class="flashcard-hint">👆 Tap any card to flip it</p>
+    <div class="flashcard-grid">
+      ${cards.map((c, i) => `
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front">
+            <div class="fc-label">Question ${i+1}</div>
+            <div class="fc-q">${c.q}</div>
+          </div>
+          <div class="flashcard-back">
+            <div class="fc-a">${c.a}</div>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+  `;
+  document.getElementById('flashcardsView').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════════════
+function renderQuiz() {
+  const qs = currentTopic.quiz;
+  quizAnswered = {};
+  quizScore = 0;
+  const html = `
+    <div class="section-header"><h2>Quiz</h2><p>${qs.length} questions on ${currentTopic.name}. Select the best answer.</p></div>
+    <div id="quizBody">
+      ${qs.map((q, qi) => `
+      <div class="quiz-question" id="qq_${qi}">
+        <div class="q-num">QUESTION ${qi+1} OF ${qs.length}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="q-options">
+          ${q.opts.map((o, oi) => `
+          <button class="q-option" id="opt_${qi}_${oi}" onclick="selectAnswer(${qi}, ${oi})">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}
+        </div>
+        <div class="q-explanation" id="exp_${qi}">${q.exp}</div>
+      </div>`).join('')}
+    </div>
+    <div id="quizResult" class="hidden"></div>
+  `;
+  document.getElementById('quizView').innerHTML = html;
+}
+
+function selectAnswer(qi, chosen) {
+  if (quizAnswered[qi] !== undefined) return;
+  const q = currentTopic.quiz[qi];
+  quizAnswered[qi] = chosen;
+  if (chosen === q.ans) quizScore++;
+
+  // Disable all options
+  for (let i = 0; i < q.opts.length; i++) {
+    const btn = document.getElementById(`opt_${qi}_${i}`);
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add('correct');
+    else if (i === chosen && chosen !== q.ans) btn.classList.add('wrong');
+  }
+  document.getElementById(`exp_${qi}`).classList.add('show');
+
+  // If all answered, show result
+  if (Object.keys(quizAnswered).length === currentTopic.quiz.length) {
+    setTimeout(showQuizResult, 600);
+  }
+}
+
+function showQuizResult() {
+  const total = currentTopic.quiz.length;
+  const pct = Math.round((quizScore / total) * 100);
+  const msg = pct >= 80 ? '🌟 Excellent work!' : pct >= 60 ? '👍 Good effort — review the incorrect answers.' : '📚 Keep studying — try the flashcards again!';
+  document.getElementById('quizResult').classList.remove('hidden');
+  document.getElementById('quizResult').innerHTML = `
+    <div class="quiz-score">
+      <h3>${quizScore}/${total} — ${pct}%</h3>
+      <p>${msg}</p>
+      <button class="btn-gold" onclick="renderQuiz(); document.getElementById('quizView').scrollIntoView()">Retry Quiz</button>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function showView(id) {
+  ['homeView','notesView','flashcardsView','quizView'].forEach(v => {
+    document.getElementById(v).classList.toggle('hidden', v !== id);
+  });
+}
+</script>
+</body>
+</html>
