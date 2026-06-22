@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Grade 12 Computer Applications Technology</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap');
+
+  :root {
+    --midnight: #0a0e1a;
+    --navy: #0f1628;
+    --navy-light: #162040;
+    --gold: #c9a84c;
+    --gold-light: #e2c97e;
+    --gold-dim: rgba(201,168,76,0.15);
+    --text: #e8e6e0;
+    --muted: #8a8a9a;
+    --card: #131929;
+    --card-hover: #1a2238;
+    --border: rgba(201,168,76,0.2);
+    --correct: #4caf7d;
+    --wrong: #e05c5c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--midnight); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  /* LOCK */
+  #lockScreen { position: fixed; inset: 0; background: var(--midnight); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; padding: 24px; }
+  .lock-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; max-width: 420px; width: 100%; text-align: center; }
+  .lock-logo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+  .lock-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
+  .lock-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+  .lock-input { width: 100%; background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; color: var(--text); font-family: 'Courier Prime', monospace; font-size: 1rem; text-align: center; letter-spacing: 4px; outline: none; margin-bottom: 16px; transition: border-color 0.2s; }
+  .lock-input:focus { border-color: var(--gold); }
+  .lock-btn { width: 100%; background: var(--gold); color: var(--midnight); font-weight: 700; font-size: 0.95rem; padding: 14px; border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .lock-btn:hover { background: var(--gold-light); }
+  .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
+
+  /* HEADER */
+  header { background: var(--navy); border-bottom: 1px solid var(--border); padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
+  .guide-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-bar-wrap { width: 140px; height: 5px; background: var(--navy-light); border-radius: 4px; }
+  .progress-bar { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #0d1a35 60%, var(--midnight) 100%); border-bottom: 1px solid var(--border); padding: 64px 40px 56px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; font-size: 0.95rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip { background: var(--gold-dim); border: 1px solid var(--border); color: var(--gold-light); font-size: 0.78rem; padding: 6px 14px; border-radius: 50px; letter-spacing: 0.5px; }
+
+  /* NAV */
+  .nav-tabs { display: flex; gap: 4px; padding: 16px 32px; background: var(--navy); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { background: none; border: 1px solid transparent; color: var(--muted); padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; white-space: nowrap; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .tab-btn:hover { color: var(--text); background: var(--navy-light); }
+  .tab-btn.active { color: var(--gold); border-color: var(--border); background: var(--gold-dim); }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SEC HEADERS */
+  .sec-header { margin-bottom: 32px; }
+  .sec-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 12px 0; }
+  .sec-header p { color: var(--muted); font-size: 0.9rem; }
+
+  /* TOPIC CARDS */
+  .topic-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
+  .topic-card:hover { border-color: var(--gold); }
+  .topic-toggle { width: 100%; background: none; border: none; color: var(--text); padding: 20px 24px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; }
+  .topic-toggle .topic-label { display: flex; align-items: center; gap: 14px; }
+  .topic-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; }
+  .chevron { color: var(--gold); font-size: 1.1rem; transition: transform 0.3s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { color: var(--gold-light); font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 10px; }
+  .topic-body p, .topic-body li { color: #c8c6c0; font-size: 0.92rem; line-height: 1.75; }
+  .topic-body ul, .topic-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .topic-body li { margin-bottom: 6px; }
+  .key-term { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--gold-light); }
+  .code-block { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; font-family: 'Courier Prime', monospace; font-size: 0.85rem; color: #a8d8a8; margin: 12px 0; overflow-x: auto; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  @media(max-width:600px){ .two-col { grid-template-columns: 1fr; } }
+  .mini-card { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .mini-card h5 { color: var(--gold); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .mini-card p, .mini-card li { font-size: 0.85rem; color: #c8c6c0; }
+  .mini-card ul { padding-left: 16px; }
+
+  /* FLASHCARDS */
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
+  .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back { position: absolute; inset: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; backface-visibility: hidden; }
+  .fc-back { transform: rotateY(180deg); background: var(--navy-light); border-color: var(--gold); }
+  .fc-front .label { font-size: 0.7rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .fc-front p { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+
+  /* QUIZ */
+  .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
+  .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+  .q-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { background: var(--navy); border: 1px solid var(--border); color: var(--text); padding: 13px 18px; border-radius: 8px; text-align: left; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .opt-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-dim); }
+  .opt-btn.correct { background: rgba(76,175,125,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: rgba(224,92,92,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .feedback { padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(76,175,125,0.1); border: 1px solid var(--correct); color: #7dd4a8; }
+  .feedback.wrong-fb { background: rgba(224,92,92,0.1); border: 1px solid var(--wrong); color: #f08080; }
+  .quiz-nav { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .btn-gold { background: var(--gold); color: var(--midnight); border: none; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s; }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline { background: none; color: var(--gold); border: 1px solid var(--gold); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; margin-right: 10px; }
+  .btn-outline:hover { background: var(--gold-dim); }
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+  .result-score { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
+
+  /* EXAM & PRACTICAL GUIDE */
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .exam-card h4 { color: var(--gold); font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .exam-card p, .exam-card li { color: #c8c6c0; font-size: 0.88rem; line-height: 1.7; }
+  .exam-card ul { padding-left: 18px; }
+  .mark-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .mark-table th { background: var(--navy-light); color: var(--gold); padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .mark-table td { padding: 10px 14px; border: 1px solid var(--border); color: #c8c6c0; }
+  .mark-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-box { background: var(--gold-dim); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--gold-light); }
+
+  /* PRACTICAL STEPS */
+  .prac-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { background: var(--gold); color: var(--midnight); font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
+  .step-content p, .step-content li { color: #c8c6c0; font-size: 0.9rem; line-height: 1.7; }
+  .step-content ul { padding-left: 18px; margin-top: 8px; }
+
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- LOCK -->
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-logo">STUDYHUB BY NHLAKA</div>
+    <div class="lock-title">Grade 12 CAT</div>
+    <div class="lock-sub">Enter your access code to unlock this guide</div>
+    <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
+    <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
+    <div class="lock-error" id="lockError">Incorrect access code. Please try again.</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">STUDYHUB</div>
+  <div class="guide-title">Grade 12 CAT</div>
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">CAPS Aligned · Grade 12</div>
+  <h1>Computer Applications<br><span>Technology</span></h1>
+  <p>Master hardware, software, networks, the internet, social implications, and application skills for Paper 1 & 2.</p>
+  <div class="hero-chips">
+    <span class="chip">💻 6 Topics</span>
+    <span class="chip">🃏 Flashcards</span>
+    <span class="chip">✏️ Practice Quiz</span>
+    <span class="chip">📄 Exam Guide</span>
+    <span class="chip">🖥️ Practical Tips</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('notes',this)">💻 Notes</button>
+  <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
+  <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
+  <button class="tab-btn" onclick="showSection('practicalguide',this)">🖥️ Practical Guide</button>
+</nav>
+
+<main>
+
+  <!-- ═══ NOTES ═══ -->
+  <div id="notes" class="section active">
+    <div class="sec-header">
+      <h2>Study Notes</h2>
+      <div class="gold-rule"></div>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 12 CAT curriculum.</p>
+    </div>
+
+    <!-- TOPIC 1: Hardware -->
+    <div class="topic-card" id="tc1">
+      <button class="topic-toggle" onclick="toggleTopic('tc1')">
+        <div class="topic-label"><span class="topic-num">01</span>Hardware & Processing</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>The CPU (Central Processing Unit)</h4>
+        <p>The CPU is the brain of the computer — it processes all instructions. Key components include:</p>
+        <ul>
+          <li><strong>ALU (Arithmetic Logic Unit)</strong>: Performs mathematical and logical operations.</li>
+          <li><strong>Control Unit (CU)</strong>: Fetches, decodes, and executes instructions; coordinates all CPU activity.</li>
+          <li><strong>Registers</strong>: Tiny, ultra-fast memory locations inside the CPU used during processing.</li>
+          <li><strong>Cache Memory</strong>: High-speed memory between RAM and CPU — stores frequently used data. L1 is fastest; L3 is largest.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Clock Speed:</strong> Measured in GHz — how many instruction cycles per second the CPU can process. Higher = faster.</div>
+        <h4>CPU Performance Factors</h4>
+        <ul>
+          <li><strong>Clock speed</strong> (GHz): Higher clock speed = faster processing.</li>
+          <li><strong>Number of cores</strong>: Dual-core, quad-core, octa-core — more cores = better multitasking.</li>
+          <li><strong>Cache size</strong>: Larger cache = fewer delays fetching data from RAM.</li>
+          <li><strong>Word length / bus width</strong>: 64-bit processors handle more data per cycle than 32-bit.</li>
+          <li><strong>RAM amount</strong>: More RAM means the CPU can access more data simultaneously.</li>
+        </ul>
+        <h4>Memory Types</h4>
+        <div class="two-col">
+          <div class="mini-card">
+            <h5>Primary (Volatile)</h5>
+            <ul>
+              <li><strong>RAM</strong>: Random Access Memory — temporary, loses data when power is off</li>
+              <li><strong>ROM</strong>: Read Only Memory — permanent, stores BIOS/firmware</li>
+              <li><strong>Cache</strong>: Ultra-fast CPU memory</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h5>Secondary (Non-Volatile)</h5>
+            <ul>
+              <li><strong>HDD</strong>: Magnetic spinning disk — slower, larger capacity</li>
+              <li><strong>SSD</strong>: Flash-based — faster, no moving parts</li>
+              <li><strong>Optical</strong>: CD, DVD, Blu-ray</li>
+              <li><strong>Flash drives, SD cards</strong></li>
+            </ul>
+          </div>
+        </div>
+        <h4>Input & Output Devices</h4>
+        <ul>
+          <li><strong>Input</strong>: Keyboard, mouse, scanner, microphone, webcam, touchscreen, barcode reader, biometric scanner.</li>
+          <li><strong>Output</strong>: Monitor (LCD, LED, OLED), printer (inkjet, laser, 3D), speakers, projector.</li>
+          <li><strong>Both (I/O)</strong>: Touchscreen, network card, modem.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TOPIC 2: Software -->
+    <div class="topic-card" id="tc2">
+      <button class="topic-toggle" onclick="toggleTopic('tc2')">
+        <div class="topic-label"><span class="topic-num">02</span>Software</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Types of Software</h4>
+        <div class="two-col">
+          <div class="mini-card">
+            <h5>System Software</h5>
+            <ul>
+              <li><strong>Operating System (OS)</strong>: Manages hardware and software resources (Windows, macOS, Linux, Android)</li>
+              <li><strong>Utility software</strong>: Antivirus, disk defragmenter, backup tools, file compression</li>
+              <li><strong>Device drivers</strong>: Allow OS to communicate with hardware</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h5>Application Software</h5>
+            <ul>
+              <li><strong>General purpose</strong>: Word processor, spreadsheet, presentation, browser</li>
+              <li><strong>Specific purpose</strong>: Accounting, CAD, photo editing</li>
+              <li><strong>Custom</strong>: Built for a specific organisation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="key-term">🔑 <strong>GUI vs CLI:</strong> Graphical User Interface (Windows, icons, mouse) vs Command Line Interface (text commands). GUIs are user-friendly; CLIs are powerful for advanced users.</div>
+        <h4>Software Licensing</h4>
+        <ul>
+          <li><strong>Proprietary / Commercial</strong>: Must be paid for; legally protected (e.g. Microsoft Office).</li>
+          <li><strong>Freeware</strong>: Free to use but source code is not available.</li>
+          <li><strong>Open Source</strong>: Source code is freely available to use, modify, and distribute (e.g. LibreOffice, Linux).</li>
+          <li><strong>Shareware</strong>: Free trial for a limited time; must pay to continue using.</li>
+          <li><strong>Site licence</strong>: One purchase allows use on multiple machines in an organisation.</li>
+        </ul>
+        <h4>Operating System Functions</h4>
+        <ul>
+          <li>Memory management — allocates RAM to running programs.</li>
+          <li>File management — organises files in folders/directories.</li>
+          <li>Process management — runs and schedules tasks/processes.</li>
+          <li>Device management — communicates with hardware via drivers.</li>
+          <li>Security — manages user accounts, passwords, and access control.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TOPIC 3: Networks -->
+    <div class="topic-card" id="tc3">
+      <button class="topic-toggle" onclick="toggleTopic('tc3')">
+        <div class="topic-label"><span class="topic-num">03</span>Networks & Communication</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Types of Networks</h4>
+        <ul>
+          <li><strong>PAN</strong> (Personal Area Network): Very short range — e.g. Bluetooth between devices.</li>
+          <li><strong>LAN</strong> (Local Area Network): Within a building/campus — fast, privately owned.</li>
+          <li><strong>MAN</strong> (Metropolitan Area Network): Spans a city or large campus.</li>
+          <li><strong>WAN</strong> (Wide Area Network): Spans countries/continents — e.g. the Internet.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Bandwidth:</strong> The maximum amount of data that can be transmitted over a network connection in a given time — measured in Mbps or Gbps.</div>
+        <h4>Network Hardware</h4>
+        <ul>
+          <li><strong>NIC (Network Interface Card)</strong>: Connects a device to a network.</li>
+          <li><strong>Router</strong>: Directs data packets between networks; connects LAN to the Internet.</li>
+          <li><strong>Switch</strong>: Connects multiple devices within a LAN; sends data only to the intended device.</li>
+          <li><strong>Access Point (WAP)</strong>: Extends wireless coverage in a network.</li>
+          <li><strong>Modem</strong>: Modulates/demodulates signals for internet access via telephone/cable lines.</li>
+          <li><strong>Repeater</strong>: Boosts signal strength over long distances.</li>
+        </ul>
+        <h4>Network Topologies</h4>
+        <div class="two-col">
+          <div class="mini-card">
+            <h5>Star Topology</h5>
+            <p>All devices connect to a central switch/hub. If one device fails, the others are unaffected. Most common in modern LANs.</p>
+          </div>
+          <div class="mini-card">
+            <h5>Bus Topology</h5>
+            <p>All devices share one cable (backbone). Simple and cheap but if the backbone fails, the whole network goes down.</p>
+          </div>
+        </div>
+        <h4>Wired vs Wireless</h4>
+        <ul>
+          <li><strong>Wired (Ethernet)</strong>: Faster, more secure, more reliable — but less flexible.</li>
+          <li><strong>Wireless (Wi-Fi)</strong>: Flexible and mobile — but susceptible to interference and security risks.</li>
+          <li><strong>Fibre optic</strong>: Uses light pulses — fastest, most expensive, immune to interference.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TOPIC 4: Internet -->
+    <div class="topic-card" id="tc4">
+      <button class="topic-toggle" onclick="toggleTopic('tc4')">
+        <div class="topic-label"><span class="topic-num">04</span>The Internet & WWW</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Internet vs WWW</h4>
+        <ul>
+          <li><strong>Internet</strong>: The global physical network of interconnected computers and devices.</li>
+          <li><strong>World Wide Web (WWW)</strong>: A collection of websites and web pages accessed via the Internet using HTTP/HTTPS.</li>
+          <li>The Internet is the infrastructure; the WWW is a service running on top of it.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>IP Address:</strong> A unique numerical label (e.g. 192.168.1.1) assigned to every device on a network for identification and routing.</div>
+        <h4>Key Internet Concepts</h4>
+        <ul>
+          <li><strong>URL</strong> (Uniform Resource Locator): The web address of a resource — e.g. <code>https://www.example.co.za/page</code></li>
+          <li><strong>DNS</strong> (Domain Name System): Translates domain names into IP addresses.</li>
+          <li><strong>HTTP/HTTPS</strong>: Protocol for transferring web pages. HTTPS is encrypted (secure).</li>
+          <li><strong>Browser</strong>: Software to access and display web pages (Chrome, Firefox, Edge).</li>
+          <li><strong>ISP</strong> (Internet Service Provider): Company that provides internet access (e.g. Telkom, Vodacom).</li>
+        </ul>
+        <h4>Internet Services</h4>
+        <ul>
+          <li><strong>Email</strong>: Electronic messaging — uses SMTP (send) and POP3/IMAP (receive).</li>
+          <li><strong>Cloud computing</strong>: Storing and accessing data/software over the internet (Google Drive, OneDrive).</li>
+          <li><strong>VoIP</strong>: Voice over Internet Protocol — calls via internet (WhatsApp, Teams).</li>
+          <li><strong>Streaming</strong>: Real-time audio/video delivery (YouTube, Netflix).</li>
+          <li><strong>Social media</strong>: Platforms for sharing content and communication.</li>
+        </ul>
+        <h4>Evaluating Websites</h4>
+        <ul>
+          <li><strong>CRAAP test</strong>: Currency, Relevance, Authority, Accuracy, Purpose.</li>
+          <li>Check domain: <code>.gov</code> = government, <code>.ac.za</code> = academic, <code>.com</code> = commercial.</li>
+          <li>Look for author credentials, publication dates, and references cited.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TOPIC 5: Information Management -->
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Information Management</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Databases</h4>
+        <p>A database is an organised collection of related data, typically managed by a DBMS (Database Management System) such as Microsoft Access.</p>
+        <ul>
+          <li><strong>Table</strong>: Stores data in rows (records) and columns (fields).</li>
+          <li><strong>Primary Key</strong>: A unique field that identifies each record (e.g. ID number).</li>
+          <li><strong>Foreign Key</strong>: A field in one table that links to the primary key of another table — creates a relationship.</li>
+          <li><strong>Query</strong>: A question put to the database to retrieve specific data.</li>
+          <li><strong>Form</strong>: User-friendly interface for entering data into a table.</li>
+          <li><strong>Report</strong>: Formatted, printable output of query results.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Validation:</strong> Rules that ensure data entered is correct and reasonable. Types include: Required field, Data type, Range check, Input mask, Lookup list.</div>
+        <h4>Spreadsheets (Advanced)</h4>
+        <ul>
+          <li><strong>Absolute reference</strong>: <code>$A$1</code> — cell reference does not change when copied.</li>
+          <li><strong>Relative reference</strong>: <code>A1</code> — adjusts when the formula is copied.</li>
+          <li><strong>VLOOKUP</strong>: Searches a column for a value and returns data from another column.</li>
+          <li><strong>IF function</strong>: Returns different values based on a condition — <code>=IF(A1&gt;50,"Pass","Fail")</code></li>
+          <li><strong>COUNTIF / SUMIF</strong>: Count or sum cells that meet a specific condition.</li>
+          <li><strong>Pivot Table</strong>: Summarises and analyses large datasets dynamically.</li>
+        </ul>
+        <div class="code-block">=VLOOKUP(A2, $D$2:$F$10, 2, FALSE)<br>=IF(B2>=50, "Pass", "Fail")<br>=COUNTIF(C2:C30, ">=60")</div>
+      </div>
+    </div>
+
+    <!-- TOPIC 6: Social Implications -->
+    <div class="topic-card" id="tc6">
+      <button class="topic-toggle" onclick="toggleTopic('tc6')">
+        <div class="topic-label"><span class="topic-num">06</span>Social Implications & e-Safety</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Cybercrime & Threats</h4>
+        <ul>
+          <li><strong>Phishing</strong>: Fake emails/websites trick users into revealing personal information.</li>
+          <li><strong>Malware</strong>: Malicious software — includes viruses, worms, Trojans, ransomware, spyware.</li>
+          <li><strong>Hacking</strong>: Unauthorised access to computer systems.</li>
+          <li><strong>Identity theft</strong>: Using someone's personal information without consent for fraud.</li>
+          <li><strong>Cyberbullying</strong>: Harassment, threats, or humiliation via digital platforms.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Ransomware:</strong> Malware that encrypts a victim's files and demands payment (ransom) to restore access.</div>
+        <h4>Protecting Yourself Online</h4>
+        <ul>
+          <li>Use strong, unique passwords and enable two-factor authentication (2FA).</li>
+          <li>Keep software and OS updated — patches fix security vulnerabilities.</li>
+          <li>Install and update reputable antivirus software.</li>
+          <li>Only use HTTPS websites for sensitive transactions.</li>
+          <li>Regularly back up data (3-2-1 rule: 3 copies, 2 different media, 1 offsite).</li>
+          <li>Be cautious of public Wi-Fi — use a VPN if necessary.</li>
+        </ul>
+        <h4>Intellectual Property & Ethics</h4>
+        <ul>
+          <li><strong>Copyright</strong>: Legal protection for original creative work — software, music, text, images.</li>
+          <li><strong>Plagiarism</strong>: Using someone else's work without acknowledgement.</li>
+          <li><strong>Digital footprint</strong>: The trail of data left behind by your online activity.</li>
+          <li><strong>Netiquette</strong>: Acceptable behaviour and etiquette when communicating online.</li>
+        </ul>
+        <h4>Health & Ergonomics</h4>
+        <ul>
+          <li><strong>RSI</strong> (Repetitive Strain Injury): Caused by repetitive movements — typing, mouse use.</li>
+          <li><strong>Eye strain</strong>: Prolonged screen time — use the 20-20-20 rule (every 20 min, look 20 feet away for 20 seconds).</li>
+          <li><strong>Ergonomic setup</strong>: Monitor at eye level, back supported, feet flat on floor, wrists straight.</li>
+        </ul>
+        <h4>Environmental Impact</h4>
+        <ul>
+          <li><strong>E-waste</strong>: Discarded electronics — toxic heavy metals (lead, mercury) harm the environment.</li>
+          <li>Responsible disposal: recycling centres, manufacturer take-back programmes.</li>
+          <li>Energy consumption: Data centres consume massive electricity — green computing aims to reduce this.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FLASHCARDS ═══ -->
+  <div id="flashcards" class="section">
+    <div class="sec-header">
+      <h2>Flashcards</h2>
+      <div class="gold-rule"></div>
+      <p>Click a card to flip it and reveal the answer.</p>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+
+  <!-- ═══ QUIZ ═══ -->
+  <div id="quiz" class="section">
+    <div class="sec-header">
+      <h2>Practice Quiz</h2>
+      <div class="gold-rule"></div>
+      <p>15 questions covering all CAPS CAT topics.</p>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+  <!-- ═══ EXAM GUIDE ═══ -->
+  <div id="examguide" class="section">
+    <div class="sec-header">
+      <h2>Exam Paper Guide</h2>
+      <div class="gold-rule"></div>
+      <p>Know exactly what Paper 1 (Theory) and Paper 2 (Practical) look like.</p>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>📄 Paper 1 — Theory</h4>
+        <ul>
+          <li><strong>Duration:</strong> 3 hours</li>
+          <li><strong>Total marks:</strong> 150</li>
+          <li><strong>Format:</strong> Multiple choice + short answer + long answer</li>
+          <li><strong>Topics:</strong> Hardware, Software, Networks, Internet, Social Implications, Information Management</li>
+          <li><strong>Section A:</strong> Multiple choice (30 marks)</li>
+          <li><strong>Section B:</strong> Short & long questions (120 marks)</li>
+        </ul>
+      </div>
+      <div class="exam-card">
+        <h4>🖥️ Paper 2 — Practical</h4>
+        <ul>
+          <li><strong>Duration:</strong> 3 hours</li>
+          <li><strong>Total marks:</strong> 180</li>
+          <li><strong>Format:</strong> Computer-based tasks</li>
+          <li><strong>Applications:</strong> Word processing, Spreadsheets, Databases, Presentations, Internet/Email, HTML</li>
+          <li>Files are provided on the day — save frequently!</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      ⚠️ <strong>Important:</strong> Paper 2 is done on a computer. Practice your applications regularly — speed and accuracy are critical under exam conditions.
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:28px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Paper 1 — Mark Allocation by Topic</h3>
+    <table class="mark-table">
+      <thead><tr><th>Topic</th><th>Approx. Marks</th><th>Key Focus Areas</th></tr></thead>
+      <tbody>
+        <tr><td>Hardware & Processing</td><td>20–25</td><td>CPU components, memory types, I/O devices, storage</td></tr>
+        <tr><td>Software</td><td>20–25</td><td>OS functions, licensing, utility software</td></tr>
+        <tr><td>Networks & Communication</td><td>20–25</td><td>Network types, hardware, topologies, wired vs wireless</td></tr>
+        <tr><td>Internet & WWW</td><td>20–25</td><td>URL structure, DNS, protocols, internet services</td></tr>
+        <tr><td>Social Implications</td><td>25–30</td><td>Cybercrime, data protection, copyright, health</td></tr>
+        <tr><td>Information Management</td><td>20–25</td><td>Databases, spreadsheet functions, data concepts</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:var(--gold-light);margin:28px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Paper 2 — Practical Mark Allocation</h3>
+    <table class="mark-table">
+      <thead><tr><th>Application</th><th>Approx. Marks</th></tr></thead>
+      <tbody>
+        <tr><td>Word Processing (MS Word)</td><td>40–50</td></tr>
+        <tr><td>Spreadsheets (MS Excel)</td><td>50–60</td></tr>
+        <tr><td>Databases (MS Access)</td><td>40–50</td></tr>
+        <tr><td>Presentations (MS PowerPoint)</td><td>20–30</td></tr>
+        <tr><td>Internet / Email / HTML</td><td>20–30</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>180</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      ⏱️ <strong>Time Tip (Paper 1):</strong> Spend ~20 minutes on Section A (multiple choice), then ~8 minutes per 10-mark question. Leave 10 minutes to check your answers.
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:28px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Theory Question Types & How to Answer</h3>
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>Define / Explain (1–2 marks)</h4>
+        <p>Give the meaning of a term clearly. Use technical vocabulary. One mark = one key point.</p>
+      </div>
+      <div class="exam-card">
+        <h4>Describe / Discuss (3–4 marks)</h4>
+        <p>Give details. Structure your answer in bullet points, each with a clear, complete sentence.</p>
+      </div>
+      <div class="exam-card">
+        <h4>Compare / Differentiate (4–6 marks)</h4>
+        <p>State clear differences. Use a table or "whereas" sentences: "A does X, whereas B does Y."</p>
+      </div>
+      <div class="exam-card">
+        <h4>Recommend / Advise (4–6 marks)</h4>
+        <p>State your recommendation clearly, then justify it with reasons. Always answer in context of the scenario given.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRACTICAL GUIDE ═══ -->
+  <div id="practicalguide" class="section">
+    <div class="sec-header">
+      <h2>Practical Guide (Paper 2)</h2>
+      <div class="gold-rule"></div>
+      <p>Key skills, shortcuts, and tips for each application in Paper 2.</p>
+    </div>
+
+    <div class="highlight-box">
+      💾 <strong>Golden Rule:</strong> Press <strong>Ctrl + S</strong> every few minutes during the exam. Unsaved work = lost marks.
+    </div>
+
+    <!-- Word Processing -->
+    <div class="prac-step">
+      <div class="step-num">W</div>
+      <div class="step-content">
+        <h4>Word Processing — MS Word Tips</h4>
+        <ul>
+          <li><strong>Styles</strong>: Apply Heading 1/2/3 for structure — required for Table of Contents.</li>
+          <li><strong>Table of Contents</strong>: References → Table of Contents → update after changes.</li>
+          <li><strong>Mail Merge</strong>: Mailings → Start Mail Merge → link to data source → insert merge fields.</li>
+          <li><strong>Track Changes</strong>: Review → Track Changes — shows edits made to a document.</li>
+          <li><strong>Macros</strong>: View → Macros — record repetitive tasks to automate them.</li>
+          <li><strong>Columns & Section Breaks</strong>: Layout → Columns; insert Section Break to apply columns to part of a document only.</li>
+          <li><strong>Page numbering</strong>: Insert → Header/Footer → Page Number; use "Different First Page" to exclude from cover.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Spreadsheets -->
+    <div class="prac-step">
+      <div class="step-num">X</div>
+      <div class="step-content">
+        <h4>Spreadsheets — MS Excel Tips</h4>
+        <ul>
+          <li><strong>Absolute vs Relative</strong>: Press <strong>F4</strong> to toggle between $A$1, A$1, $A1, A1.</li>
+          <li><strong>VLOOKUP syntax</strong>: <code>=VLOOKUP(lookup_value, table_array, col_index, [FALSE])</code> — always use FALSE for exact match.</li>
+          <li><strong>IF syntax</strong>: <code>=IF(condition, value_if_true, value_if_false)</code></li>
+          <li><strong>Named ranges</strong>: Select cells → Name Box → type name. Use name in formulas for clarity.</li>
+          <li><strong>Conditional Formatting</strong>: Home → Conditional Formatting — highlights cells based on rules.</li>
+          <li><strong>Data Validation</strong>: Data → Data Validation — restrict input to a list, range, or type.</li>
+          <li><strong>Charts</strong>: Select data → Insert → choose chart type; always label axes and add a title.</li>
+          <li><strong>Protecting cells</strong>: Format Cells → Protection → lock; then Review → Protect Sheet.</li>
+        </ul>
+        <div class="code-block">=VLOOKUP(A2,$D$1:$F$20,2,FALSE)   ' Exact match lookup
+=IF(AND(B2>50,C2>50),"Pass","Fail")  ' Nested condition
+=SUMIF(A:A,"Matric",B:B)             ' Sum where condition met
+=COUNTIF(C2:C50,">=60")              ' Count passes</div>
+      </div>
+    </div>
+
+    <!-- Databases -->
+    <div class="prac-step">
+      <div class="step-num">A</div>
+      <div class="step-content">
+        <h4>Databases — MS Access Tips</h4>
+        <ul>
+          <li><strong>Creating tables</strong>: Design View → define field names, data types, and set primary key.</li>
+          <li><strong>Data types</strong>: Short Text, Long Text, Number, Currency, Date/Time, Yes/No, AutoNumber.</li>
+          <li><strong>Relationships</strong>: Database Tools → Relationships → drag primary key to foreign key.</li>
+          <li><strong>Queries</strong>: Create → Query Design → add tables → add fields → set criteria.</li>
+          <li><strong>Query criteria examples</strong>:</li>
+        </ul>
+        <div class="code-block">Like "J*"           ' Names starting with J
+Between 50 And 100  ' Values in range
+>#01/01/2023#       ' Dates after Jan 1 2023
+Not "Cape Town"     ' Excluding Cape Town</div>
+        <ul>
+          <li><strong>Calculated fields in queries</strong>: In the field row, type <code>TotalCost: [Price]*[Qty]</code></li>
+          <li><strong>Forms</strong>: Create → Form Wizard → select table → choose layout.</li>
+          <li><strong>Reports</strong>: Create → Report Wizard → group and sort data as required.</li>
+          <li><strong>Validation Rules</strong>: In table Design View, field properties → Validation Rule and Validation Text.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PowerPoint -->
+    <div class="prac-step">
+      <div class="step-num">P</div>
+      <div class="step-content">
+        <h4>Presentations — MS PowerPoint Tips</h4>
+        <ul>
+          <li><strong>Slide Master</strong>: View → Slide Master — change theme/font/logo for all slides at once.</li>
+          <li><strong>Animations</strong>: Animations tab — apply to individual objects; set order and duration.</li>
+          <li><strong>Transitions</strong>: Transitions tab — applied to whole slides; set timing.</li>
+          <li><strong>Hyperlinks</strong>: Select text/object → Insert → Link — link to another slide, file, or URL.</li>
+          <li><strong>Action buttons</strong>: Insert → Shapes → Action Buttons — for navigation.</li>
+          <li><strong>Handout / Notes</strong>: View → Notes Page to add speaker notes; File → Print → Handouts for 3/6 per page.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HTML / Internet -->
+    <div class="prac-step">
+      <div class="step-num">H</div>
+      <div class="step-content">
+        <h4>HTML Basics for Paper 2</h4>
+        <p>You may be asked to read, edit, or complete basic HTML. Key tags to know:</p>
+        <div class="code-block">&lt;html&gt;...&lt;/html&gt;       Root element
+&lt;head&gt;...&lt;/head&gt;       Metadata (title, styles)
+&lt;body&gt;...&lt;/body&gt;       Page content
+&lt;h1&gt; to &lt;h6&gt;           Headings
+&lt;p&gt;...&lt;/p&gt;             Paragraph
+&lt;a href="url"&gt;Link&lt;/a&gt;  Hyperlink
+&lt;img src="file.jpg"&gt;    Image
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;         Table structure
+&lt;ul&gt;&lt;li&gt; / &lt;ol&gt;&lt;li&gt;    Unordered / Ordered list
+&lt;b&gt;Bold&lt;/b&gt; &lt;i&gt;Italic&lt;/i&gt;  Formatting</div>
+        <ul style="margin-top:12px;">
+          <li>HTML files are saved with a <code>.html</code> extension and opened in a browser.</li>
+          <li><code>bgcolor</code>, <code>color</code>, <code>font-size</code> are common style attributes to modify.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 12 Computer Applications Technology &nbsp;·&nbsp; CAPS Aligned</div>
+  <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
+</footer>
+
+<script>
+  // ACCESS CODE
+  const VALID_CODE = 'SH-CAT12';
+  function checkCode() {
+    const val = document.getElementById('accessInput').value.trim().toUpperCase();
+    if (val === VALID_CODE) {
+      document.getElementById('lockScreen').style.display = 'none';
+      sessionStorage.setItem('sh_cat_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
+    }
+  }
+  document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
+  if (sessionStorage.getItem('sh_cat_unlocked')) document.getElementById('lockScreen').style.display = 'none';
+
+  // TABS
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  // TOPICS
+  function toggleTopic(id) {
+    document.getElementById(id).classList.toggle('open');
+    updateProgress();
+  }
+
+  // PROGRESS
+  function updateProgress() {
+    const opened = document.querySelectorAll('.topic-card.open').length;
+    const total = document.querySelectorAll('.topic-card').length;
+    const qDone = quizCompleted ? 20 : 0;
+    const pct = Math.min(100, Math.round((opened / total) * 60 + qDone));
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  // FLASHCARDS
+  const flashcards = [
+    { q: 'What does ALU stand for and what does it do?', a: 'Arithmetic Logic Unit — performs all mathematical calculations and logical comparisons inside the CPU.' },
+    { q: 'What is the difference between RAM and ROM?', a: 'RAM is volatile (temporary) memory used to run programs. ROM is non-volatile (permanent) memory storing firmware/BIOS.' },
+    { q: 'What is the difference between a switch and a router?', a: 'A switch connects devices within a LAN and sends data only to the intended device. A router connects different networks and directs traffic between them (e.g. LAN to Internet).' },
+    { q: 'What is open source software?', a: 'Software whose source code is freely available for anyone to use, modify, and distribute. Examples: LibreOffice, Linux.' },
+    { q: 'What is phishing?', a: 'A cyberattack where fake emails or websites trick users into revealing sensitive information like passwords or banking details.' },
+    { q: 'What is a primary key in a database?', a: 'A unique field in a database table that identifies each record — no two records can have the same primary key value.' },
+    { q: 'What does VLOOKUP do in Excel?', a: 'Searches the first column of a range for a value and returns data from a specified column in the same row. Syntax: =VLOOKUP(value, table, col_index, FALSE)' },
+    { q: 'What is bandwidth?', a: 'The maximum amount of data that can be transmitted over a network in a given time, measured in Mbps or Gbps.' },
+    { q: 'What is the difference between the Internet and the WWW?', a: 'The Internet is the global network infrastructure. The World Wide Web (WWW) is a service that runs on the Internet, consisting of websites accessed via HTTP.' },
+    { q: 'What is ransomware?', a: 'A type of malware that encrypts a victim\'s files and demands payment (a ransom) to restore access.' },
+    { q: 'What does the DNS do?', a: 'Domain Name System — translates human-readable domain names (like www.google.com) into IP addresses computers can use.' },
+    { q: 'What is an absolute cell reference in Excel?', a: 'A cell reference that does not change when a formula is copied — indicated by $ signs, e.g. $A$1. Press F4 to toggle.' },
+  ];
+
+  const fcGrid = document.getElementById('fcGrid');
+  flashcards.forEach((fc, i) => {
+    fcGrid.innerHTML += `<div class="fc-card" id="fc${i}" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front"><div class="label">Question</div><p>${fc.q}</p><div class="fc-hint">Tap to flip</div></div>
+        <div class="fc-back"><p>${fc.a}</p></div>
+      </div>
+    </div>`;
+  });
+
+  // QUIZ
+  const questions = [
+    { q: 'Which component of the CPU performs arithmetic and logical operations?', opts: ['Control Unit','Cache','ALU','Register'], ans: 2, exp: 'The ALU (Arithmetic Logic Unit) handles all calculations and logical comparisons inside the CPU.' },
+    { q: 'Which type of memory is volatile (loses data when power is off)?', opts: ['ROM','HDD','SSD','RAM'], ans: 3, exp: 'RAM (Random Access Memory) is volatile — it temporarily holds data for running programs but loses it when power is removed.' },
+    { q: 'A network that covers a single building or campus is called a:', opts: ['WAN','MAN','LAN','PAN'], ans: 2, exp: 'A LAN (Local Area Network) covers a limited area such as a building or campus.' },
+    { q: 'Which device connects a LAN to the Internet and directs data between networks?', opts: ['Switch','Hub','Access Point','Router'], ans: 3, exp: 'A router directs data packets between different networks — including from your LAN to the Internet.' },
+    { q: 'What does HTTP stand for?', opts: ['Hyper Text Transfer Protocol','High Transfer Technology Protocol','Hyper Text Transmission Process','Host Transfer Text Protocol'], ans: 0, exp: 'HTTP — HyperText Transfer Protocol — is the standard protocol for transferring web pages over the Internet.' },
+    { q: 'Which type of software licence allows free use and modification of the source code?', opts: ['Freeware','Shareware','Proprietary','Open Source'], ans: 3, exp: 'Open source software makes its source code freely available for use, modification, and distribution.' },
+    { q: 'In MS Excel, which symbol makes a cell reference absolute?', opts: ['#','&','$','@'], ans: 2, exp: 'The $ symbol locks a cell reference. $A$1 is fully absolute — it won\'t change when copied.' },
+    { q: 'Which of the following is an example of phishing?', opts: ['Installing antivirus software','A fake email asking you to verify your bank login','Using HTTPS on a website','Encrypting your hard drive'], ans: 1, exp: 'Phishing uses fake emails or websites to trick users into revealing sensitive information like passwords or banking details.' },
+    { q: 'In a database, what is the purpose of a primary key?', opts: ['To sort records alphabetically','To link two tables together','To uniquely identify each record in a table','To validate data entry'], ans: 2, exp: 'A primary key uniquely identifies each record in a table — no two records can share the same primary key value.' },
+    { q: 'Which Excel function searches a column for a value and returns data from another column?', opts: ['SUMIF','COUNTIF','VLOOKUP','HLOOKUP'], ans: 2, exp: 'VLOOKUP (Vertical Lookup) searches the first column of a range and returns a value from a specified column in the same row.' },
+    { q: 'What does DNS stand for?', opts: ['Digital Network System','Domain Name System','Data Navigation Service','Dynamic Node Selector'], ans: 1, exp: 'DNS — Domain Name System — translates domain names like www.example.com into IP addresses.' },
+    { q: 'Which Star topology characteristic is correct?', opts: ['If the central switch fails, only one device is affected','All devices share a single cable','Each device connects directly to the central switch','Failure of one cable brings down the whole network'], ans: 2, exp: 'In a star topology, each device has its own cable connecting it to a central switch, so one failure doesn\'t affect others.' },
+    { q: 'What is the 3-2-1 backup rule?', opts: ['3 passwords, 2 devices, 1 cloud account','3 copies of data, 2 different media, 1 stored offsite','3 backups per day, 2 per week, 1 per month','3 users, 2 admins, 1 superuser'], ans: 1, exp: 'The 3-2-1 rule: keep 3 copies of data, on 2 different storage types, with 1 copy stored offsite — protects against data loss.' },
+    { q: 'Which HTML tag creates a hyperlink?', opts: ['<link>','<href>','<url>','<a>'], ans: 3, exp: 'The <a href="url"> tag creates a hyperlink in HTML. The href attribute specifies the destination URL.' },
+    { q: 'What is e-waste?', opts: ['Digital junk mail','Wasted electricity from computers','Discarded electronic equipment that may contain toxic materials','Files deleted from a computer'], ans: 2, exp: 'E-waste refers to discarded electronic devices. They often contain toxic materials like lead and mercury, requiring responsible disposal.' },
+  ];
+
+  let currentQ = 0, score = 0, answered = false, quizCompleted = false;
+
+  function renderQuiz() {
+    const qb = document.getElementById('quizBody');
+    if (currentQ >= questions.length) {
+      quizCompleted = true; updateProgress();
+      const pct = Math.round((score / questions.length) * 100);
+      const msg = pct >= 80 ? '🏆 Excellent! You\'re ready for Paper 1.' : pct >= 60 ? '👍 Good work — revisit the topics you missed.' : '📖 Keep revising — you\'re getting there!';
+      qb.innerHTML = `<div class="result-card"><div class="result-score">${score}/${questions.length}</div><div class="result-label">${pct}%</div><div class="result-msg">${msg}</div><button class="btn-outline" onclick="restartQuiz()">Try Again</button></div>`;
+      return;
+    }
+    const q = questions[currentQ]; answered = false;
+    qb.innerHTML = `
+      <div class="quiz-progress"><span>Question ${currentQ+1} of ${questions.length}</span><span>Score: ${score}</span></div>
+      <div class="q-box">
+        <div class="q-num">Q${currentQ+1}</div>
+        <h3>${q.q}</h3>
+        <div class="options">${q.opts.map((o,i)=>`<button class="opt-btn" id="opt${i}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+      <div class="quiz-nav"><button class="btn-gold" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button></div>`;
+  }
+
+  function selectAnswer(i) {
+    if (answered) return; answered = true;
+    const q = questions[currentQ];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedback');
+    if (i === q.ans) { score++; document.getElementById('opt'+i).classList.add('correct'); fb.className='feedback show correct-fb'; fb.innerHTML='✓ Correct! '+q.exp; }
+    else { document.getElementById('opt'+i).classList.add('wrong'); document.getElementById('opt'+q.ans).classList.add('correct'); fb.className='feedback show wrong-fb'; fb.innerHTML='✗ Incorrect. '+q.exp; }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function nextQ() { currentQ++; renderQuiz(); }
+  function restartQuiz() { currentQ=0; score=0; quizCompleted=false; renderQuiz(); }
+  document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+</body>
+</html>
