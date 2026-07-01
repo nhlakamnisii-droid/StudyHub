@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Grade 11 History</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap');
+
+  :root {
+    --midnight: #0a0e1a;
+    --navy: #0f1628;
+    --navy-light: #162040;
+    --gold: #c98c4c;
+    --gold-light: #e0ab78;
+    --gold-dim: rgba(201,140,76,0.15);
+    --text: #e8e6e0;
+    --muted: #8a8a9a;
+    --card: #131929;
+    --card-hover: #1a2238;
+    --border: rgba(201,140,76,0.2);
+    --correct: #4caf7d;
+    --wrong: #e05c5c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── LOCK SCREEN ─── */
+  #lockScreen {
+    position: fixed; inset: 0;
+    background: var(--midnight);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    padding: 24px;
+  }
+  .lock-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+  }
+  .lock-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+  .lock-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
+  .lock-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+  .lock-input {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .lock-input:focus { border-color: var(--gold); }
+  .lock-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--midnight);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .lock-btn:hover { background: var(--gold-light); }
+  .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
+  .guide-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-bar-wrap { width: 140px; height: 5px; background: var(--navy-light); border-radius: 4px; }
+  .progress-bar { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #14213f 60%, var(--midnight) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,140,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; font-size: 0.95rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    background: var(--gold-dim); border: 1px solid var(--border);
+    color: var(--gold-light); font-size: 0.78rem; padding: 6px 14px;
+    border-radius: 50px; letter-spacing: 0.5px;
+  }
+
+  /* ─── NAV TABS ─── */
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 16px 32px;
+    background: var(--navy); border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: 1px solid transparent;
+    color: var(--muted); padding: 8px 18px;
+    border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    white-space: nowrap; transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--navy-light); }
+  .tab-btn.active { color: var(--gold); border-color: var(--border); background: var(--gold-dim); }
+
+  /* ─── MAIN ─── */
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ─── SECTION HEADERS ─── */
+  .sec-header { margin-bottom: 32px; }
+  .sec-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .sec-header p { color: var(--muted); font-size: 0.9rem; }
+  .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 12px 0; }
+
+  /* ─── TOPIC CARDS ─── */
+  .topic-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: var(--gold); }
+  .topic-toggle {
+    width: 100%; background: none; border: none; color: var(--text);
+    padding: 20px 24px; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600;
+  }
+  .topic-toggle .topic-label { display: flex; align-items: center; gap: 14px; }
+  .topic-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; }
+  .chevron { color: var(--gold); font-size: 1.1rem; transition: transform 0.3s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { color: var(--gold-light); font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 10px; }
+  .topic-body p, .topic-body li { color: #c8c6c0; font-size: 0.92rem; line-height: 1.75; }
+  .topic-body ul, .topic-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .topic-body li { margin-bottom: 6px; }
+  .key-term { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--gold-light); }
+  .date-badge { display: inline-block; background: var(--navy); border: 1px solid var(--border); color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+
+  /* ─── FLASHCARDS ─── */
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
+  .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+    backface-visibility: hidden;
+  }
+  .fc-back { transform: rotateY(180deg); background: var(--navy-light); border-color: var(--gold); }
+  .fc-front .label { font-size: 0.7rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .fc-front p { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+
+  /* ─── QUIZ ─── */
+  .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
+  .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+  .q-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: var(--navy); border: 1px solid var(--border);
+    color: var(--text); padding: 13px 18px; border-radius: 8px;
+    text-align: left; cursor: pointer; font-size: 0.9rem;
+    transition: all 0.2s; font-family: 'Inter', sans-serif;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-dim); }
+  .opt-btn.correct { background: rgba(76,175,125,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: rgba(224,92,92,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .feedback { padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(76,175,125,0.1); border: 1px solid var(--correct); color: #7dd4a8; }
+  .feedback.wrong-fb { background: rgba(224,92,92,0.1); border: 1px solid var(--wrong); color: #f08080; }
+  .quiz-nav { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .btn-gold {
+    background: var(--gold); color: var(--midnight);
+    border: none; padding: 12px 28px; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    letter-spacing: 0.5px; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: none; color: var(--gold);
+    border: 1px solid var(--gold); padding: 12px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; margin-right: 10px;
+  }
+  .btn-outline:hover { background: var(--gold-dim); }
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+  .result-score { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
+
+  /* ─── EXAM GUIDE ─── */
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .exam-card h4 { color: var(--gold); font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .exam-card p, .exam-card li { color: #c8c6c0; font-size: 0.88rem; line-height: 1.7; }
+  .exam-card ul { padding-left: 18px; }
+  .mark-table, .mark-rubric { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .mark-table th, .mark-rubric th { background: var(--navy-light); color: var(--gold); padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .mark-table td, .mark-rubric td { padding: 10px 14px; border: 1px solid var(--border); color: #c8c6c0; vertical-align: top; }
+  .mark-table tr:nth-child(even) td, .mark-rubric tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-box { background: var(--gold-dim); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--gold-light); }
+
+  /* ─── ESSAY GUIDE ─── */
+  .essay-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { background: var(--gold); color: var(--midnight); font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
+  .step-content p, .step-content li { color: #c8c6c0; font-size: 0.9rem; line-height: 1.7; }
+  .step-content ul { padding-left: 18px; margin-top: 8px; }
+  .essay-template { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 16px 0; font-family: 'Courier Prime', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.9; }
+  .essay-template .placeholder { color: var(--gold); font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-logo">STUDYHUB BY NHLAKA</div>
+    <div class="lock-title">Grade 11 History</div>
+    <div class="lock-sub">Enter your access code to unlock this guide</div>
+    <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
+    <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
+    <div class="lock-error" id="lockError">Incorrect access code. Please try again.</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">STUDYHUB</div>
+  <div class="guide-title">Grade 11 History</div>
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">CAPS Aligned · Grade 11</div>
+  <h1>History<br><span>Study Guide</span></h1>
+  <p>Master Communism in Russia, Capitalism in the USA, Ideas of Race, Nationalisms, and Apartheid South Africa — with flashcards, a practice quiz, exam breakdown, and essay technique.</p>
+  <div class="hero-chips">
+    <span class="chip">📖 5 Topics</span>
+    <span class="chip">🃏 Flashcards</span>
+    <span class="chip">✏️ Practice Quiz</span>
+    <span class="chip">📄 Exam Guide</span>
+    <span class="chip">✍️ Essay Guide</span>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('notes',this)">📖 Notes</button>
+  <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
+  <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
+  <button class="tab-btn" onclick="showSection('essayguide',this)">✍️ Essay Guide</button>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- ═══ NOTES ═══ -->
+  <div id="notes" class="section active">
+    <div class="sec-header">
+      <h2>Study Notes</h2>
+      <div class="gold-rule"></div>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 11 History curriculum.</p>
+    </div>
+
+    <div class="topic-card" id="tc1">
+      <button class="topic-toggle" onclick="toggleTopic('tc1')">
+        <div class="topic-label"><span class="topic-num">01</span>Communism in Russia (1900–1940)</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Tsarist Russia &amp; the Road to Revolution</h4>
+        <p>Under Tsar Nicholas II, Russia was an autocracy with a vast, impoverished peasantry and a small, increasingly radicalised industrial working class.</p>
+        <ul>
+          <li><span class="date-badge">1905</span> <strong>Bloody Sunday</strong>: Troops fired on peaceful protesters marching to petition the Tsar — sparked the 1905 Revolution and forced limited reforms (the Duma).</li>
+          <li><strong>Impact of WWI</strong>: Massive military losses, food shortages, and economic strain discredited the Tsar's government.</li>
+        </ul>
+        <h4>The 1917 Revolutions</h4>
+        <ul>
+          <li><span class="date-badge">Feb 1917</span> <strong>February Revolution</strong>: Mass protests and strikes forced Tsar Nicholas II to abdicate; a Provisional Government took over.</li>
+          <li><span class="date-badge">Oct 1917</span> <strong>October Revolution</strong>: The Bolsheviks, led by <strong>Vladimir Lenin</strong>, seized power under the slogan "Peace, Land, Bread."</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Bolsheviks:</strong> A radical Marxist party led by Lenin that believed a small disciplined vanguard should lead the working class to revolution.</div>
+        <h4>Civil War &amp; Consolidation</h4>
+        <ul>
+          <li><strong>Russian Civil War (1918–1921)</strong>: Reds (Bolsheviks) fought Whites (anti-Bolshevik forces) — Reds won, securing Bolshevik control.</li>
+          <li><strong>War Communism</strong>: Emergency policy of grain requisitioning and state control during the civil war.</li>
+          <li><strong>New Economic Policy (NEP, 1921)</strong>: Lenin allowed limited private trade and small-scale capitalism to revive the economy after the war.</li>
+        </ul>
+        <h4>Stalin's Rise &amp; Rule</h4>
+        <ul>
+          <li>After Lenin's death in 1924, <strong>Joseph Stalin</strong> outmanoeuvred rivals (including Trotsky) to become sole leader.</li>
+          <li><strong>Five-Year Plans</strong>: Rapid, state-directed industrialisation targets for heavy industry.</li>
+          <li><strong>Collectivisation</strong>: Peasant farms forcibly merged into state-controlled collectives; resistance from "kulaks" (wealthier peasants) was crushed, contributing to widespread famine.</li>
+          <li><strong>The Great Purge (1930s)</strong>: Stalin eliminated real and perceived political rivals through show trials, executions, and the Gulag labour camp system.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Totalitarianism:</strong> A system in which the state seeks total control over political, economic, and social life — Stalin's USSR is a key example.</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc2">
+      <button class="topic-toggle" onclick="toggleTopic('tc2')">
+        <div class="topic-label"><span class="topic-num">02</span>Capitalism in the USA (1900–1940)</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>The Roaring Twenties</h4>
+        <p>The 1920s USA saw rapid economic growth built on mass production, consumerism, and speculative investment.</p>
+        <ul>
+          <li><strong>Fordism</strong>: Henry Ford's assembly-line mass production lowered costs and enabled a consumer boom (cars, radios, household goods).</li>
+          <li><strong>Stock market speculation</strong>: Many Americans bought shares "on margin" (with borrowed money), inflating share prices beyond real value.</li>
+        </ul>
+        <h4>The Wall Street Crash &amp; Great Depression</h4>
+        <ul>
+          <li><span class="date-badge">Oct 1929</span> <strong>Wall Street Crash</strong>: Share prices collapsed, wiping out investors and triggering bank failures.</li>
+          <li>The <strong>Great Depression</strong> followed: mass unemployment, homelessness, and business closures throughout the 1930s.</li>
+          <li>The <strong>Dust Bowl</strong> — severe drought and poor farming practices — devastated agriculture in the Great Plains, worsening rural poverty.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Great Depression:</strong> The severe worldwide economic downturn of the 1930s, triggered by the 1929 Wall Street Crash.</div>
+        <h4>Roosevelt's New Deal</h4>
+        <ul>
+          <li><strong>Franklin D. Roosevelt (FDR)</strong> became president in 1933 and launched the New Deal — a programme of Relief, Recovery, and Reform.</li>
+          <li><strong>Key agencies</strong>: the Civilian Conservation Corps (CCC, job creation), the Works Progress Administration (WPA, public works), and the Tennessee Valley Authority (TVA, infrastructure).</li>
+          <li><strong>Social Security Act (1935)</strong>: Introduced unemployment insurance and old-age pensions.</li>
+          <li>Critics on the right saw the New Deal as excessive government interference; critics on the left felt it did not go far enough to redistribute wealth.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc3">
+      <button class="topic-toggle" onclick="toggleTopic('tc3')">
+        <div class="topic-label"><span class="topic-num">03</span>Ideas of Race (Late 19th–20th Century)</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Pseudo-Scientific Racism &amp; Social Darwinism</h4>
+        <p>From the late 1800s, some Europeans misapplied Darwin's theory of evolution to human societies, falsely claiming that races could be ranked in a hierarchy.</p>
+        <ul>
+          <li><strong>Social Darwinism</strong>: The false idea of "survival of the fittest" applied to races and nations, used to justify domination and inequality.</li>
+          <li><strong>Eugenics movement</strong>: A pseudo-science advocating "selective breeding" to "improve" the human population — influenced policy in the USA, Britain, and Australia in the early 20th century.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Pseudo-science:</strong> Claims presented as scientific but lacking real evidence or rigorous method — used to justify racist ideology.</div>
+        <h4>Consequences of Racial Ideology</h4>
+        <ul>
+          <li>These ideas underpinned imperialism and colonial rule, portraying colonised peoples as "inferior" to justify domination.</li>
+          <li>In <strong>Nazi Germany</strong>, eugenics and racial pseudo-science were taken to their most extreme conclusion, culminating in the Holocaust — the genocide of six million Jews and millions of others.</li>
+          <li>Racial ideology also shaped segregationist policy in the USA (Jim Crow laws) and laid ideological groundwork later drawn on in South Africa.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc4">
+      <button class="topic-toggle" onclick="toggleTopic('tc4')">
+        <div class="topic-label"><span class="topic-num">04</span>Nationalisms: South Africa, the Middle East &amp; Africa</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>What Is Nationalism?</h4>
+        <p>Nationalism is loyalty and devotion to one's nation — it has two faces: it can unify and liberate oppressed peoples, or it can exclude and oppress others.</p>
+        <ul>
+          <li>Nationalism's origins lie in 19th-century Europe — e.g. the unification of Italy and Germany, and the revolutions of 1830 and 1848.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Nationalism:</strong> A political ideology based on the belief that a group sharing a common identity (language, culture, history) should govern itself as a nation.</div>
+        <h4>Nationalism in Africa</h4>
+        <ul>
+          <li>European colonisation provoked African nationalism as a form of self-defence, unifying oppressed peoples against colonial rule.</li>
+          <li>African nationalist movements sought self-determination and independence from European empires.</li>
+        </ul>
+        <h4>Nationalism in South Africa</h4>
+        <ul>
+          <li><strong>Afrikaner nationalism</strong>: Grew from a sense of Afrikaner identity and grievance, especially after the South African War (1899–1902); later became the ideological basis for apartheid.</li>
+          <li><strong>African nationalism</strong>: The <strong>ANC (African National Congress)</strong> was founded in 1912 to unite Black South Africans and resist discriminatory laws.</li>
+        </ul>
+        <h4>Nationalism in the Middle East</h4>
+        <ul>
+          <li>Arab nationalism sought unity and independence from Ottoman and later European (British/French) control after WWI.</li>
+          <li><strong>Zionism</strong>: A Jewish nationalist movement seeking a homeland in Palestine, gaining momentum after the Balfour Declaration (1917).</li>
+          <li>These competing nationalisms in the same territory sowed the seeds of long-running regional conflict.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Apartheid in South Africa (1940s–1960s)</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>The 1948 Election &amp; the Birth of Apartheid</h4>
+        <ul>
+          <li><span class="date-badge">1948</span> The <strong>National Party (NP)</strong> won the all-white general election on a platform of "apartheid" (separateness), building on earlier segregation laws.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Apartheid:</strong> An Afrikaans word meaning "apartness" — the system of legalised racial segregation and discrimination enforced in South Africa from 1948 to 1994.</div>
+        <h4>Key Apartheid Legislation</h4>
+        <ul>
+          <li><strong>Population Registration Act (1950)</strong>: Classified every South African by race.</li>
+          <li><strong>Group Areas Act (1950)</strong>: Assigned racially separate residential and business areas, forcing removals.</li>
+          <li><strong>Prohibition of Mixed Marriages Act (1949) &amp; Immorality Act (1950)</strong>: Banned interracial marriage and sexual relationships.</li>
+          <li><strong>Bantu Education Act (1953)</strong>: Created a separate, inferior education system for Black South Africans.</li>
+          <li><strong>Pass Laws</strong>: Required Black South Africans to carry documents controlling their movement into "white" areas.</li>
+          <li><strong>"Grand apartheid"</strong>: The creation of ethnic "homelands" (Bantustans) intended to strip Black South Africans of their South African citizenship.</li>
+        </ul>
+        <h4>Resistance in the 1950s–60s</h4>
+        <ul>
+          <li><span class="date-badge">1952</span> <strong>Defiance Campaign</strong>: The ANC and allies organised mass, deliberate defiance of unjust laws.</li>
+          <li><span class="date-badge">1955</span> <strong>Freedom Charter</strong>: Adopted at the Congress of the People in Kliptown — declared "South Africa belongs to all who live in it."</li>
+          <li><span class="date-badge">1960</span> <strong>Sharpeville Massacre</strong>: Police killed 69 people protesting the pass laws; the ANC and PAC were subsequently banned.</li>
+          <li><span class="date-badge">1963–64</span> <strong>Rivonia Trial</strong>: Nelson Mandela and other ANC leaders were sentenced to life imprisonment for sabotage.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="flashcards" class="section">
+    <div class="sec-header">
+      <h2>Flashcards</h2>
+      <div class="gold-rule"></div>
+      <p>Click a card to flip it and reveal the answer.</p>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+
+  <div id="quiz" class="section">
+    <div class="sec-header">
+      <h2>Practice Quiz</h2>
+      <div class="gold-rule"></div>
+      <p>14 questions covering all five Grade 11 History topics.</p>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+  <div id="examguide" class="section">
+    <div class="sec-header">
+      <h2>Exam Paper Guide</h2>
+      <div class="gold-rule"></div>
+      <p>Understand exactly what the Grade 11 History paper looks like and how to maximise your marks.</p>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>📄 Paper Overview</h4>
+        <ul>
+          <li><strong>Duration:</strong> 3 hours</li>
+          <li><strong>Total marks:</strong> 150</li>
+          <li><strong>Section A:</strong> Source-based questions</li>
+          <li><strong>Section B:</strong> Essay question(s)</li>
+        </ul>
+      </div>
+      <div class="exam-card">
+        <h4>🔑 Source Question Command Words</h4>
+        <ul>
+          <li><strong>Mention/Identify:</strong> 1 mark per fact, straight from the source.</li>
+          <li><strong>Explain:</strong> Use the source AND your own knowledge to give reasons.</li>
+          <li><strong>Compare:</strong> Identify similarities and/or differences between two sources.</li>
+          <li><strong>Comment on/Evaluate:</strong> Assess the reliability, usefulness, or perspective of a source.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Mark Allocation Guide</h3>
+    <table class="mark-table">
+      <thead><tr><th>Question type</th><th>Marks per point</th><th>What's expected</th></tr></thead>
+      <tbody>
+        <tr><td>Mention/Identify</td><td>1 mark</td><td>A single correct fact taken from the source.</td></tr>
+        <tr><td>Explain (source-based)</td><td>2 marks</td><td>A point supported by the source plus your own contextual knowledge.</td></tr>
+        <tr><td>Source comparison</td><td>2–4 marks</td><td>A clear similarity or difference, with evidence from both sources.</td></tr>
+        <tr><td>Essay</td><td>50 marks</td><td>A structured, argued response with intro, body paragraphs, and conclusion.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">📌 <strong>Exam tip:</strong> Always read the source's <em>origin, context, and content</em> before answering — many marks are lost by ignoring who wrote a source and why.</div>
+  </div>
+
+  <div id="essayguide" class="section">
+    <div class="sec-header">
+      <h2>Essay Writing Guide</h2>
+      <div class="gold-rule"></div>
+      <p>A step-by-step technique for structuring a strong, high-marks History essay.</p>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Unpack the Question</h4>
+        <p>Identify the key concept being tested (e.g. causation, consequence, significance) and underline the specific dates/topic named in the question.</p>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Write a Strong Introduction</h4>
+        <ul>
+          <li><strong>Contextualise</strong>: Briefly describe the historical background (2–3 sentences).</li>
+          <li><strong>Address the question</strong>: Directly respond to what is being asked.</li>
+          <li><strong>State your argument</strong>: Your thesis — the overarching claim you will prove.</li>
+        </ul>
+        <div class="essay-template">
+          <span class="placeholder">[Broad historical context — 2 sentences].</span> This essay will argue that <span class="placeholder">[your thesis/main argument]</span>. This will be demonstrated through an examination of <span class="placeholder">[3 main points you will cover]</span>.
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Develop Body Paragraphs (P.E.E.L Structure)</h4>
+        <ul>
+          <li><strong>P — Point:</strong> State your argument for this paragraph clearly.</li>
+          <li><strong>E — Evidence:</strong> Provide specific facts, dates, names, events to support your point.</li>
+          <li><strong>E — Explain:</strong> Explain how your evidence proves your point.</li>
+          <li><strong>L — Link:</strong> Connect back to the question/thesis.</li>
+        </ul>
+        <div class="essay-template">
+          <span class="placeholder">[Topic sentence — your paragraph argument]</span>. This is supported by the fact that <span class="placeholder">[specific evidence: name, date, event]</span>. This demonstrates <span class="placeholder">[your explanation/analysis]</span>, which shows that <span class="placeholder">[link back to question]</span>.
+        </div>
+        <ul style="margin-top:12px;">
+          <li>Aim for <strong>3–4 body paragraphs</strong> with different arguments or factors.</li>
+          <li>Use <strong>historical vocabulary</strong>: causation, consequence, continuity, change, significance, perspective.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Write a Strong Conclusion</h4>
+        <ul>
+          <li><strong>Summarise</strong> your main arguments (1 sentence each).</li>
+          <li><strong>Restate your thesis</strong> in light of the evidence discussed.</li>
+          <li><strong>Make a final judgement</strong>: Answer the question directly and decisively.</li>
+        </ul>
+        <div class="essay-template">
+          In conclusion, this essay has argued that <span class="placeholder">[restate thesis]</span>. This was demonstrated through <span class="placeholder">[summary of main points]</span>. Therefore, it is clear that <span class="placeholder">[final answer to the question]</span>.
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Marking Rubric — What the Examiner Looks For</h3>
+    <table class="mark-rubric">
+      <thead><tr><th>Section</th><th>Marks</th><th>Criteria</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Introduction</strong></td><td>10</td><td>Historical context present; question addressed; clear thesis stated</td></tr>
+        <tr><td><strong>Evidence</strong></td><td>25</td><td>Accurate and relevant facts, dates, events, and names used to support arguments</td></tr>
+        <tr><td><strong>Analysis</strong></td><td>15</td><td>Arguments explained and linked to the question; cause/effect discussed</td></tr>
+        <tr><td><strong>Conclusion</strong></td><td>10</td><td>Arguments summarised; thesis restated; clear, decisive answer</td></tr>
+        <tr><td><strong>TOTAL</strong></td><td><strong>50</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Common Mistakes to Avoid</h3>
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>❌ Storytelling</h4>
+        <p>Don't just narrate events. You must <strong>argue and analyse</strong>. Every paragraph should answer: <em>So what? Why does this matter?</em></p>
+      </div>
+      <div class="exam-card">
+        <h4>❌ Vague Statements</h4>
+        <p>Avoid "many people suffered" — be specific: "69 protesters were killed at Sharpeville in 1960."</p>
+      </div>
+      <div class="exam-card">
+        <h4>❌ Ignoring the Question</h4>
+        <p>Re-read the question before every paragraph. Every point must connect back to what you are being asked.</p>
+      </div>
+      <div class="exam-card">
+        <h4>❌ No Introduction/Conclusion</h4>
+        <p>Many learners lose marks simply by starting with a body paragraph. Always write a proper intro and conclusion.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">✍️ <strong>Practice tip:</strong> Time yourself writing one essay in 50 minutes. Then swap with a classmate and mark each other using the rubric above.</div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 11 History &nbsp;·&nbsp; CAPS Aligned</div>
+  <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
+</footer>
+
+<script>
+  const VALID_CODE = 'SH-HIST11';
+  function checkCode() {
+    const val = document.getElementById('accessInput').value.trim().toUpperCase();
+    if (val === VALID_CODE) {
+      document.getElementById('lockScreen').style.display = 'none';
+      sessionStorage.setItem('sh_hist11_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
+    }
+  }
+  document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
+  if (sessionStorage.getItem('sh_hist11_unlocked')) {
+    document.getElementById('lockScreen').style.display = 'none';
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  function toggleTopic(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const opened = document.querySelectorAll('.topic-card.open').length;
+    const total = document.querySelectorAll('.topic-card').length;
+    const quizDone = quizCompleted ? 20 : 0;
+    const pct = Math.min(100, Math.round((opened / total) * 60 + quizDone));
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  const flashcards = [
+    { q: 'What triggered the 1905 Revolution in Russia?', a: 'Bloody Sunday — troops fired on peaceful protesters marching to petition the Tsar, sparking mass unrest.' },
+    { q: 'What happened in the October 1917 Revolution?', a: 'The Bolsheviks, led by Lenin, seized power from the Provisional Government under the slogan "Peace, Land, Bread."' },
+    { q: "What was Lenin's New Economic Policy (NEP)?", a: 'A 1921 policy allowing limited private trade and small-scale capitalism to revive the Russian economy after the civil war.' },
+    { q: "What was Stalin's collectivisation?", a: 'The forced merging of peasant farms into state-controlled collectives, crushing resistance from "kulaks" and contributing to widespread famine.' },
+    { q: 'What was Fordism?', a: "Henry Ford's assembly-line mass production method, which lowered costs and fuelled 1920s American consumerism." },
+    { q: 'What caused the Wall Street Crash of 1929?', a: 'Speculative buying of shares "on margin" (with borrowed money) inflated prices beyond real value; the bubble burst in October 1929.' },
+    { q: "What was Roosevelt's New Deal?", a: 'A programme of Relief, Recovery, and Reform launched in 1933 to combat the Great Depression through job creation and social welfare.' },
+    { q: 'What is Social Darwinism?', a: 'The false application of "survival of the fittest" to races and nations, used to justify domination and inequality.' },
+    { q: 'What was the eugenics movement?', a: 'A pseudo-science advocating "selective breeding" to "improve" the human population, influential in the early 20th century.' },
+    { q: 'What is nationalism?', a: "Loyalty and devotion to one's nation — it can unify and liberate oppressed peoples, or exclude and oppress others." },
+    { q: 'When was the ANC founded, and why?', a: '1912, to unite Black South Africans and resist discriminatory laws.' },
+    { q: 'What was Zionism?', a: 'A Jewish nationalist movement seeking a homeland in Palestine, gaining momentum after the 1917 Balfour Declaration.' },
+    { q: 'What did the 1948 election result in?', a: "The National Party's victory, which introduced the formal system of apartheid in South Africa." },
+    { q: 'What did the Population Registration Act (1950) do?', a: 'Classified every South African by race, forming the legal basis for all further apartheid segregation.' },
+    { q: 'What was the Freedom Charter (1955)?', a: 'A document adopted at the Congress of the People declaring "South Africa belongs to all who live in it."' },
+    { q: 'What happened at Sharpeville in 1960?', a: 'Police killed 69 people protesting the pass laws; the ANC and PAC were subsequently banned.' },
+    { q: 'What does P.E.E.L stand for in essay writing?', a: 'Point, Evidence, Explain, Link — a paragraph structure for building strong historical arguments.' },
+    { q: 'What happened at the Rivonia Trial (1963–64)?', a: 'Nelson Mandela and other ANC leaders were sentenced to life imprisonment for sabotage.' },
+  ];
+
+  const fcGrid = document.getElementById('fcGrid');
+  flashcards.forEach((fc, i) => {
+    fcGrid.innerHTML += `
+      <div class="fc-card" id="fc${i}" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="label">Question</div>
+            <p>${fc.q}</p>
+            <div class="fc-hint">Tap to flip</div>
+          </div>
+          <div class="fc-back">
+            <p>${fc.a}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  const questions = [
+    { q: 'What event sparked the 1905 Russian Revolution?', opts: ['The October Manifesto','Bloody Sunday','The Bolshevik coup','The Kornilov Affair'], ans: 1, exp: 'Bloody Sunday — troops fired on peaceful petitioners — sparked the 1905 Revolution.' },
+    { q: 'Who led the Bolsheviks to power in October 1917?', opts: ['Joseph Stalin','Leon Trotsky','Vladimir Lenin','Alexander Kerensky'], ans: 2, exp: 'Vladimir Lenin led the Bolsheviks in the October 1917 Revolution.' },
+    { q: "What was the purpose of Stalin's Five-Year Plans?", opts: ['To expand agriculture only','Rapid state-directed industrialisation','To increase trade with the West','To reduce the size of the Red Army'], ans: 1, exp: "Stalin's Five-Year Plans set ambitious targets for rapid industrialisation, especially heavy industry." },
+    { q: 'What triggered the Wall Street Crash of 1929?', opts: ['A bank robbery','Collapse of speculative share prices','A government shutdown','A war with Mexico'], ans: 1, exp: 'Speculative buying inflated share prices beyond their real value; the bubble burst in October 1929.' },
+    { q: 'Which New Deal agency focused on youth employment through conservation work?', opts: ['WPA','TVA','CCC','SSA'], ans: 2, exp: 'The Civilian Conservation Corps (CCC) employed young men in conservation and public works projects.' },
+    { q: 'What is Social Darwinism?', opts: ['A scientific theory of evolution','The false application of "survival of the fittest" to races and nations','A political party in Germany','An economic policy in the USA'], ans: 1, exp: 'Social Darwinism misapplied evolutionary theory to justify racial hierarchies and domination.' },
+    { q: 'The Nazi genocide of six million Jews is known as:', opts: ['The Great Purge','The Holocaust','The Holodomor','The Final Solution Act'], ans: 1, exp: 'The Holocaust was the Nazi genocide of six million Jews and millions of others during WWII.' },
+    { q: 'When was the ANC founded?', opts: ['1902','1912','1923','1948'], ans: 1, exp: 'The African National Congress was founded in 1912.' },
+    { q: 'What did the Balfour Declaration (1917) support?', opts: ['Arab independence','A Jewish homeland in Palestine','British rule over Egypt','Turkish sovereignty'], ans: 1, exp: 'The Balfour Declaration expressed British support for a Jewish homeland in Palestine, fuelling Zionism.' },
+    { q: "Which party won South Africa's 1948 election and introduced apartheid?", opts: ['African National Congress','United Party','National Party','Pan Africanist Congress'], ans: 2, exp: 'The National Party won the 1948 election and formally introduced apartheid policy.' },
+    { q: 'What did the Population Registration Act (1950) do?', opts: ['Banned interracial marriage','Classified every South African by race','Created separate schools','Restricted movement with passes'], ans: 1, exp: 'The Population Registration Act (1950) classified every South African by race, underpinning all later apartheid laws.' },
+    { q: 'The Freedom Charter was adopted at:', opts: ['The Rivonia Trial','The Congress of the People, Kliptown','The Sharpeville rally','The Defiance Campaign launch'], ans: 1, exp: 'The Freedom Charter was adopted at the Congress of the People in Kliptown in 1955.' },
+    { q: 'How many people were killed at the Sharpeville Massacre (1960)?', opts: ['21','45','69','112'], ans: 2, exp: '69 protesters were killed by police at Sharpeville in 1960.' },
+    { q: 'In the P.E.E.L essay structure, what does the second "E" stand for?', opts: ['Event','Evidence','Explain','Example'], ans: 2, exp: 'P.E.E.L = Point, Evidence, Explain, Link. The second E is Explain.' }
+  ];
+
+  let currentQ = 0, score = 0, answered = false, quizCompleted = false;
+
+  function renderQuiz() {
+    const qb = document.getElementById('quizBody');
+    if (currentQ >= questions.length) {
+      quizCompleted = true; updateProgress();
+      const pct = Math.round((score / questions.length) * 100);
+      let msg = pct >= 80 ? '🏆 Outstanding! You\'re exam-ready.' : pct >= 60 ? '👍 Good work — review the topics you missed.' : '📖 Keep studying — you\'re building your knowledge.';
+      qb.innerHTML = `<div class="result-card">
+        <div class="result-score">${score}/${questions.length}</div>
+        <div class="result-label">${pct}%</div>
+        <div class="result-msg">${msg}</div>
+        <div><button class="btn-outline" onclick="restartQuiz()">Try Again</button></div>
+      </div>`;
+      return;
+    }
+    const q = questions[currentQ];
+    answered = false;
+    qb.innerHTML = `
+      <div class="quiz-progress">
+        <span>Question ${currentQ + 1} of ${questions.length}</span>
+        <span>Score: ${score}</span>
+      </div>
+      <div class="q-box">
+        <div class="q-num">Q${currentQ + 1}</div>
+        <h3>${q.q}</h3>
+        <div class="options">
+          ${q.opts.map((o, i) => `<button class="opt-btn" id="opt${i}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+      <div class="quiz-nav"><button class="btn-gold" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button></div>`;
+  }
+
+  function selectAnswer(i) {
+    if (answered) return;
+    answered = true;
+    const q = questions[currentQ];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedback');
+    if (i === q.ans) {
+      score++;
+      document.getElementById('opt'+i).classList.add('correct');
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '✓ Correct! ' + q.exp;
+    } else {
+      document.getElementById('opt'+i).classList.add('wrong');
+      document.getElementById('opt'+q.ans).classList.add('correct');
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '✗ Incorrect. ' + q.exp;
+    }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function nextQ() { currentQ++; renderQuiz(); }
+  function restartQuiz() { currentQ = 0; score = 0; quizCompleted = false; renderQuiz(); }
+
+  document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+</body>
+</html>

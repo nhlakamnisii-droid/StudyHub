@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Grade 11 Accounting</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap');
+
+  :root {
+    --midnight: #0a0e1a;
+    --navy: #0f1628;
+    --navy-light: #162040;
+    --gold: #c98c4c;
+    --gold-light: #e0ab78;
+    --gold-dim: rgba(201,140,76,0.15);
+    --text: #e8e6e0;
+    --muted: #8a8a9a;
+    --card: #131929;
+    --card-hover: #1a2238;
+    --border: rgba(201,140,76,0.2);
+    --correct: #4caf7d;
+    --wrong: #e05c5c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  #lockScreen {
+    position: fixed; inset: 0;
+    background: var(--midnight);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    padding: 24px;
+  }
+  .lock-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+  }
+  .lock-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+  .lock-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
+  .lock-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+  .lock-input {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .lock-input:focus { border-color: var(--gold); }
+  .lock-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--midnight);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .lock-btn:hover { background: var(--gold-light); }
+  .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
+
+  header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
+  .guide-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-bar-wrap { width: 140px; height: 5px; background: var(--navy-light); border-radius: 4px; }
+  .progress-bar { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #14213f 60%, var(--midnight) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,140,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; font-size: 0.95rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    background: var(--gold-dim); border: 1px solid var(--border);
+    color: var(--gold-light); font-size: 0.78rem; padding: 6px 14px;
+    border-radius: 50px; letter-spacing: 0.5px;
+  }
+
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 16px 32px;
+    background: var(--navy); border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: 1px solid transparent;
+    color: var(--muted); padding: 8px 18px;
+    border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    white-space: nowrap; transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--navy-light); }
+  .tab-btn.active { color: var(--gold); border-color: var(--border); background: var(--gold-dim); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .sec-header { margin-bottom: 32px; }
+  .sec-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .sec-header p { color: var(--muted); font-size: 0.9rem; }
+  .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 12px 0; }
+
+  .topic-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: var(--gold); }
+  .topic-toggle {
+    width: 100%; background: none; border: none; color: var(--text);
+    padding: 20px 24px; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600;
+  }
+  .topic-toggle .topic-label { display: flex; align-items: center; gap: 14px; }
+  .topic-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; }
+  .chevron { color: var(--gold); font-size: 1.1rem; transition: transform 0.3s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { color: var(--gold-light); font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 10px; }
+  .topic-body p, .topic-body li { color: #c8c6c0; font-size: 0.92rem; line-height: 1.75; }
+  .topic-body ul, .topic-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .topic-body li { margin-bottom: 6px; }
+  .key-term { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--gold-light); }
+  .date-badge { display: inline-block; background: var(--navy); border: 1px solid var(--border); color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+  .formula-box { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin: 10px 0; font-family: 'Courier Prime', monospace; font-size: 0.86rem; color: var(--gold-light); }
+
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
+  .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+    backface-visibility: hidden;
+  }
+  .fc-back { transform: rotateY(180deg); background: var(--navy-light); border-color: var(--gold); }
+  .fc-front .label { font-size: 0.7rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .fc-front p { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+
+  .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
+  .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+  .q-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: var(--navy); border: 1px solid var(--border);
+    color: var(--text); padding: 13px 18px; border-radius: 8px;
+    text-align: left; cursor: pointer; font-size: 0.9rem;
+    transition: all 0.2s; font-family: 'Inter', sans-serif;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-dim); }
+  .opt-btn.correct { background: rgba(76,175,125,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: rgba(224,92,92,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .feedback { padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(76,175,125,0.1); border: 1px solid var(--correct); color: #7dd4a8; }
+  .feedback.wrong-fb { background: rgba(224,92,92,0.1); border: 1px solid var(--wrong); color: #f08080; }
+  .quiz-nav { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .btn-gold {
+    background: var(--gold); color: var(--midnight);
+    border: none; padding: 12px 28px; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    letter-spacing: 0.5px; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: none; color: var(--gold);
+    border: 1px solid var(--gold); padding: 12px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; margin-right: 10px;
+  }
+  .btn-outline:hover { background: var(--gold-dim); }
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+  .result-score { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
+
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .exam-card h4 { color: var(--gold); font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .exam-card p, .exam-card li { color: #c8c6c0; font-size: 0.88rem; line-height: 1.7; }
+  .exam-card ul { padding-left: 18px; }
+  .mark-table, .mark-rubric { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .mark-table th, .mark-rubric th { background: var(--navy-light); color: var(--gold); padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .mark-table td, .mark-rubric td { padding: 10px 14px; border: 1px solid var(--border); color: #c8c6c0; vertical-align: top; }
+  .mark-table tr:nth-child(even) td, .mark-rubric tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-box { background: var(--gold-dim); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--gold-light); }
+
+  .essay-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { background: var(--gold); color: var(--midnight); font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
+  .step-content p, .step-content li { color: #c8c6c0; font-size: 0.9rem; line-height: 1.7; }
+  .step-content ul { padding-left: 18px; margin-top: 8px; }
+  .essay-template { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 16px 0; font-family: 'Courier Prime', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.9; }
+  .essay-template .placeholder { color: var(--gold); font-style: italic; }
+
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-logo">STUDYHUB BY NHLAKA</div>
+    <div class="lock-title">Grade 11 Accounting</div>
+    <div class="lock-sub">Enter your access code to unlock this guide</div>
+    <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
+    <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
+    <div class="lock-error" id="lockError">Incorrect access code. Please try again.</div>
+  </div>
+</div>
+
+<header>
+  <div class="brand">STUDYHUB</div>
+  <div class="guide-title">Grade 11 Accounting</div>
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">CAPS Aligned · Grade 11</div>
+  <h1>Accounting<br><span>Study Guide</span></h1>
+  <p>Master Reconciliations, Fixed Assets, Partnerships, Financial Statement Analysis, Cost Accounting &amp; Budgeting, and VAT — with flashcards, a practice quiz, and a formula reference guide.</p>
+  <div class="hero-chips">
+    <span class="chip">📖 6 Topics</span>
+    <span class="chip">🃏 Flashcards</span>
+    <span class="chip">✏️ Practice Quiz</span>
+    <span class="chip">📄 Exam Guide</span>
+    <span class="chip">🧮 Formula Guide</span>
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('notes',this)">📖 Notes</button>
+  <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
+  <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
+  <button class="tab-btn" onclick="showSection('formulaguide',this)">🧮 Formula Guide</button>
+</nav>
+
+<main>
+
+  <div id="notes" class="section active">
+    <div class="sec-header">
+      <h2>Study Notes</h2>
+      <div class="gold-rule"></div>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 11 Accounting curriculum.</p>
+    </div>
+
+    <div class="topic-card" id="tc1">
+      <button class="topic-toggle" onclick="toggleTopic('tc1')">
+        <div class="topic-label"><span class="topic-num">01</span>Ethics, Internal Control &amp; Reconciliations</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Ethics in Accounting</h4>
+        <ul>
+          <li>Ethical behaviour means being honest, transparent, and accountable when handling financial information.</li>
+          <li>Professional bodies such as <strong>SAICA</strong> (South African Institute of Chartered Accountants) and <strong>SAIPA</strong> set standards of conduct for the profession.</li>
+        </ul>
+        <h4>Internal Control</h4>
+        <div class="key-term">🔑 <strong>Internal control:</strong> the systems and procedures a business puts in place to safeguard assets and ensure accurate financial records.</div>
+        <ul>
+          <li><strong>Division of duties</strong>: no single person should control an entire transaction from start to finish, reducing fraud risk.</li>
+          <li><strong>Documentation</strong>: every transaction should have supporting source documents (invoices, receipts).</li>
+          <li><strong>Physical controls</strong>: e.g. safes, locked storerooms, access control.</li>
+          <li><strong>Internal audit</strong>: an ongoing independent review of a business's financial processes.</li>
+        </ul>
+        <h4>Bank Reconciliation</h4>
+        <p>Comparing the business's Cash Journal balance to the bank statement balance to explain any differences.</p>
+        <ul>
+          <li><strong>Outstanding deposits</strong>: recorded in the business's books but not yet reflected on the bank statement.</li>
+          <li><strong>Outstanding cheques</strong>: issued but not yet presented for payment.</li>
+          <li><strong>Bank charges/debit orders</strong>: appear on the statement before being recorded in the Cash Journal.</li>
+          <li><strong>Dishonoured cheques</strong>: cheques the bank refuses to pay (e.g. insufficient funds).</li>
+        </ul>
+        <h4>Creditors Reconciliation</h4>
+        <ul>
+          <li>Compares the <strong>Creditors' Ledger Account</strong> (business's records) to the <strong>Creditor's Statement</strong> (supplier's records).</li>
+          <li>Differences usually come from timing (goods/payments in transit) or errors on either side.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc2">
+      <button class="topic-toggle" onclick="toggleTopic('tc2')">
+        <div class="topic-label"><span class="topic-num">02</span>Fixed/Tangible Assets</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Types of Fixed Assets</h4>
+        <ul>
+          <li>Land &amp; buildings, vehicles, equipment — resources a business owns and uses long-term to generate income.</li>
+        </ul>
+        <h4>Depreciation Methods</h4>
+        <div class="key-term">🔑 <strong>Depreciation:</strong> the systematic allocation of an asset's cost as an expense over its useful life.</div>
+        <ul>
+          <li><strong>Straight-line method</strong> (cost method): the same depreciation amount is charged every year.</li>
+          <li><strong>Diminishing balance method</strong> (reducing balance): depreciation is calculated on the asset's carrying value, so the amount decreases each year.</li>
+        </ul>
+        <div class="formula-box">
+          Straight-line = Cost × rate% <br>
+          Diminishing balance = Carrying value × rate%
+        </div>
+        <h4>Asset Disposal</h4>
+        <ul>
+          <li>When an asset is sold, compare the <strong>selling price</strong> to its <strong>carrying value</strong> (cost − accumulated depreciation) to determine a profit or loss on sale.</li>
+          <li>A <strong>Fixed Asset Register/Note</strong> tracks each asset's cost, accumulated depreciation, and carrying value.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc3">
+      <button class="topic-toggle" onclick="toggleTopic('tc3')">
+        <div class="topic-label"><span class="topic-num">03</span>Partnerships</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>What Is a Partnership?</h4>
+        <p>An agreement between 2 or more people who carry on a business together with the aim of making and sharing profit.</p>
+        <ul>
+          <li>Governed by a <strong>partnership agreement</strong> setting out capital contributions, profit-sharing ratios, and partner responsibilities.</li>
+        </ul>
+        <h4>Capital vs Current Accounts</h4>
+        <ul>
+          <li><strong>Capital account</strong>: records each partner's fixed contribution — stays constant unless partners agree to change it.</li>
+          <li><strong>Current account</strong>: records a partner's share of profit, salary, interest on capital, and drawings — fluctuates regularly.</li>
+        </ul>
+        <h4>Appropriation Account</h4>
+        <p>Shows how net profit is distributed among partners:</p>
+        <ul>
+          <li>Partners' salaries (if agreed).</li>
+          <li>Interest on capital (rewards partners for the capital they've invested).</li>
+          <li>Bonus to a partner (if agreed).</li>
+          <li>Remaining profit shared in the agreed profit-sharing ratio.</li>
+        </ul>
+        <div class="formula-box">Interest on capital = Capital balance × rate% × time</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc4">
+      <button class="topic-toggle" onclick="toggleTopic('tc4')">
+        <div class="topic-label"><span class="topic-num">04</span>Analysis &amp; Interpretation of Financial Statements</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Why Analyse Financial Statements?</h4>
+        <p>Ratios help owners, investors, and creditors assess a business's <strong>liquidity</strong>, <strong>profitability</strong>, and <strong>solvency</strong>.</p>
+        <h4>Key Ratios</h4>
+        <div class="formula-box">
+          Current ratio = Current assets : Current liabilities<br>
+          Acid-test ratio = (Current assets − Inventory) : Current liabilities<br>
+          Gross profit margin = (Gross profit ÷ Sales) × 100<br>
+          Net profit margin = (Net profit ÷ Sales) × 100<br>
+          Solvency ratio = Total assets : Total liabilities
+        </div>
+        <ul>
+          <li><strong>Liquidity ratios</strong> (current, acid-test): can the business pay its short-term debts?</li>
+          <li><strong>Profitability ratios</strong> (gross/net profit margin): how well does the business turn sales into profit?</li>
+          <li><strong>Solvency ratio</strong>: can the business cover all its liabilities if it had to close down?</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Liquidity:</strong> a business's ability to pay its short-term debts as they fall due.</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Cost Accounting, Budgeting &amp; Inventory Systems</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Cost Accounting</h4>
+        <ul>
+          <li><strong>Direct costs</strong>: direct material + direct labour — costs traceable directly to a product.</li>
+          <li><strong>Indirect costs (factory overheads)</strong>: costs that support production but aren't traceable to one product, e.g. factory rent.</li>
+          <li><strong>Break-even point</strong>: the level of sales at which a business makes neither profit nor loss.</li>
+        </ul>
+        <div class="formula-box">Break-even point (units) = Fixed costs ÷ (Selling price per unit − Variable cost per unit)</div>
+        <h4>Budgeting</h4>
+        <ul>
+          <li><strong>Cash Budget</strong>: projects expected cash inflows and outflows to help manage liquidity.</li>
+          <li><strong>Projected Income Statement</strong>: forecasts expected income and expenses for a future period.</li>
+        </ul>
+        <h4>Inventory Systems</h4>
+        <ul>
+          <li><strong>Perpetual system</strong>: inventory records are updated continuously with every purchase and sale.</li>
+          <li><strong>Periodic system</strong>: inventory is only counted and valued at the end of a period.</li>
+          <li><strong>Valuation methods</strong>: FIFO (First-In-First-Out) and weighted average cost.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc6">
+      <button class="topic-toggle" onclick="toggleTopic('tc6')">
+        <div class="topic-label"><span class="topic-num">06</span>VAT (Value Added Tax)</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>What Is VAT?</h4>
+        <div class="key-term">🔑 <strong>VAT:</strong> an indirect tax charged on the value added to goods and services at each stage of production and distribution — currently 15% in South Africa.</div>
+        <h4>Input vs Output VAT</h4>
+        <ul>
+          <li><strong>Input VAT</strong>: VAT paid on purchases — can be claimed back from SARS.</li>
+          <li><strong>Output VAT</strong>: VAT charged on sales — owed to SARS.</li>
+        </ul>
+        <div class="formula-box">VAT payable to SARS = Output VAT − Input VAT</div>
+        <ul>
+          <li>If Input VAT exceeds Output VAT, the business receives a <strong>VAT refund</strong> instead.</li>
+          <li>Tracked through the <strong>VAT Control Account</strong>.</li>
+        </ul>
+        <h4>Ethics &amp; VAT</h4>
+        <ul>
+          <li>VAT fraud (e.g. claiming input VAT without valid tax invoices) is illegal and unethical.</li>
+          <li>Internal controls should govern the collection of VAT from customers and payment of VAT to SARS.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="flashcards" class="section">
+    <div class="sec-header">
+      <h2>Flashcards</h2>
+      <div class="gold-rule"></div>
+      <p>Click a card to flip it and reveal the answer.</p>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+
+  <div id="quiz" class="section">
+    <div class="sec-header">
+      <h2>Practice Quiz</h2>
+      <div class="gold-rule"></div>
+      <p>14 questions covering all six Grade 11 Accounting topics.</p>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+  <div id="examguide" class="section">
+    <div class="sec-header">
+      <h2>Exam Paper Guide</h2>
+      <div class="gold-rule"></div>
+      <p>How to approach the Grade 11 Accounting paper and protect your marks.</p>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>📄 Paper Format</h4>
+        <ul>
+          <li>Structured questions covering each topic — reconciliations, assets, partnerships, ratios, cost accounting, VAT.</li>
+          <li>Marks are awarded for correct figures AND for showing your workings (method marks).</li>
+          <li>Always check the mark allocation — it tells you how many steps/figures are expected.</li>
+        </ul>
+      </div>
+      <div class="exam-card">
+        <h4>✅ Presentation Rules</h4>
+        <ul>
+          <li>Use the <strong>R</strong> sign only where required by the specific format (check the question).</li>
+          <li>Show ALL workings in brackets — most marks are for method, not just the final answer.</li>
+          <li>Round off to 2 decimal places unless told otherwise.</li>
+          <li>Underline final totals.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Mark Allocation Guide</h3>
+    <table class="mark-table">
+      <thead><tr><th>Question type</th><th>What earns marks</th></tr></thead>
+      <tbody>
+        <tr><td>Ledger accounts / journals</td><td>Correct account names, amounts, and folio references.</td></tr>
+        <tr><td>Calculations (ratios, depreciation, VAT)</td><td>Correct formula applied + correct final figure — workings shown for part marks.</td></tr>
+        <tr><td>Interpretation questions</td><td>A trend/figure identified PLUS a reason or comment — one alone rarely earns full marks.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">📌 <strong>Exam tip:</strong> Never leave a calculation blank — even a partially correct formula with the right approach can earn method marks.</div>
+  </div>
+
+  <div id="formulaguide" class="section">
+    <div class="sec-header">
+      <h2>Formula &amp; Calculation Guide</h2>
+      <div class="gold-rule"></div>
+      <p>Every key Grade 11 Accounting formula in one place, with a worked example for each.</p>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Depreciation — Straight-Line Method</h4>
+        <div class="essay-template">
+          Depreciation = Cost × rate%<br><br>
+          <span class="placeholder">Example:</span> Equipment cost R40,000, depreciated at 10% p.a. straight-line.<br>
+          Depreciation = R40,000 × 10% = <span class="placeholder">R4,000 per year</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Depreciation — Diminishing Balance Method</h4>
+        <div class="essay-template">
+          Depreciation = Carrying value × rate%<br><br>
+          <span class="placeholder">Example:</span> Vehicle carrying value R60,000, depreciated at 20% p.a. diminishing balance.<br>
+          Depreciation = R60,000 × 20% = <span class="placeholder">R12,000 in Year 1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Liquidity Ratios</h4>
+        <div class="essay-template">
+          Current ratio = Current assets : Current liabilities<br>
+          Acid-test ratio = (Current assets − Inventory) : Current liabilities<br><br>
+          <span class="placeholder">Example:</span> Current assets R150,000, Inventory R50,000, Current liabilities R75,000.<br>
+          Current ratio = 150,000 : 75,000 = <span class="placeholder">2 : 1</span><br>
+          Acid-test = (150,000 − 50,000) : 75,000 = <span class="placeholder">1.3 : 1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Break-Even Point</h4>
+        <div class="essay-template">
+          Break-even (units) = Fixed costs ÷ (Selling price − Variable cost per unit)<br><br>
+          <span class="placeholder">Example:</span> Fixed costs R20,000, Selling price R50/unit, Variable cost R30/unit.<br>
+          Break-even = 20,000 ÷ (50 − 30) = <span class="placeholder">1,000 units</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>VAT Payable to SARS</h4>
+        <div class="essay-template">
+          VAT payable = Output VAT − Input VAT<br><br>
+          <span class="placeholder">Example:</span> Output VAT R15,000, Input VAT R9,000.<br>
+          VAT payable = 15,000 − 9,000 = <span class="placeholder">R6,000 owed to SARS</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Quick Reference Table</h3>
+    <table class="mark-rubric">
+      <thead><tr><th>Formula</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>Cost × rate%</td><td>Straight-line depreciation</td></tr>
+        <tr><td>Carrying value × rate%</td><td>Diminishing balance depreciation</td></tr>
+        <tr><td>Capital × rate% × time</td><td>Interest on partner's capital</td></tr>
+        <tr><td>Current assets : Current liabilities</td><td>Current ratio</td></tr>
+        <tr><td>Gross profit ÷ Sales × 100</td><td>Gross profit margin</td></tr>
+        <tr><td>Fixed costs ÷ (SP − VC)</td><td>Break-even point</td></tr>
+        <tr><td>Output VAT − Input VAT</td><td>VAT payable/refundable</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:24px;">🧮 <strong>Practice tip:</strong> Write out every formula from memory on a blank page before each test — if you can't recall it cold, it's not learned yet.</div>
+  </div>
+
+</main>
+
+<footer>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 11 Accounting &nbsp;·&nbsp; CAPS Aligned</div>
+  <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
+</footer>
+
+<script>
+  const VALID_CODE = 'SH-ACC11';
+  function checkCode() {
+    const val = document.getElementById('accessInput').value.trim().toUpperCase();
+    if (val === VALID_CODE) {
+      document.getElementById('lockScreen').style.display = 'none';
+      sessionStorage.setItem('sh_acc11_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
+    }
+  }
+  document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
+  if (sessionStorage.getItem('sh_acc11_unlocked')) {
+    document.getElementById('lockScreen').style.display = 'none';
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  function toggleTopic(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const opened = document.querySelectorAll('.topic-card.open').length;
+    const total = document.querySelectorAll('.topic-card').length;
+    const quizDone = quizCompleted ? 20 : 0;
+    const pct = Math.min(100, Math.round((opened / total) * 60 + quizDone));
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  const flashcards = [
+    { q: 'What is internal control?', a: 'The systems and procedures a business uses to safeguard assets and ensure accurate financial records.' },
+    { q: 'What is a bank reconciliation for?', a: "Comparing the business's Cash Journal balance to the bank statement balance to explain any differences." },
+    { q: 'What is a dishonoured cheque?', a: 'A cheque the bank refuses to pay, e.g. due to insufficient funds in the drawer\'s account.' },
+    { q: 'What is depreciation?', a: "The systematic allocation of an asset's cost as an expense over its useful life." },
+    { q: 'How is straight-line depreciation calculated?', a: 'Cost × rate% — the same amount is charged every year.' },
+    { q: 'How is diminishing balance depreciation calculated?', a: "Carrying value × rate% — the amount decreases each year as carrying value falls." },
+    { q: 'What is a partnership capital account?', a: "A record of each partner's fixed contribution to the business — stays constant unless partners agree to change it." },
+    { q: 'What is a partnership current account?', a: "A record of a partner's share of profit, salary, interest on capital, and drawings — fluctuates regularly." },
+    { q: 'What does the current ratio measure?', a: "A business's ability to pay its current liabilities using its current assets." },
+    { q: 'What does the acid-test ratio exclude that the current ratio includes?', a: 'Inventory — because inventory isn\'t always quickly convertible to cash.' },
+    { q: 'What is the gross profit margin formula?', a: '(Gross profit ÷ Sales) × 100.' },
+    { q: 'What are direct costs in cost accounting?', a: 'Direct material + direct labour — costs traceable directly to a product.' },
+    { q: 'What is the break-even point?', a: 'The level of sales at which a business makes neither profit nor loss.' },
+    { q: 'What is a cash budget used for?', a: 'Projecting expected cash inflows and outflows to help manage liquidity.' },
+    { q: 'What is the difference between perpetual and periodic inventory systems?', a: 'Perpetual updates inventory continuously; periodic only counts and values inventory at period end.' },
+    { q: 'What is Input VAT?', a: 'VAT paid on purchases — can be claimed back from SARS.' },
+    { q: 'What is Output VAT?', a: 'VAT charged on sales — owed to SARS.' },
+    { q: 'What is the current VAT rate in South Africa?', a: '15%.' },
+  ];
+
+  const fcGrid = document.getElementById('fcGrid');
+  flashcards.forEach((fc, i) => {
+    fcGrid.innerHTML += `
+      <div class="fc-card" id="fc${i}" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="label">Question</div>
+            <p>${fc.q}</p>
+            <div class="fc-hint">Tap to flip</div>
+          </div>
+          <div class="fc-back">
+            <p>${fc.a}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  const questions = [
+    { q: 'Division of duties is an example of:', opts: ['Ethics','Internal control','A reconciliation','A budget'], ans: 1, exp: 'Division of duties is a key internal control measure — no single person should control an entire transaction.' },
+    { q: 'A bank reconciliation compares the bank statement to:', opts: ['The Creditors Ledger','The Cash Journal','The Fixed Asset Register','The VAT Control Account'], ans: 1, exp: "A bank reconciliation compares the business's Cash Journal balance to the bank statement balance." },
+    { q: 'Which depreciation method charges the same amount every year?', opts: ['Diminishing balance','Straight-line','Units of production','Sum-of-years'], ans: 1, exp: 'Straight-line depreciation (Cost × rate%) charges the same amount each year.' },
+    { q: "In diminishing balance depreciation, the depreciation is calculated on:", opts: ['Original cost','Carrying value','Selling price','Residual value'], ans: 1, exp: "Diminishing balance depreciation is calculated on the asset's carrying value, so it decreases each year." },
+    { q: "A partner's fixed contribution to the business is recorded in the:", opts: ['Current account','Drawings account','Capital account','Appropriation account'], ans: 2, exp: "The capital account records a partner's fixed contribution and stays constant unless changed by agreement." },
+    { q: 'Which ratio excludes inventory from current assets?', opts: ['Current ratio','Acid-test ratio','Solvency ratio','Gross profit margin'], ans: 1, exp: 'The acid-test ratio excludes inventory since it may not convert to cash quickly.' },
+    { q: 'Gross profit margin is calculated as:', opts: ['Net profit ÷ Sales','Gross profit ÷ Sales × 100','Sales ÷ Cost of sales','Gross profit ÷ Cost of sales'], ans: 1, exp: 'Gross profit margin = (Gross profit ÷ Sales) × 100.' },
+    { q: 'Direct material and direct labour together are called:', opts: ['Factory overheads','Indirect costs','Direct costs','Fixed costs'], ans: 2, exp: 'Direct material + direct labour = direct costs, traceable directly to a product.' },
+    { q: 'The break-even point is the level of sales where:', opts: ['Profit is maximised','The business makes neither profit nor loss','All inventory is sold','VAT is zero'], ans: 1, exp: 'Break-even point is where total revenue equals total costs — no profit, no loss.' },
+    { q: 'A cash budget is used to project:', opts: ['Depreciation only','Expected cash inflows and outflows','VAT payable','Partner salaries'], ans: 1, exp: 'A cash budget projects expected cash inflows and outflows to manage liquidity.' },
+    { q: 'In a perpetual inventory system, inventory records are updated:', opts: ['Once a year','Only at period end','Continuously with each purchase/sale','Only when audited'], ans: 2, exp: 'A perpetual system updates inventory records continuously with every transaction.' },
+    { q: 'Input VAT refers to VAT:', opts: ['Charged on sales','Paid on purchases','Owed to SARS','Charged to partners'], ans: 1, exp: 'Input VAT is VAT paid on purchases, which can be claimed back from SARS.' },
+    { q: 'VAT payable to SARS is calculated as:', opts: ['Input VAT − Output VAT','Output VAT − Input VAT','Output VAT + Input VAT','Sales × 15%'], ans: 1, exp: 'VAT payable = Output VAT − Input VAT.' },
+    { q: 'The current VAT rate in South Africa is:', opts: ['10%','14%','15%','20%'], ans: 2, exp: 'The standard VAT rate in South Africa is currently 15%.' }
+  ];
+
+  let currentQ = 0, score = 0, answered = false, quizCompleted = false;
+
+  function renderQuiz() {
+    const qb = document.getElementById('quizBody');
+    if (currentQ >= questions.length) {
+      quizCompleted = true; updateProgress();
+      const pct = Math.round((score / questions.length) * 100);
+      let msg = pct >= 80 ? '🏆 Outstanding! You\'re exam-ready.' : pct >= 60 ? '👍 Good work — review the topics you missed.' : '📖 Keep studying — you\'re building your knowledge.';
+      qb.innerHTML = `<div class="result-card">
+        <div class="result-score">${score}/${questions.length}</div>
+        <div class="result-label">${pct}%</div>
+        <div class="result-msg">${msg}</div>
+        <div><button class="btn-outline" onclick="restartQuiz()">Try Again</button></div>
+      </div>`;
+      return;
+    }
+    const q = questions[currentQ];
+    answered = false;
+    qb.innerHTML = `
+      <div class="quiz-progress">
+        <span>Question ${currentQ + 1} of ${questions.length}</span>
+        <span>Score: ${score}</span>
+      </div>
+      <div class="q-box">
+        <div class="q-num">Q${currentQ + 1}</div>
+        <h3>${q.q}</h3>
+        <div class="options">
+          ${q.opts.map((o, i) => `<button class="opt-btn" id="opt${i}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+      <div class="quiz-nav"><button class="btn-gold" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button></div>`;
+  }
+
+  function selectAnswer(i) {
+    if (answered) return;
+    answered = true;
+    const q = questions[currentQ];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedback');
+    if (i === q.ans) {
+      score++;
+      document.getElementById('opt'+i).classList.add('correct');
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '✓ Correct! ' + q.exp;
+    } else {
+      document.getElementById('opt'+i).classList.add('wrong');
+      document.getElementById('opt'+q.ans).classList.add('correct');
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '✗ Incorrect. ' + q.exp;
+    }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function nextQ() { currentQ++; renderQuiz(); }
+  function restartQuiz() { currentQ = 0; score = 0; quizCompleted = false; renderQuiz(); }
+
+  document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+</body>
+</html>
