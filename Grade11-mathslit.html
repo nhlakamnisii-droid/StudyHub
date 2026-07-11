@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudyHub | Grade 11 Business Studies</title>
+<title>StudyHub | Grade 11 Mathematical Literacy</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap');
 
@@ -35,7 +35,6 @@
     min-height: 100vh;
   }
 
-  /* ─── LOCK SCREEN ─── */
   #lockScreen {
     position: fixed; inset: 0;
     background: var(--midnight);
@@ -87,7 +86,6 @@
   .lock-btn:hover { background: var(--gold-light); }
   .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
 
-  /* ─── HEADER ─── */
   header {
     background: var(--navy);
     border-bottom: 1px solid var(--border);
@@ -100,7 +98,6 @@
   .progress-bar-wrap { width: 140px; height: 5px; background: var(--navy-light); border-radius: 4px; }
   .progress-bar { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
 
-  /* ─── HERO ─── */
   .hero {
     background: linear-gradient(135deg, var(--navy) 0%, #14213f 60%, var(--midnight) 100%);
     border-bottom: 1px solid var(--border);
@@ -125,7 +122,6 @@
     border-radius: 50px; letter-spacing: 0.5px;
   }
 
-  /* ─── NAV TABS ─── */
   .nav-tabs {
     display: flex; gap: 4px; padding: 16px 32px;
     background: var(--navy); border-bottom: 1px solid var(--border);
@@ -142,18 +138,15 @@
   .tab-btn:hover { color: var(--text); background: var(--navy-light); }
   .tab-btn.active { color: var(--gold); border-color: var(--border); background: var(--gold-dim); }
 
-  /* ─── MAIN ─── */
   main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
   .section { display: none; }
   .section.active { display: block; }
 
-  /* ─── SECTION HEADERS ─── */
   .sec-header { margin-bottom: 32px; }
   .sec-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
   .sec-header p { color: var(--muted); font-size: 0.9rem; }
   .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 12px 0; }
 
-  /* ─── TOPIC CARDS ─── */
   .topic-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
@@ -178,8 +171,8 @@
   .topic-body li { margin-bottom: 6px; }
   .key-term { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--gold-light); }
   .date-badge { display: inline-block; background: var(--navy); border: 1px solid var(--border); color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+  .formula-box { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin: 10px 0; font-family: 'Courier Prime', monospace; font-size: 0.86rem; color: var(--gold-light); }
 
-  /* ─── FLASHCARDS ─── */
   .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
   .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
   .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
@@ -199,7 +192,6 @@
   .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
   .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
 
-  /* ─── QUIZ ─── */
   .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
   .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
   .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
@@ -238,7 +230,6 @@
   .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
   .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
 
-  /* ─── EXAM / CASE STUDY GUIDE ─── */
   .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
   @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
   .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
@@ -251,7 +242,6 @@
   .mark-table tr:nth-child(even) td, .mark-rubric tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
   .highlight-box { background: var(--gold-dim); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--gold-light); }
 
-  /* ─── CASE STUDY STEPS ─── */
   .essay-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
   .step-num { background: var(--gold); color: var(--midnight); font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
@@ -260,18 +250,16 @@
   .essay-template { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 16px 0; font-family: 'Courier Prime', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.9; }
   .essay-template .placeholder { color: var(--gold); font-style: italic; }
 
-  /* ─── FOOTER ─── */
   footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
   footer span { color: var(--gold); }
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
 <div id="lockScreen">
   <div class="lock-box">
     <div class="lock-logo">STUDYHUB BY NHLAKA</div>
-    <div class="lock-title">Grade 11 Business Studies</div>
+    <div class="lock-title">Grade 11 Maths Literacy</div>
     <div class="lock-sub">Enter your access code to unlock this guide</div>
     <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
     <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
@@ -279,203 +267,178 @@
   </div>
 </div>
 
-<!-- HEADER -->
 <header>
   <div class="brand">STUDYHUB</div>
-  <div class="guide-title">Grade 11 Business Studies</div>
+  <div class="guide-title">Grade 11 Maths Literacy</div>
   <div>
     <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
     <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
   </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">CAPS Aligned · Grade 11</div>
-  <h1>Business Studies<br><span>Study Guide</span></h1>
-  <p>Master Business Environments, Ventures, Roles and Operations — with flashcards, a practice quiz, exam paper breakdown, and a case study answering technique.</p>
+  <h1>Mathematical Literacy<br><span>Study Guide</span></h1>
+  <p>Master Finance, Measurement, Maps &amp; Plans, Data Handling, and Probability — with flashcards, a practice quiz, exam breakdown, and a full formula &amp; calculation guide.</p>
   <div class="hero-chips">
-    <span class="chip">📖 4 Topics</span>
+    <span class="chip">📖 5 Topics</span>
     <span class="chip">🃏 Flashcards</span>
     <span class="chip">✏️ Practice Quiz</span>
     <span class="chip">📄 Exam Guide</span>
-    <span class="chip">🧩 Case Study Guide</span>
+    <span class="chip">🧮 Formula Guide</span>
   </div>
 </div>
 
-<!-- NAV TABS -->
 <nav class="nav-tabs">
   <button class="tab-btn active" onclick="showSection('notes',this)">📖 Notes</button>
   <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
   <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
   <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
-  <button class="tab-btn" onclick="showSection('casestudy',this)">🧩 Case Study Guide</button>
+  <button class="tab-btn" onclick="showSection('formulaguide',this)">🧮 Formula Guide</button>
 </nav>
 
-<!-- MAIN CONTENT -->
 <main>
 
-  <!-- ═══ NOTES ═══ -->
   <div id="notes" class="section active">
     <div class="sec-header">
       <h2>Study Notes</h2>
       <div class="gold-rule"></div>
-      <p>Click any topic to expand. All aligned to the CAPS Grade 11 Business Studies curriculum.</p>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 11 Mathematical Literacy curriculum.</p>
     </div>
 
-    <!-- TOPIC 1 -->
     <div class="topic-card" id="tc1">
       <button class="topic-toggle" onclick="toggleTopic('tc1')">
-        <div class="topic-label"><span class="topic-num">01</span>Business Environments</div>
+        <div class="topic-label"><span class="topic-num">01</span>Finance</div>
         <span class="chevron">▼</span>
       </button>
       <div class="topic-body">
-        <h4>Macro Environment</h4>
-        <p>The macro environment is the external environment a business <strong>cannot control</strong> — it can only monitor and react to it.</p>
+        <h4>Interest</h4>
         <ul>
-          <li><strong>PESTEL factors:</strong> Political, Economic, Social, Technological, Environmental (ecological), Legal.</li>
-          <li><strong>Political:</strong> government stability, trade policy, BEE legislation, labour laws.</li>
-          <li><strong>Economic:</strong> inflation, interest rates, exchange rates, unemployment.</li>
-          <li><strong>Social:</strong> population growth, culture, consumer attitudes, lifestyle trends.</li>
-          <li><strong>Technological:</strong> automation, e-commerce, AI, rate of innovation.</li>
-          <li><strong>Environmental/ecological:</strong> climate change, pollution, sustainability pressure.</li>
-          <li><strong>Legal:</strong> consumer protection, labour relations, competition law.</li>
+          <li><strong>Simple interest:</strong> calculated only on the original amount (principal) every period.</li>
+          <li><strong>Compound interest:</strong> calculated on the principal PLUS previously earned interest — grows faster over time.</li>
         </ul>
-        <div class="key-term">🔑 <strong>Macro environment:</strong> the external environment a business has no control over — only the ability to react and adapt.</div>
-
-        <h4>Market Environment</h4>
+        <div class="formula-box">
+          Simple interest: A = P(1 + i·n)<br>
+          Compound interest: A = P(1 + i)ⁿ
+        </div>
+        <div class="key-term">🔑 <strong>P</strong> = principal (starting amount), <strong>i</strong> = interest rate (as a decimal), <strong>n</strong> = number of time periods, <strong>A</strong> = final amount.</div>
+        <h4>Banking &amp; Loans</h4>
         <ul>
-          <li>Customers — needs, expectations, buying power.</li>
-          <li>Competitors — direct and indirect rivals for the same customers.</li>
-          <li>Suppliers — provide raw materials, stock, services.</li>
-          <li>Intermediaries — wholesalers, retailers, distributors.</li>
-          <li>The public — media, pressure groups, local community.</li>
+          <li>Bank accounts (savings, cheque/current) differ in interest earned, fees charged, and access to funds.</li>
+          <li>Loan/hire-purchase repayments involve interest charged on the outstanding balance — understanding a repayment schedule shows how the balance decreases over time.</li>
+          <li>Reading and interpreting a <strong>bank statement</strong>: opening/closing balance, deposits, withdrawals, and fees.</li>
         </ul>
-        <div class="key-term">🔑 <strong>Market environment:</strong> the environment in which the business operates directly — the business has limited control here through strategy.</div>
-
-        <h4>Micro Environment</h4>
+        <h4>Inflation, Exchange Rates &amp; Tax</h4>
         <ul>
-          <li>Vision &amp; mission statements.</li>
-          <li>Business resources: human, physical, financial, intellectual.</li>
-          <li>Internal policies, structure, and culture.</li>
-        </ul>
-        <div class="key-term">🔑 <strong>Micro environment:</strong> the internal environment — the business has <em>full control</em> here.</div>
-
-        <h4>Environmental Scanning &amp; Strategy</h4>
-        <ul>
-          <li><strong>Environmental scanning:</strong> continuously monitoring all three environments to spot threats and opportunities early.</li>
-          <li>Businesses respond to PESTEL challenges through diversification, lobbying, CSR programmes, and adopting new technology.</li>
-          <li><strong>SWOT analysis:</strong> Strengths &amp; Weaknesses (internal/micro) vs Opportunities &amp; Threats (external/macro &amp; market).</li>
+          <li><strong>Inflation:</strong> the general increase in prices over time, reducing the buying power of money.</li>
+          <li><strong>Exchange rates:</strong> used to convert one currency into another when travelling or importing/exporting.</li>
+          <li><strong>VAT:</strong> Value Added Tax, currently 15% in South Africa, added to the price of most goods and services.</li>
+          <li><strong>Income tax:</strong> calculated using tax tables/brackets based on annual income — higher income portions are taxed at higher rates.</li>
         </ul>
       </div>
     </div>
 
-    <!-- TOPIC 2 -->
     <div class="topic-card" id="tc2">
       <button class="topic-toggle" onclick="toggleTopic('tc2')">
-        <div class="topic-label"><span class="topic-num">02</span>Business Ventures</div>
+        <div class="topic-label"><span class="topic-num">02</span>Measurement</div>
         <span class="chevron">▼</span>
       </button>
       <div class="topic-body">
-        <h4>Forms of Ownership</h4>
+        <h4>Unit Conversions</h4>
         <ul>
-          <li><strong>Sole trader:</strong> one owner, unlimited liability, no separate legal personality, cheap and easy to start.</li>
-          <li><strong>Partnership:</strong> 2–20 partners, usually unlimited (joint) liability, based on a partnership agreement.</li>
-          <li><strong>Private company (Pty Ltd):</strong> 1+ shareholders, limited liability, separate legal personality, shares not offered to the public.</li>
-          <li><strong>Public company (Ltd):</strong> shares traded on the stock exchange (e.g. JSE), limited liability, strict reporting requirements.</li>
-          <li><strong>Personal liability company (Inc):</strong> for professionals (e.g. attorneys); directors jointly liable for company debts.</li>
-          <li><strong>Cooperative:</strong> owned and run by members for mutual benefit, one member one vote regardless of shares held.</li>
-          <li><strong>Non-profit company (NPC):</strong> formed for a public benefit purpose, not shareholder profit.</li>
-          <li><strong>State-owned enterprise (SOE):</strong> owned and controlled by government, e.g. Eskom, Transnet.</li>
-          <li><strong>Franchise:</strong> the franchisee buys the right to use an established business's name, systems and branding.</li>
+          <li><strong>Length:</strong> 1 m = 100 cm = 1,000 mm; 1 km = 1,000 m.</li>
+          <li><strong>Volume/Capacity:</strong> 1 litre = 1,000 ml; 1 m³ = 1,000 litres.</li>
+          <li><strong>Mass:</strong> 1 kg = 1,000 g; 1 tonne = 1,000 kg.</li>
         </ul>
-
-        <h4>Sectors of the Economy</h4>
+        <h4>Perimeter, Area &amp; Volume</h4>
+        <div class="formula-box">
+          Rectangle: Area = length × width; Perimeter = 2(l + w)<br>
+          Triangle: Area = ½ × base × height<br>
+          Circle: Area = πr²; Circumference = 2πr<br>
+          Rectangular prism: Volume = length × width × height
+        </div>
+        <h4>Time &amp; Temperature</h4>
         <ul>
-          <li><span class="date-badge">Primary</span> extraction of raw materials — farming, mining, fishing.</li>
-          <li><span class="date-badge">Secondary</span> manufacturing &amp; processing raw materials into products.</li>
-          <li><span class="date-badge">Tertiary</span> providing services — retail, banking, transport, tourism.</li>
-          <li><span class="date-badge">Quaternary</span> knowledge-based services — research, IT, consulting.</li>
+          <li>Converting between 12-hour and 24-hour time formats.</li>
+          <li>Calculating time differences, including across time zones.</li>
+          <li>Reading and interpreting temperatures in °C, including negative values.</li>
         </ul>
-
-        <h4>Starting a Venture</h4>
-        <div class="key-term">🔑 <strong>Feasibility study:</strong> investigates whether a business idea is realistic and worth pursuing — done before committing resources.</div>
-        <div class="key-term">🔑 <strong>Business plan:</strong> a detailed written document describing how the business will be set up, financed, marketed and operated — used to secure funding.</div>
-        <ul>
-          <li>Key entrepreneurial qualities: risk-taking, innovation, perseverance, self-discipline, opportunity-seeking.</li>
-        </ul>
+        <div class="key-term">🔑 <strong>Scale drawing:</strong> a drawing where all real-world measurements are reduced (or enlarged) by the same ratio, e.g. a floor plan.</div>
       </div>
     </div>
 
-    <!-- TOPIC 3 -->
     <div class="topic-card" id="tc3">
       <button class="topic-toggle" onclick="toggleTopic('tc3')">
-        <div class="topic-label"><span class="topic-num">03</span>Business Roles</div>
+        <div class="topic-label"><span class="topic-num">03</span>Maps, Plans &amp; Other Representations</div>
         <span class="chevron">▼</span>
       </button>
       <div class="topic-body">
-        <h4>Creative Thinking &amp; Problem Solving</h4>
+        <h4>Scale</h4>
         <ul>
-          <li>Techniques: brainstorming, mind mapping, Six Thinking Hats, SCAMPER.</li>
-          <li>Problem-solving steps: identify the problem → gather information → generate options → evaluate &amp; choose → implement → review.</li>
+          <li>Scale is written as a ratio, e.g. 1:50 means 1 unit on the plan represents 50 of the same units in real life.</li>
+          <li>Used on floor plans, maps, and models to represent real-world distances at a manageable size.</li>
         </ul>
-
-        <h4>Leadership Styles</h4>
+        <div class="formula-box">Actual length = Length on plan × Scale factor</div>
+        <h4>Reading Maps &amp; Plans</h4>
         <ul>
-          <li><strong>Autocratic:</strong> leader decides alone, little team input.</li>
-          <li><strong>Democratic:</strong> leader consults the team before deciding.</li>
-          <li><strong>Laissez-faire:</strong> leader gives the team freedom to decide.</li>
-          <li><strong>Charismatic:</strong> leads through personal appeal and inspiration.</li>
-          <li><strong>Transactional:</strong> leads through rewards and clear structure.</li>
-          <li><strong>Transformational:</strong> leads by inspiring change and a shared vision.</li>
+          <li>Floor plans show room layout, dimensions, and often furniture placement — used to calculate area for flooring, paint, or tiling.</li>
+          <li>Maps use compass directions, distance scales, and legends/keys to represent real locations.</li>
+          <li>Route directions combine distance, direction, and estimated travel time based on average speed.</li>
         </ul>
-
-        <h4>Team Performance &amp; Motivation</h4>
-        <ul>
-          <li><strong>Tuckman's stages:</strong> Forming → Storming → Norming → Performing → Adjourning.</li>
-          <li><strong>Maslow's hierarchy of needs:</strong> Physiological → Safety → Social → Esteem → Self-actualisation; people are motivated by the next unmet level.</li>
-          <li><strong>Herzberg's two-factor theory:</strong> hygiene factors (salary, conditions) prevent dissatisfaction; motivators (recognition, growth) drive satisfaction.</li>
-        </ul>
-
-        <h4>Self-Management</h4>
-        <div class="key-term">🔑 <strong>SMART goals:</strong> Specific, Measurable, Achievable, Realistic, Time-bound.</div>
-        <ul>
-          <li>Time management, stress management, and self-discipline are core to sustaining business roles.</li>
-        </ul>
+        <div class="key-term">🔑 <strong>Elevation plan:</strong> a scale drawing showing a structure from the side, used to represent height and vertical features.</div>
       </div>
     </div>
 
-    <!-- TOPIC 4 -->
     <div class="topic-card" id="tc4">
       <button class="topic-toggle" onclick="toggleTopic('tc4')">
-        <div class="topic-label"><span class="topic-num">04</span>Business Operations</div>
+        <div class="topic-label"><span class="topic-num">04</span>Data Handling</div>
         <span class="chevron">▼</span>
       </button>
       <div class="topic-body">
-        <h4>Business Functions Overview</h4>
+        <h4>Measures of Central Tendency</h4>
+        <div class="formula-box">
+          Mean = Sum of all values ÷ Number of values<br>
+          Median = Middle value when data is ordered<br>
+          Mode = Most frequently occurring value
+        </div>
+        <h4>Measures of Spread</h4>
         <ul>
-          <li><strong>General management:</strong> planning, organising, leading, controlling the whole business.</li>
-          <li><strong>Human resources:</strong> recruitment, training, performance management, labour relations.</li>
-          <li><strong>Public relations:</strong> managing the business's image and relationship with stakeholders.</li>
-          <li><strong>Marketing:</strong> identifying and satisfying customer needs profitably (the marketing mix: Product, Price, Place, Promotion).</li>
-          <li><strong>Production/operations:</strong> converting inputs into goods or services.</li>
-          <li><strong>Financial:</strong> managing money — budgeting, record-keeping, financial reporting.</li>
-          <li><strong>Administration:</strong> managing information, records and office systems.</li>
-          <li><strong>Purchasing:</strong> sourcing and buying the resources the business needs.</li>
+          <li><strong>Range:</strong> the difference between the highest and lowest values in a data set.</li>
         </ul>
-
-        <h4>Quality of Performance</h4>
-        <div class="key-term">🔑 <strong>Total Quality Management (TQM):</strong> a management approach where every employee continuously works to improve quality across all business functions.</div>
+        <h4>Representing Data</h4>
         <ul>
-          <li>Quality indicators: reliability, consistency, customer satisfaction, conformance to standards.</li>
-          <li>TQM principles: customer focus, continuous improvement (Kaizen), employee involvement, process-centred thinking.</li>
+          <li><strong>Bar graphs:</strong> compare quantities across different categories.</li>
+          <li><strong>Pie charts:</strong> show data as proportions/percentages of a whole.</li>
+          <li><strong>Line graphs:</strong> show how a value changes over time.</li>
+          <li><strong>Histograms:</strong> show the frequency of continuous, grouped numerical data.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Bias:</strong> when data collection methods (e.g. a poorly chosen sample) unfairly skew results away from representing the true population.</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Probability</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Basic Probability</h4>
+        <div class="formula-box">Probability of an event = Number of favourable outcomes ÷ Total possible outcomes</div>
+        <ul>
+          <li>Probability is always a value between 0 (impossible) and 1 (certain), often expressed as a percentage or fraction.</li>
+          <li><strong>Relative frequency:</strong> the probability of an event based on observed results from repeated trials, rather than theory.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Sample space:</strong> the set of all possible outcomes of an experiment or event.</div>
+        <h4>Everyday Applications</h4>
+        <ul>
+          <li>Probability concepts appear in real contexts: weather forecasts (e.g. "60% chance of rain"), games of chance, and risk assessment.</li>
+          <li>Two-way tables and tally tables are used to organise data before calculating probabilities.</li>
         </ul>
       </div>
     </div>
 
-  </div><!-- end notes -->
+  </div>
 
-  <!-- ═══ FLASHCARDS ═══ -->
   <div id="flashcards" class="section">
     <div class="sec-header">
       <h2>Flashcards</h2>
@@ -485,91 +448,95 @@
     <div class="fc-grid" id="fcGrid"></div>
   </div>
 
-  <!-- ═══ QUIZ ═══ -->
   <div id="quiz" class="section">
     <div class="sec-header">
       <h2>Practice Quiz</h2>
       <div class="gold-rule"></div>
-      <p>12 questions covering all four Grade 11 Business Studies topics.</p>
+      <p>14 questions covering all five Grade 11 Maths Literacy topics.</p>
     </div>
     <div id="quizBody"></div>
   </div>
 
-  <!-- ═══ EXAM GUIDE ═══ -->
   <div id="examguide" class="section">
     <div class="sec-header">
       <h2>Exam Paper Guide</h2>
       <div class="gold-rule"></div>
-      <p>Understand exactly what the Business Studies paper looks like and how to maximise your marks.</p>
+      <p>Understand exactly what the Grade 11 Maths Literacy papers look like and how to maximise your marks.</p>
     </div>
 
     <div class="exam-grid">
       <div class="exam-card">
         <h4>📄 Paper Overview</h4>
         <ul>
-          <li><strong>Duration:</strong> 3 hours</li>
-          <li><strong>Total marks:</strong> 300</li>
-          <li><strong>Section A:</strong> Compulsory short-answer/objective questions (~80 marks)</li>
-          <li><strong>Section B:</strong> Structured, case-study based questions across all topics (~120 marks)</li>
-          <li><strong>Section C:</strong> Choose 2 of 4 essay-type questions (2 × 50 = 100 marks)</li>
+          <li><strong>Paper 1:</strong> 1.5 hours, 75 marks — basic skills topics (finance, measurement, maps/plans).</li>
+          <li><strong>Paper 2:</strong> 1.5 hours, 75 marks — applications topics (data handling, probability), integrated with finance/measurement contexts.</li>
         </ul>
       </div>
       <div class="exam-card">
-        <h4>🔑 Command Words</h4>
+        <h4>🔑 Levels of Questions</h4>
         <ul>
-          <li><strong>Name/State/List:</strong> 1 mark per correct fact — no explanation needed.</li>
-          <li><strong>Explain/Discuss:</strong> 2 marks per point — fact + motivation or example.</li>
-          <li><strong>Analyse/Evaluate:</strong> requires judgement, comparison, or applying theory to a scenario.</li>
-          <li><strong>Recommend/Suggest:</strong> give a practical solution linked to the case study.</li>
+          <li><strong>Level 1 (Knowledge):</strong> straightforward calculations using a given formula.</li>
+          <li><strong>Level 2 (Routine procedures):</strong> multi-step calculations in a familiar context.</li>
+          <li><strong>Level 3 (Complex procedures):</strong> problems requiring you to decide which method/formula to use.</li>
+          <li><strong>Level 4 (Problem solving):</strong> unfamiliar, real-life scenarios requiring interpretation and justification.</li>
         </ul>
       </div>
     </div>
 
     <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Mark Allocation Guide</h3>
     <table class="mark-table">
-      <thead><tr><th>Question type</th><th>Marks per point</th><th>What's expected</th></tr></thead>
+      <thead><tr><th>Question type</th><th>What earns marks</th></tr></thead>
       <tbody>
-        <tr><td>Define/Name/List</td><td>1 mark</td><td>A single correct fact or term, no elaboration.</td></tr>
-        <tr><td>Explain/Discuss</td><td>2 marks</td><td>A fact plus a reason, example, or short motivation.</td></tr>
-        <tr><td>Case-study application</td><td>2 marks</td><td>A theory point applied specifically to the scenario given.</td></tr>
-        <tr><td>Essay (Section C)</td><td>50 marks</td><td>Structured, well-argued response covering content, layout, and a conclusion.</td></tr>
+        <tr><td>Direct calculation</td><td>Correct formula, correct substitution, correct final answer with units.</td></tr>
+        <tr><td>Multi-step problem</td><td>Method marks awarded at each step, even if the final answer is wrong.</td></tr>
+        <tr><td>Interpretation question</td><td>A correct reading of data/graph/table PLUS a sound conclusion in context.</td></tr>
       </tbody>
     </table>
 
-    <div class="highlight-box">📌 <strong>Exam tip:</strong> Always check the mark allocation next to a question — it tells you exactly how many points the examiner expects.</div>
+    <div class="highlight-box">📌 <strong>Exam tip:</strong> Always round money to 2 decimal places and include the correct unit (R, %, cm, km) — a correct number without units often loses a mark.</div>
   </div>
 
-  <!-- ═══ CASE STUDY GUIDE ═══ -->
-  <div id="casestudy" class="section">
+  <div id="formulaguide" class="section">
     <div class="sec-header">
-      <h2>Case Study Answering Technique</h2>
+      <h2>Formula &amp; Calculation Guide</h2>
       <div class="gold-rule"></div>
-      <p>Business Studies questions are almost always built around a short business scenario — here's how to answer them for full marks.</p>
+      <p>Every key Grade 11 Maths Literacy formula in one place, with a worked example for each.</p>
     </div>
 
     <div class="essay-step">
       <div class="step-num">1</div>
       <div class="step-content">
-        <h4>Read the Case Study Twice</h4>
-        <p>First read for the overall story — what business is this, what's the situation? Second read, underline names, numbers, and any specific problem mentioned.</p>
+        <h4>Simple Interest</h4>
+        <div class="essay-template">
+          A = P(1 + i·n)<br><br>
+          <span class="placeholder">Example:</span> R5,000 invested at 8% simple interest for 3 years.<br>
+          A = 5,000 × (1 + 0.08 × 3) = 5,000 × 1.24 = <span class="placeholder">R6,200</span>
+        </div>
       </div>
     </div>
 
     <div class="essay-step">
       <div class="step-num">2</div>
       <div class="step-content">
-        <h4>Identify the Command Word &amp; Marks</h4>
-        <p>Check whether the question asks you to <strong>name</strong>, <strong>explain</strong>, <strong>analyse</strong>, or <strong>recommend</strong> — and how many marks it's worth. This tells you how much detail to give.</p>
+        <h4>Compound Interest</h4>
+        <div class="essay-template">
+          A = P(1 + i)ⁿ<br><br>
+          <span class="placeholder">Example:</span> R5,000 invested at 8% compound interest for 3 years.<br>
+          A = 5,000 × (1.08)³ = 5,000 × 1.259712 = <span class="placeholder">R6,298.56</span>
+        </div>
       </div>
     </div>
 
     <div class="essay-step">
       <div class="step-num">3</div>
       <div class="step-content">
-        <h4>Apply Theory to the Scenario — Don't Write Generically</h4>
-        <p>A generic textbook answer earns few marks. You must link your point directly to the business in the case study.</p>
+        <h4>Area &amp; Perimeter of a Rectangle</h4>
         <div class="essay-template">
-          <span class="placeholder">[Business in the case study]</span> shows <span class="placeholder">[theory/concept]</span> because <span class="placeholder">[specific evidence from the case study]</span>. This means <span class="placeholder">[effect/consequence for the business]</span>.
+          Area = length × width<br>
+          Perimeter = 2(length + width)<br><br>
+          <span class="placeholder">Example:</span> A room is 4 m long and 3 m wide.<br>
+          Area = 4 × 3 = <span class="placeholder">12 m²</span><br>
+          Perimeter = 2(4 + 3) = <span class="placeholder">14 m</span>
         </div>
       </div>
     </div>
@@ -577,72 +544,82 @@
     <div class="essay-step">
       <div class="step-num">4</div>
       <div class="step-content">
-        <h4>Use Correct Business Terminology</h4>
-        <p>Examiners look for the exact CAPS terms — e.g. "macro environment" not "outside stuff," "liquidity" not "having cash."</p>
+        <h4>Scale Calculation</h4>
+        <div class="essay-template">
+          Actual length = Plan length × Scale factor<br><br>
+          <span class="placeholder">Example:</span> On a 1:100 scale plan, a wall measures 6 cm.<br>
+          Actual length = 6 × 100 = 600 cm = <span class="placeholder">6 m</span>
+        </div>
       </div>
     </div>
 
-    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Marking Rubric — What the Examiner Looks For</h3>
+    <div class="essay-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Mean, Median &amp; Range</h4>
+        <div class="essay-template">
+          Mean = Sum of values ÷ Number of values<br><br>
+          <span class="placeholder">Example:</span> Data set: 4, 7, 7, 9, 13.<br>
+          Mean = (4+7+7+9+13) ÷ 5 = 40 ÷ 5 = <span class="placeholder">8</span><br>
+          Median (middle value) = <span class="placeholder">7</span><br>
+          Range = 13 − 4 = <span class="placeholder">9</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Basic Probability</h4>
+        <div class="essay-template">
+          P(event) = Favourable outcomes ÷ Total outcomes<br><br>
+          <span class="placeholder">Example:</span> A bag has 3 red and 7 blue balls. P(red)?<br>
+          P(red) = 3 ÷ 10 = <span class="placeholder">0.3 or 30%</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Quick Reference Table</h3>
     <table class="mark-rubric">
-      <thead><tr><th>Criteria</th><th>What earns the mark</th></tr></thead>
+      <thead><tr><th>Formula</th><th>Used for</th></tr></thead>
       <tbody>
-        <tr><td><strong>Relevance</strong></td><td>Answer is directly linked to the case study, not generic theory.</td></tr>
-        <tr><td><strong>Terminology</strong></td><td>Correct CAPS business vocabulary is used.</td></tr>
-        <tr><td><strong>Application</strong></td><td>Theory is applied to the specific scenario given, with evidence quoted from the text.</td></tr>
-        <tr><td><strong>Structure</strong></td><td>Answer matches the mark allocation — neither too short nor padded.</td></tr>
+        <tr><td>P(1 + i·n)</td><td>Simple interest</td></tr>
+        <tr><td>P(1 + i)ⁿ</td><td>Compound interest</td></tr>
+        <tr><td>l × w</td><td>Area of a rectangle</td></tr>
+        <tr><td>πr²</td><td>Area of a circle</td></tr>
+        <tr><td>Plan length × scale factor</td><td>Actual length from a scale drawing</td></tr>
+        <tr><td>Sum of values ÷ number of values</td><td>Mean</td></tr>
+        <tr><td>Favourable ÷ total outcomes</td><td>Probability</td></tr>
       </tbody>
     </table>
 
-    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Common Mistakes to Avoid</h3>
-    <div class="exam-grid">
-      <div class="exam-card">
-        <h4>❌ Generic Theory Only</h4>
-        <p>Don't just recite a definition. Always connect it back to the business named in the case study.</p>
-      </div>
-      <div class="exam-card">
-        <h4>❌ Ignoring Mark Allocation</h4>
-        <p>A 2-mark question needs two points — one-word answers or single facts lose marks.</p>
-      </div>
-      <div class="exam-card">
-        <h4>❌ Wrong Terminology</h4>
-        <p>"The business has no money" should read "the business has a liquidity problem."</p>
-      </div>
-      <div class="exam-card">
-        <h4>❌ Not Reading Carefully</h4>
-        <p>Many learners miss key details (numbers, names, dates) given in the case study that the question depends on.</p>
-      </div>
-    </div>
-
-    <div class="highlight-box" style="margin-top:24px;">🧩 <strong>Practice tip:</strong> After studying a topic, write your own 2-line mini case study and answer one question on it — this builds the "apply, don't recite" habit examiners reward.</div>
-
-  </div><!-- end case study guide -->
+    <div class="highlight-box" style="margin-top:24px;">🧮 <strong>Practice tip:</strong> Redo every worked example above with your own numbers on a blank page — Maths Literacy marks are won through repetition of method, not memorising answers.</div>
+  </div>
 
 </main>
 
 <footer>
-  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 11 Business Studies &nbsp;·&nbsp; CAPS Aligned</div>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 11 Maths Literacy &nbsp;·&nbsp; CAPS Aligned</div>
   <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
 </footer>
 
 <script>
-  // ─── ACCESS CODE ───
-  const VALID_CODE = 'SH-11-BUSI';
+  const VALID_CODE = 'SH-11-MLIT';
   function checkCode() {
     const val = document.getElementById('accessInput').value.trim().toUpperCase();
     if (val === VALID_CODE) {
       document.getElementById('lockScreen').style.display = 'none';
-      sessionStorage.setItem('sh_bmg11_unlocked', '1');
+      sessionStorage.setItem('sh_mlt11_unlocked', '1');
     } else {
       document.getElementById('lockError').style.display = 'block';
       document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
     }
   }
   document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
-  if (sessionStorage.getItem('sh_bmg11_unlocked')) {
+  if (sessionStorage.getItem('sh_mlt11_unlocked')) {
     document.getElementById('lockScreen').style.display = 'none';
   }
 
-  // ─── TABS ───
   function showSection(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -651,14 +628,12 @@
     updateProgress();
   }
 
-  // ─── TOPICS ───
   function toggleTopic(id) {
     const card = document.getElementById(id);
     card.classList.toggle('open');
     updateProgress();
   }
 
-  // ─── PROGRESS ───
   function updateProgress() {
     const opened = document.querySelectorAll('.topic-card.open').length;
     const total = document.querySelectorAll('.topic-card').length;
@@ -667,26 +642,25 @@
     document.getElementById('progressBar').style.width = pct + '%';
   }
 
-  // ─── FLASHCARDS ───
   const flashcards = [
-    { q: 'What is the macro environment?', a: 'The external environment a business cannot control — only monitor and react to. Made up of PESTEL factors.' },
-    { q: 'What does PESTEL stand for?', a: 'Political, Economic, Social, Technological, Environmental, Legal.' },
-    { q: 'What is the market environment?', a: 'Customers, competitors, suppliers, intermediaries and the public — the business has limited control here.' },
-    { q: 'What is the micro environment?', a: "The internal environment — vision, mission, and resources — fully controlled by the business." },
-    { q: 'What is a SWOT analysis?', a: 'Strengths & Weaknesses (internal) vs Opportunities & Threats (external) — used to assess a business\'s position.' },
-    { q: 'What is a sole trader?', a: 'A business owned by one person with unlimited liability and no separate legal personality.' },
-    { q: 'What is a partnership?', a: 'A business owned by 2–20 partners who usually share unlimited liability, based on a partnership agreement.' },
-    { q: 'What is a private company (Pty Ltd)?', a: 'A company with limited liability and separate legal personality; shares are not offered to the public.' },
-    { q: 'What is a public company (Ltd)?', a: 'A company whose shares are traded on a stock exchange, with limited liability and strict reporting rules.' },
-    { q: 'What is a cooperative?', a: 'A business owned and run by its members for mutual benefit — one member, one vote.' },
-    { q: 'What is a feasibility study?', a: 'An investigation into whether a business idea is realistic and worth pursuing, done before writing a business plan.' },
-    { q: 'What is the primary sector?', a: 'The part of the economy that extracts raw materials — farming, mining, fishing.' },
-    { q: 'What does SMART stand for in goal-setting?', a: 'Specific, Measurable, Achievable, Realistic, Time-bound.' },
-    { q: "What are Tuckman's stages of team development?", a: 'Forming → Storming → Norming → Performing → Adjourning.' },
-    { q: "What is Maslow's hierarchy of needs?", a: 'Physiological → Safety → Social → Esteem → Self-actualisation; people are motivated by their next unmet level.' },
-    { q: 'What is autocratic leadership?', a: 'A leadership style where the leader makes decisions alone with little team input.' },
-    { q: 'What are the 4 P\'s of the marketing mix?', a: 'Product, Price, Place, Promotion — the levers a business uses to satisfy customer needs profitably.' },
-    { q: 'What is Total Quality Management (TQM)?', a: 'A management approach where every employee continuously works to improve quality across all business functions.' },
+    { q: 'What is the formula for simple interest?', a: 'A = P(1 + i·n), where P is the principal, i is the interest rate, and n is the number of periods.' },
+    { q: 'What is the formula for compound interest?', a: 'A = P(1 + i)ⁿ — interest is calculated on the principal plus previously earned interest.' },
+    { q: 'What is the difference between simple and compound interest?', a: 'Simple interest is calculated only on the original principal each period; compound interest is calculated on the principal plus previously earned interest, so it grows faster.' },
+    { q: 'What is inflation?', a: 'The general increase in prices over time, which reduces the buying power of money.' },
+    { q: 'What is the current VAT rate in South Africa?', a: '15%, added to the price of most goods and services.' },
+    { q: 'How do you convert litres to millilitres?', a: 'Multiply by 1,000 — 1 litre = 1,000 ml.' },
+    { q: 'What is the formula for the area of a rectangle?', a: 'Area = length × width.' },
+    { q: 'What is the formula for the area of a circle?', a: 'Area = πr², where r is the radius.' },
+    { q: 'What does a scale of 1:50 mean?', a: '1 unit on the plan represents 50 of the same units in real life.' },
+    { q: 'How do you calculate actual length from a scale drawing?', a: 'Actual length = Length on plan × Scale factor.' },
+    { q: 'What is the formula for the mean of a data set?', a: 'Mean = Sum of all values ÷ Number of values.' },
+    { q: 'What is the median of a data set?', a: 'The middle value when the data is arranged in order.' },
+    { q: 'What is the mode of a data set?', a: 'The value that occurs most frequently in the data set.' },
+    { q: 'What is the range of a data set?', a: 'The difference between the highest and lowest values in the data set.' },
+    { q: 'What is used to show data as proportions of a whole?', a: 'A pie chart.' },
+    { q: 'What is the formula for basic probability?', a: 'P(event) = Number of favourable outcomes ÷ Total possible outcomes.' },
+    { q: 'What values can probability range between?', a: '0 (impossible) and 1 (certain).' },
+    { q: 'What is a sample space?', a: 'The set of all possible outcomes of an experiment or event.' },
   ];
 
   const fcGrid = document.getElementById('fcGrid');
@@ -706,20 +680,21 @@
       </div>`;
   });
 
-  // ─── QUIZ ───
   const questions = [
-    { q: 'Which environment can a business NOT control at all?', opts: ['Micro environment','Market environment','Macro environment','Internal environment'], ans: 2, exp: "The macro environment (PESTEL factors) is entirely outside a business's control." },
-    { q: 'PESTEL stands for Political, Economic, Social, Technological, Environmental and...?', opts: ['Local','Legal','Logistical','Leadership'], ans: 1, exp: "PESTEL's final letter stands for Legal — laws and regulations affecting business." },
-    { q: 'Which form of ownership has unlimited liability and only one owner?', opts: ['Partnership','Sole trader','Private company','Cooperative'], ans: 1, exp: 'A sole trader is owned by one person who carries unlimited liability.' },
-    { q: 'A private company is best described as Pty...?', opts: ['Ltd','Inc','Co','CC'], ans: 0, exp: 'Private companies use the abbreviation (Pty) Ltd.' },
-    { q: 'Mining and farming belong to which sector of the economy?', opts: ['Secondary','Tertiary','Primary','Quaternary'], ans: 2, exp: 'The primary sector extracts raw materials, e.g. mining and farming.' },
-    { q: 'What is the purpose of a feasibility study?', opts: ['To register the company','To check if a business idea is realistic before committing resources','To file annual tax returns','To hire employees'], ans: 1, exp: 'A feasibility study checks whether an idea is worth pursuing before a business plan is written.' },
-    { q: 'Which leadership style gives the team full freedom to decide?', opts: ['Autocratic','Laissez-faire','Transactional','Charismatic'], ans: 1, exp: 'Laissez-faire leaders step back and let the team make its own decisions.' },
-    { q: "In Tuckman's model, which stage comes right after 'Forming'?", opts: ['Norming','Performing','Storming','Adjourning'], ans: 2, exp: 'The order is Forming → Storming → Norming → Performing → Adjourning.' },
-    { q: "According to Maslow, which need must be met before 'Esteem'?", opts: ['Self-actualisation','Social','Physiological only','None — order doesn\'t matter'], ans: 1, exp: "Maslow's order is Physiological → Safety → Social → Esteem → Self-actualisation, so Social comes before Esteem." },
-    { q: 'Which business function manages recruitment and training?', opts: ['Marketing','Human resources','Purchasing','Public relations'], ans: 1, exp: 'The human resources function handles recruitment, training and performance management.' },
-    { q: "The 4 P's of the marketing mix are Product, Price, Place and...?", opts: ['Profit','Promotion','People','Process'], ans: 1, exp: 'The classic marketing mix is Product, Price, Place, Promotion.' },
-    { q: 'What does TQM stand for?', opts: ['Total Quality Management','Team Quality Method','Total Quantity Measure','Technical Quality Model'], ans: 0, exp: 'TQM = Total Quality Management — continuous quality improvement involving every employee.' }
+    { q: 'Which formula represents simple interest?', opts: ['A = P(1+i)ⁿ','A = P(1 + i·n)','A = Prn','A = P ÷ (1+i)ⁿ'], ans: 1, exp: 'Simple interest is calculated as A = P(1 + i·n).' },
+    { q: 'Compound interest grows faster than simple interest because it is calculated on:', opts: ['Only the original principal','The principal plus previously earned interest','A fixed annual fee','The exchange rate'], ans: 1, exp: 'Compound interest is calculated on the principal plus all previously earned interest, so it compounds over time.' },
+    { q: 'What does inflation reduce?', a: '', opts: ['The interest rate','The buying power of money','The VAT rate','The exchange rate'], ans: 1, exp: 'Inflation is a general increase in prices, which reduces the buying power of money.' },
+    { q: 'How many millilitres are in 2.5 litres?', opts: ['25 ml','250 ml','2,500 ml','25,000 ml'], ans: 2, exp: '1 litre = 1,000 ml, so 2.5 litres = 2,500 ml.' },
+    { q: 'What is the area of a rectangle 5 m long and 2 m wide?', opts: ['7 m²','10 m²','14 m²','20 m²'], ans: 1, exp: 'Area = length × width = 5 × 2 = 10 m².' },
+    { q: 'On a 1:200 scale plan, a length of 3 cm represents an actual length of:', opts: ['3 m','6 m','60 m','600 m'], ans: 1, exp: 'Actual length = 3 cm × 200 = 600 cm = 6 m.' },
+    { q: 'What is the median of the data set 3, 5, 8, 9, 12?', opts: ['5','7.4','8','9'], ans: 2, exp: 'The median is the middle value when data is ordered — here it is 8.' },
+    { q: 'What is the mode of the data set 2, 4, 4, 6, 8?', opts: ['2','4','6','8'], ans: 1, exp: 'The mode is the most frequently occurring value — 4 appears twice.' },
+    { q: 'What is the range of the data set 10, 15, 22, 30?', opts: ['10','20','22','30'], ans: 1, exp: 'Range = highest − lowest = 30 − 10 = 20.' },
+    { q: 'Which graph type is best for showing data as proportions of a whole?', opts: ['Bar graph','Line graph','Pie chart','Histogram'], ans: 2, exp: 'A pie chart shows data as proportions/percentages of a whole.' },
+    { q: 'A bag has 4 green and 6 yellow balls. What is P(green)?', opts: ['0.4','0.6','4','0.04'], ans: 0, exp: 'P(green) = 4 ÷ 10 = 0.4.' },
+    { q: 'The set of all possible outcomes of an experiment is called the:', opts: ['Range','Sample space','Frequency table','Relative frequency'], ans: 1, exp: 'The sample space is the set of all possible outcomes of an experiment.' },
+    { q: 'What is the current VAT rate in South Africa?', opts: ['10%','14%','15%','20%'], ans: 2, exp: 'The standard VAT rate in South Africa is currently 15%.' },
+    { q: 'A scale drawing showing a structure from the side is called a(n):', opts: ['Floor plan','Elevation plan','Pie chart','Bar graph'], ans: 1, exp: 'An elevation plan is a scale drawing showing a structure from the side, representing height and vertical features.' }
   ];
 
   let currentQ = 0, score = 0, answered = false, quizCompleted = false;

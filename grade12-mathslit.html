@@ -259,14 +259,14 @@ body{font-family:'DM Sans',sans-serif;background:#0D1B2A;color:#F0F4FF;min-heigh
 </div>
 <script>
 (function(){
-  var CODES = ["SH-ML25","SH-MATHSLIT25"];
-  var KEY   = "sh_access_ML";
+  var ACCESS_CODE = "SH-12-MLIT";
+  var KEY   = "sh_unlocked_mlit12";
   function shCheck(){
     var v = document.getElementById("sh-code").value.trim().toUpperCase();
     var m = document.getElementById("sh-msg");
     var c = document.querySelector(".sh-card");
     if(!v){ shMsg("Please enter your access code.","err"); return; }
-    if(CODES.indexOf(v)>-1){
+    if(v===ACCESS_CODE){
       try{ sessionStorage.setItem(KEY,v); }catch(e){}
       shMsg("✓ Access granted!","ok");
       setTimeout(function(){ document.getElementById("sh-gate").style.display="none"; window.scrollTo(0,0); },700);
@@ -281,7 +281,7 @@ body{font-family:'DM Sans',sans-serif;background:#0D1B2A;color:#F0F4FF;min-heigh
     if(inp) inp.addEventListener("keydown",function(e){ if(e.key==="Enter") shCheck(); });
     try{
       var s = sessionStorage.getItem(KEY);
-      if(s && ["SH-ML25","SH-MATHSLIT25"].indexOf(s.toUpperCase())>-1){
+      if(s && s.toUpperCase()===ACCESS_CODE){
         document.getElementById("sh-gate").style.display="none";
       }
     }catch(e){}

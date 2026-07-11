@@ -565,14 +565,14 @@
 </div>
 <script>
 (function(){
-  var CODES=["SH-LS25","SH-LIFESCI25"];
-  var KEY="sh_access_LS";
+  var ACCESS_CODE="SH-12-LIFE";
+  var KEY="sh_unlocked_life12";
   function shMsg(t,c){var m=document.getElementById("sh-msg");m.textContent=t;m.className=c;}
   function shCheck(){
     var v=document.getElementById("sh-code").value.trim().toUpperCase();
     var c=document.querySelector(".sh-card");
     if(!v){shMsg("Please enter your access code.","err");return;}
-    if(CODES.indexOf(v)>-1){
+    if(v===ACCESS_CODE){
       try{sessionStorage.setItem(KEY,v);}catch(e){}
       shMsg("✓ Access granted!","ok");
       setTimeout(function(){document.getElementById("sh-gate").style.display="none";window.scrollTo(0,0);},700);
@@ -587,7 +587,7 @@
     if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") shCheck();});
     try{
       var s=sessionStorage.getItem(KEY);
-      if(s&&CODES.indexOf(s.toUpperCase())>-1) document.getElementById("sh-gate").style.display="none";
+      if(s&&s.toUpperCase()===ACCESS_CODE) document.getElementById("sh-gate").style.display="none";
     }catch(e){}
   });
 })();

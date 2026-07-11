@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Guides | StudyHub by Nhlaka</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0A0E1A;
+    --surface: #10182B;
+    --surface2: #182241;
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --gold-dim: rgba(201,168,76,0.12);
+    --border: rgba(201,168,76,0.22);
+    --text: #ECEAE2;
+    --muted: #8C93A6;
+    --green: #4CAF7D;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+
+  /* ── HEADER ── */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 5vw;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,14,26,0.9);
+    backdrop-filter: blur(10px);
+  }
+  .back-link {
+    font-size: 0.8rem; color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--gold-light); }
+  .brand { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; color: var(--gold); }
+  .brand span { color: var(--text); font-weight: 500; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 72px 5vw 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px) 0 0 / 64px 100%,
+      radial-gradient(ellipse 60% 50% at 85% 0%, rgba(201,168,76,0.09), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 760px; }
+  .grade-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+    border: 1px solid var(--border); background: var(--gold-dim);
+    padding: 5px 14px; border-radius: 3px; margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    font-weight: 700; line-height: 1.06; letter-spacing: -0.01em;
+    color: var(--text); margin-bottom: 18px;
+  }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 520px; margin-bottom: 30px; }
+  .hero-readout {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .readout-item { border-left: 2px solid var(--border); padding-left: 14px; }
+  .readout-num { font-size: 1.5rem; font-weight: 600; color: var(--gold-light); line-height: 1; }
+  .readout-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex; gap: 10px; padding: 20px 5vw;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .f-chip {
+    flex: 0 0 auto; font-size: 0.72rem; padding: 7px 14px;
+    border-radius: 20px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer;
+    transition: all 0.15s; letter-spacing: 0.03em;
+  }
+  .f-chip.active, .f-chip:hover { border-color: var(--gold); color: var(--gold-light); background: var(--gold-dim); }
+
+  /* ── GRID ── */
+  .guide-section { padding: 48px 5vw 80px; max-width: 1280px; margin: 0 auto; }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .g-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0;
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    position: relative;
+    transition: transform 0.18s, border-color 0.18s;
+    overflow: hidden;
+  }
+  .g-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+  .g-card-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--gold);
+    padding: 14px 20px 0;
+  }
+  .g-card-body { padding: 6px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+  .g-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .g-icon { font-size: 1.5rem; }
+  .status-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.08em; padding: 3px 9px; border-radius: 3px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .status-badge.new { background: rgba(76,175,125,0.14); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
+  .status-badge.live { background: var(--gold-dim); color: var(--gold-light); border: 1px solid var(--border); }
+
+  .g-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.25; }
+  .g-desc { font-size: 0.83rem; color: var(--muted); margin-bottom: 16px; flex: 1; line-height: 1.55; }
+
+  .g-stats {
+    display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--gold-light);
+    padding-top: 12px; margin-bottom: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .g-stats span { color: var(--muted); }
+
+  .g-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .g-tag {
+    font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border);
+    padding: 3px 9px; border-radius: 20px;
+  }
+
+  .g-cta {
+    display: block; text-align: center;
+    background: var(--gold); color: var(--bg);
+    font-weight: 700; font-size: 0.82rem;
+    padding: 11px; border-radius: 3px;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+  }
+  .g-card:hover .g-cta { background: var(--gold-light); }
+
+  /* ── HOW IT WORKS (kept, but muted here — full version lives on index) ── */
+  .mini-note {
+    text-align: center; font-size: 0.82rem; color: var(--muted);
+    padding: 0 5vw 40px; max-width: 640px; margin: 0 auto;
+  }
+  .mini-note a { color: var(--gold-light); text-decoration: none; }
+
+  footer {
+    text-align: center; padding: 32px; color: var(--muted); font-size: 0.76rem;
+    border-top: 1px solid var(--border);
+  }
+  footer span { color: var(--gold); }
+
+  @media(max-width:640px) {
+    header { padding: 16px 20px; }
+    .hero { padding: 48px 20px 36px; }
+    .filter-bar { padding: 16px 20px; }
+    .guide-section { padding: 36px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">← Home</a>
+  <div class="brand">Study<span>Hub</span></div>
+  <div style="width:70px"></div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="grade-tag">● Grade 12 · Matric · NSC</div>
+    <h1>Everything for your<br><em>final exam year.</em></h1>
+    <p>Ten complete interactive guides — CAPS-aligned notes, flashcards, timed quizzes, and full exam-paper breakdowns for every core Grade 12 subject.</p>
+    <div class="hero-readout">
+      <div class="readout-item"><div class="readout-num">10</div><div class="readout-label">Guides live</div></div>
+      <div class="readout-item"><div class="readout-num">100%</div><div class="readout-label">CAPS aligned</div></div>
+      <div class="readout-item"><div class="readout-num">R35</div><div class="readout-label">Per guide</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="f-chip active" data-f="all">All Subjects</button>
+  <button class="f-chip" data-f="stem">STEM</button>
+  <button class="f-chip" data-f="commerce">Commerce</button>
+  <button class="f-chip" data-f="humanities">Humanities</button>
+</div>
+
+<div class="guide-section">
+  <div class="guide-grid" id="guideGrid"></div>
+</div>
+
+<p class="mini-note">Need help choosing a subject, or want to pay via WhatsApp? <a href="https://wa.me/27657702577">Message us at +27 65 770 2577</a> — we reply quickly.</p>
+
+<footer>
+  <div>© 2026 StudyHub by Nhlaka · Grade 12 · South Africa</div>
+  <div style="margin-top:6px;">CAPS Aligned · DO NOT SHARE OR REDISTRIBUTE GUIDES</div>
+</footer>
+
+<script>
+const GUIDES = [
+  { cat:'stem', icon:'📐', title:'Mathematics', desc:'Algebra, calculus, trigonometry, Euclidean & analytical geometry, sequences, and probability — with worked examples.', stats:['Graphs','Formula sheet','Timed quiz'], tags:['Paper 1 & 2','Formula Guide'], href:'grade12-mathematics.html' },
+  { cat:'stem', icon:'📊', title:'Mathematical Literacy', desc:'Finance, measurement, maps & plans, data handling, and probability — with 7 built-in calculators.', stats:['48 flashcards','40 quiz Qs'], tags:['Paper 1 & 2','Calculators'], href:'grade12-mathslit.html' },
+  { cat:'stem', icon:'⚛️', title:'Physical Sciences', desc:'Mechanics, waves & light, electricity & magnetism, chemical change, and organic chemistry.', stats:['Formula sheet','SVG diagrams'], tags:['Paper 1 & 2','Timed Quiz'], href:'grade12-physicalsciences.html' },
+  { cat:'stem', icon:'🧬', title:'Life Sciences', desc:'DNA & genetics, evolution, reproduction, the nervous system, and ecology — plus essay & exam prep.', stats:['Essays','Checklist'], tags:['Paper 1 & 2','Essay Bank'], href:'grade12-lifesciences.html' },
+  { cat:'commerce', icon:'📒', title:'Accounting', desc:'Financial statements, reconciliations, companies, cash flow, and ratio interpretation.', stats:['8 topics','Quiz per topic'], tags:['Paper 1 & 2'], href:'grade12-accounting.html' },
+  { cat:'commerce', icon:'💹', title:'Economics', desc:'Macro & microeconomics, business cycles, market structures, growth & development, inflation.', stats:['50 flashcards','40 quiz Qs'], tags:['10 Essays','Exam Guide'], href:'grade12-economics.html' },
+  { cat:'commerce', icon:'💼', title:'Business Studies', desc:'Business environments, legislation, human resources, quality management, ethics, and CSR.', stats:['50 flashcards','40 quiz Qs'], tags:['10 Essays','Exam Guide'], href:'grade12-business.html' },
+  { cat:'humanities', icon:'🌍', title:'Geography', desc:'Climate & weather, fluvial geomorphology, settlements, economic geography, and mapwork/GIS.', stats:['50 flashcards','8 Essays'], tags:['Paper 1 & 2','Mapwork'], href:'grade12-geography.html' },
+  { cat:'humanities', icon:'📜', title:'History', desc:'The Cold War, civil rights protest, the end of apartheid, independent Africa, and globalisation.', stats:['12 flashcards','15 quiz Qs'], tags:['Essay Guide','Exam Guide'], href:'grade12-history.html' },
+  { cat:'stem', icon:'💻', title:'Computer Applications Technology', desc:'Hardware, software, networks, the internet, information management, and social implications.', stats:['12 flashcards','15 quiz Qs'], tags:['Exam Guide','Practical Guide'], href:'grade12-cat.html' },
+];
+
+const grid = document.getElementById('guideGrid');
+function render(filter){
+  grid.innerHTML = GUIDES
+    .filter(g => filter === 'all' || g.cat === filter)
+    .map((g,i) => `
+    <a class="g-card" href="${g.href}">
+      <div class="g-card-index">GR12 / ${String(i+1).padStart(2,'0')}</div>
+      <div class="g-card-body">
+        <div class="g-card-top">
+          <div class="g-icon">${g.icon}</div>
+          <div class="status-badge live">Available</div>
+        </div>
+        <div class="g-title">${g.title}</div>
+        <div class="g-desc">${g.desc}</div>
+        <div class="g-stats">${g.stats.map(s=>`<span>${s}</span>`).join('')}</div>
+        <div class="g-tags">${g.tags.map(t=>`<span class="g-tag">${t}</span>`).join('')}</div>
+        <div class="g-cta">Unlock Guide →</div>
+      </div>
+    </a>`).join('');
+}
+render('all');
+document.getElementById('filterBar').addEventListener('click', e => {
+  if(!e.target.dataset.f) return;
+  document.querySelectorAll('.f-chip').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  render(e.target.dataset.f);
+});
+</script>
+</body>
+</html>

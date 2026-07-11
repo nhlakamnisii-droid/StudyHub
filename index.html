@@ -3,301 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudyHub by Nhlaka</title>
+<title>StudyHub by Nhlaka — Grade 11 & 12 Study Guides</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
 
   :root {
-    --midnight: #0a0e1a;
-    --navy: #0f1628;
-    --navy-light: #162040;
-    --gold: #c9a84c;
-    --gold-light: #e2c97e;
-    --gold-dim: rgba(201,168,76,0.12);
-    --text: #e8e6e0;
-    --muted: #8a8a9a;
-    --card: #131929;
-    --border: rgba(201,168,76,0.2);
-    --radius: 12px;
+    --bg: #0B0C0F;
+    --surface: #141518;
+    --border: rgba(255,255,255,0.09);
+    --text: #EDECE8;
+    --muted: #91908B;
+    --copper: #C97C4C;
+    --copper-light: #E0A374;
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--midnight);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', sans-serif; line-height: 1.6; min-height: 100vh;
   }
+  h1, h2, .display { font-family: 'Fraunces', serif; }
 
-  /* ─── HEADER ─── */
   header {
-    background: var(--navy);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 40px;
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
+    padding: 22px 5vw;
   }
-  .brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem; color: var(--gold);
-    letter-spacing: 3px;
-  }
-  .brand span { color: var(--text); font-size: 0.75rem; letter-spacing: 1px; display: block; font-family: 'Inter', sans-serif; font-weight: 400; margin-top: 2px; }
-  .header-contact {
-    font-size: 0.8rem; color: var(--muted);
-    text-align: right;
-  }
-  .header-contact a { color: var(--gold); text-decoration: none; }
+  .brand { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.01em; }
+  .brand span { color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-top: 2px; }
+  .header-contact { font-size: 0.78rem; color: var(--muted); text-align: right; }
+  .header-contact a { color: var(--gold-light); text-decoration: none; }
 
-  /* ─── HERO ─── */
-  .hero {
-    background: linear-gradient(135deg, var(--navy) 0%, #0d1a35 60%, var(--midnight) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 80px 40px 72px;
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-size: 0.72rem; letter-spacing: 4px; color: var(--gold);
-    text-transform: uppercase; margin-bottom: 18px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    color: var(--text); line-height: 1.1; margin-bottom: 18px;
-  }
-  .hero h1 span { color: var(--gold); }
-  .hero p {
-    color: var(--muted); max-width: 520px; margin: 0 auto 36px;
-    font-size: 0.98rem;
-  }
-  .hero-stats {
-    display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
-  }
-  .stat { text-align: center; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); transition: opacity 0.2s; }
-  .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  /* ── HERO ── */
+  .hero { text-align: center; padding: 60px 5vw 24px; }
+  .hero-eyebrow { font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 .accent-copper { color: var(--copper-light); }
+  .hero h1 .accent-gold { color: var(--gold-light); }
+  .hero p { color: var(--muted); max-width: 480px; margin: 0 auto 28px; font-size: 0.98rem; }
+  .hero-stats { display: flex; gap: 36px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .stat-num { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
 
-  /* ─── HOW IT WORKS ─── */
+  /* ── THE TWO DOORS ── */
+  .doors {
+    max-width: 1000px; margin: 56px auto 0; padding: 0 5vw 80px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  }
+  @media(max-width:720px) { .doors { grid-template-columns: 1fr; } }
+
+  .door {
+    position: relative; border-radius: 18px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    min-height: 320px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 32px; border: 1px solid var(--border);
+    transition: transform 0.25s cubic-bezier(.2,.8,.2,1);
+  }
+  .door:hover { transform: translateY(-6px); }
+
+  .door-11 {
+    background: radial-gradient(ellipse 90% 70% at 20% 0%, rgba(201,124,76,0.22), transparent 65%), #1A140F;
+  }
+  .door-11::before {
+    content: '11'; position: absolute; top: 24px; right: 28px;
+    font-family: 'Fraunces', serif; font-size: 5.5rem; font-weight: 700;
+    color: rgba(201,124,76,0.16); line-height: 1;
+  }
+  .door-12 {
+    background: radial-gradient(ellipse 90% 70% at 20% 0%, rgba(201,168,76,0.22), transparent 65%), #0A0E1A;
+  }
+  .door-12::before {
+    content: '12'; position: absolute; top: 24px; right: 28px;
+    font-family: 'Fraunces', serif; font-size: 5.5rem; font-weight: 700;
+    color: rgba(201,168,76,0.16); line-height: 1;
+  }
+
+  .door-tag {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 10px; position: relative; z-index: 1;
+  }
+  .door-11 .door-tag { color: var(--copper-light); }
+  .door-12 .door-tag { color: var(--gold-light); }
+
+  .door-title { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 10px; position: relative; z-index: 1; }
+  .door-desc { font-size: 0.86rem; color: #B8B4AC; max-width: 340px; margin-bottom: 20px; position: relative; z-index: 1; }
+  .door-meta {
+    display: flex; gap: 18px; font-size: 0.76rem; position: relative; z-index: 1;
+  }
+  .door-11 .door-meta { color: var(--copper-light); }
+  .door-12 .door-meta { color: var(--gold-light); }
+  .door-cta {
+    position: relative; z-index: 1; margin-top: 22px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: 0.85rem;
+  }
+  .door-11 .door-cta { color: var(--copper-light); }
+  .door-12 .door-cta { color: var(--gold-light); }
+
+  /* ── HOW IT WORKS ── */
   .how-section {
-    background: var(--navy);
-    border-bottom: 1px solid var(--border);
-    padding: 48px 40px;
-    text-align: center;
+    background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 56px 5vw; text-align: center;
   }
-  .how-section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem; color: var(--text); margin-bottom: 32px;
-  }
-  .steps {
-    display: flex; gap: 24px; justify-content: center;
-    flex-wrap: wrap; max-width: 860px; margin: 0 auto;
-  }
-  .step {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 24px 20px;
-    flex: 1; min-width: 180px; max-width: 220px;
-    text-align: center;
-  }
-  .step-icon { font-size: 1.8rem; margin-bottom: 12px; }
-  .step h4 { color: var(--gold-light); font-size: 0.88rem; margin-bottom: 8px; }
+  .how-section h2 { font-size: 1.4rem; margin-bottom: 36px; }
+  .steps { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+  .step { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; flex: 1; min-width: 180px; max-width: 220px; }
+  .step-icon { font-size: 1.7rem; margin-bottom: 12px; }
+  .step h4 { font-size: 0.9rem; margin-bottom: 8px; }
   .step p { color: var(--muted); font-size: 0.82rem; }
 
-  /* ─── GUIDES SECTION ─── */
-  .guides-section { max-width: 1000px; margin: 0 auto; padding: 56px 24px 32px; }
-  .section-header { margin-bottom: 28px; }
-  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
-  .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 10px 0 12px; }
-  .section-header p { color: var(--muted); font-size: 0.9rem; }
-
-  /* ─── GRADE SWITCH ─── */
-  .grade-switch-wrap {
-    display: flex; justify-content: center; margin-bottom: 40px;
-  }
-  .grade-switch {
-    display: inline-flex;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 5px;
-    gap: 4px;
-  }
-  .grade-btn {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 0.3px;
-    color: var(--muted);
-    background: none; border: none;
-    padding: 10px 26px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .grade-btn.active {
-    background: var(--gold);
-    color: var(--midnight);
-  }
-  .grade-btn:hover:not(.active) { color: var(--gold-light); }
-
-  .grade-panel { display: none; }
-  .grade-panel.active { display: block; }
-
-  .grade-panel-note {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.82rem;
-    margin-bottom: 24px;
-  }
-
-  /* ─── GUIDE CARDS ─── */
-  .guide-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 18px;
-  }
-  .guide-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px;
-    display: flex; flex-direction: column;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .guide-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .guide-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--gold);
-    opacity: 0; transition: opacity 0.2s;
-  }
-  .guide-card:hover::before { opacity: 1; }
-  .card-subject {
-    font-size: 0.7rem; letter-spacing: 2px; color: var(--gold);
-    text-transform: uppercase; margin-bottom: 10px;
-  }
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem; color: var(--text);
-    margin-bottom: 10px; line-height: 1.3;
-  }
-  .card-desc { color: var(--muted); font-size: 0.83rem; margin-bottom: 18px; flex-grow: 1; }
-  .card-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-  .card-chip {
-    background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.15);
-    color: var(--gold-light); font-size: 0.7rem; padding: 3px 10px;
-    border-radius: 50px;
-  }
-  .card-btn {
-    display: block; width: 100%;
-    background: var(--gold); color: var(--midnight);
-    border: none; padding: 11px;
-    border-radius: 8px; font-weight: 700;
-    font-size: 0.83rem; letter-spacing: 0.5px;
-    cursor: pointer; text-align: center;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .card-btn:hover { background: var(--gold-light); }
-  .new-badge {
-    position: absolute; top: 14px; right: 14px;
-    background: var(--gold); color: var(--midnight);
-    font-size: 0.62rem; font-weight: 700;
-    padding: 3px 8px; border-radius: 4px; letter-spacing: 1px;
-  }
-
-  /* ─── COMING SOON CARD ─── */
-  .coming-soon-note {
-    text-align: center;
-    margin-top: 28px;
-    padding: 20px;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius);
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
-  .coming-soon-note strong { color: var(--gold-light); }
-
-  /* ─── CTA BANNER ─── */
+  /* ── CTA BANNER ── */
+  .cta-section { max-width: 900px; margin: 0 auto; padding: 64px 5vw; text-align: center; }
   .cta-banner {
-    background: var(--navy);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 40px 32px;
-    text-align: center;
-    margin-top: 48px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 44px 32px;
   }
-  .cta-banner h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text); margin-bottom: 10px; }
-  .cta-banner p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .cta-banner h3 { font-size: 1.5rem; margin-bottom: 10px; }
+  .cta-banner p { color: var(--muted); font-size: 0.92rem; margin-bottom: 26px; }
   .cta-wa {
-    display: inline-block;
-    background: #25D366; color: #fff;
-    font-weight: 700; font-size: 0.92rem;
-    padding: 14px 32px; border-radius: 8px;
-    text-decoration: none; letter-spacing: 0.5px;
-    transition: background 0.2s;
+    display: inline-block; background: #25D366; color: #fff;
+    font-weight: 700; font-size: 0.92rem; padding: 14px 32px; border-radius: 8px;
+    text-decoration: none; transition: background 0.2s;
   }
   .cta-wa:hover { background: #1ebe5b; }
 
-  /* ─── FOOTER ─── */
-  footer {
-    text-align: center; padding: 28px;
-    color: var(--muted); font-size: 0.78rem;
-    border-top: 1px solid var(--border);
-  }
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); }
   footer span { color: var(--gold); }
 
-  @media(max-width: 600px) {
+  @media(max-width:640px) {
     header { padding: 16px 20px; }
-    .hero { padding: 56px 20px 48px; }
-    .how-section { padding: 36px 20px; }
-    .guides-section { padding: 40px 16px 60px; }
-    .hero-stats { gap: 28px; }
+    .hero { padding: 44px 20px 20px; }
+    .doors { padding: 0 20px 56px; }
+    .how-section { padding: 44px 20px; }
+    .cta-section { padding: 48px 20px; }
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="brand">STUDYHUB <span>by Nhlaka</span></div>
-  <div class="header-contact">
-    Need a guide? <br>
-    <a href="https://wa.me/27657702577">WhatsApp us</a>
-  </div>
+  <div class="brand">StudyHub<span>by Nhlaka</span></div>
+  <div class="header-contact">Need help? <br><a href="https://wa.me/27657702577">WhatsApp us</a></div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">Grade 11 &amp; 12 · CAPS Aligned · Interactive</div>
-  <h1>Study Smarter.<br><span>Pass Stronger.</span></h1>
-  <p>Interactive study guides built for South African high school students. Notes, flashcards, quizzes — everything in one place.</p>
+  <div class="hero-eyebrow">Interactive · CAPS Aligned · Built for South African learners</div>
+  <h1>Study smarter,<br>whichever <span class="accent-copper">grade</span> or <span class="accent-gold">subject</span>.</h1>
+  <p>Notes, flashcards, and quizzes for Grade 11 and Grade 12 — pick your grade below to see what's live.</p>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num" id="statSubjects">10</div><div class="stat-label">Subjects</div></div>
-    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Grades</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">CAPS Aligned</div></div>
-    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Revisions</div></div>
+    <div><div class="stat-num">17</div><div class="stat-label">Live guides</div></div>
+    <div><div class="stat-num">2</div><div class="stat-label">Grades</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-label">CAPS aligned</div></div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
+<div class="doors">
+  <a class="door door-11" href="grade11.html">
+    <div class="door-tag">Grade 11</div>
+    <div class="door-title">Build the foundation</div>
+    <div class="door-desc">7 guides live now, with Mathematics, Physical Sciences and Economics on the way.</div>
+    <div class="door-meta"><span>7 live</span><span>3 coming soon</span></div>
+    <div class="door-cta">Enter Grade 11 →</div>
+  </a>
+  <a class="door door-12" href="grade12.html">
+    <div class="door-tag">Grade 12</div>
+    <div class="door-title">Matric, exam-ready</div>
+    <div class="door-desc">All 10 core subjects complete — notes, flashcards, quizzes, and full exam-paper guides.</div>
+    <div class="door-meta"><span>10 live</span><span>0 coming soon</span></div>
+    <div class="door-cta">Enter Grade 12 →</div>
+  </a>
+</div>
+
 <div class="how-section">
   <h2>How It Works</h2>
   <div class="steps">
     <div class="step">
       <div class="step-icon">💬</div>
       <h4>1. WhatsApp Us</h4>
-      <p>Send a message to purchase the guide for your grade and subject.</p>
+      <p>Send a message to purchase the guide for your subject.</p>
     </div>
     <div class="step">
       <div class="step-icon">💳</div>
@@ -317,311 +201,18 @@
   </div>
 </div>
 
-<!-- GUIDES -->
-<div class="guides-section">
-  <div class="section-header">
-    <h2>Study Guides</h2>
-    <div class="gold-rule"></div>
-    <p>Each guide includes notes, flashcards, a practice quiz, and exam tips — all in one interactive file. Choose your grade below.</p>
-  </div>
-
-  <!-- GRADE SWITCH -->
-  <div class="grade-switch-wrap">
-    <div class="grade-switch">
-      <button class="grade-btn active" id="btnG12" onclick="showGrade(12)">Grade 12</button>
-      <button class="grade-btn" id="btnG11" onclick="showGrade(11)">Grade 11</button>
-    </div>
-  </div>
-
-  <!-- ═══════════ GRADE 12 PANEL ═══════════ -->
-  <div class="grade-panel active" id="panel12">
-    <div class="grade-panel-note">10 subjects available · Full NSC exam coverage</div>
-    <div class="guide-grid">
-
-      <!-- MATHEMATICS -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Mathematics</div>
-        <div class="card-desc">Algebra, functions, calculus, trigonometry, analytical &amp; Euclidean geometry, sequences, and probability.</div>
-        <div class="card-chips">
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">🧮 Formula Sheet</span>
-          <span class="card-chip">📈 Graphs</span>
-          <span class="card-chip">✏️ Quiz</span>
-        </div>
-        <a href="grade12-mathematics.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- MATHEMATICAL LITERACY -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Mathematical Literacy</div>
-        <div class="card-desc">Finance, measurement, maps &amp; plans, data handling, and probability — with worked examples and calculators.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🔢 Calculators</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">📄 Exam Tips</span>
-        </div>
-        <a href="grade12-mathslit.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- PHYSICAL SCIENCES -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Physical Sciences</div>
-        <div class="card-desc">Mechanics, waves, electricity &amp; magnetism, chemical change, and organic chemistry.</div>
-        <div class="card-chips">
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">🧮 Formula Sheet</span>
-          <span class="card-chip">📊 Diagrams</span>
-          <span class="card-chip">✏️ Quiz</span>
-        </div>
-        <a href="grade12-physicalsciences.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- LIFE SCIENCES -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Life Sciences</div>
-        <div class="card-desc">DNA &amp; genetics, evolution, human reproduction, nervous system, and ecology.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">✍️ Essays</span>
-        </div>
-        <a href="grade12-lifesciences.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- ACCOUNTING -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Accounting</div>
-        <div class="card-desc">Financial statements, reconciliations, companies, cash flow, and interpretation of financial data.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">📄 Exam Tips</span>
-        </div>
-        <a href="grade12-accounting.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- ECONOMICS -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Economics</div>
-        <div class="card-desc">Macro &amp; microeconomics, markets, business cycles, growth &amp; development, and international trade.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">📄 Exam Tips</span>
-        </div>
-        <a href="grade12-economics.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- BUSINESS STUDIES -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Business Studies</div>
-        <div class="card-desc">Business environments, entrepreneurship, leadership, human resources, and business legislation.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">📄 Exam Tips</span>
-        </div>
-        <a href="grade12-business.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- GEOGRAPHY -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Geography</div>
-        <div class="card-desc">Climate and weather, geomorphology, settlement &amp; economic geography, and mapwork skills.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">✍️ Essays</span>
-        </div>
-        <a href="grade12-geography.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- HISTORY -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">History</div>
-        <div class="card-desc">Cold War, Civil Rights, end of Apartheid, independent Africa, and globalisation — plus a full essay &amp; exam guide.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">📄 Exam Guide</span>
-          <span class="card-chip">✍️ Essay Guide</span>
-        </div>
-        <a href="grade12-history.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- CAT -->
-      <div class="guide-card">
-        <div class="card-subject">Grade 12</div>
-        <div class="card-title">Computer Applications Technology</div>
-        <div class="card-desc">Hardware, software, networks, the internet, social implications — plus a full practical &amp; exam guide.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">📄 Exam Guide</span>
-          <span class="card-chip">🖥️ Practical Guide</span>
-        </div>
-        <a href="grade12-cat.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════ GRADE 11 PANEL ═══════════ -->
-  <div class="grade-panel" id="panel11">
-    <div class="grade-panel-note">7 subjects available · More being added soon</div>
-    <div class="guide-grid">
-
-      <!-- MATHEMATICAL LITERACY -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Mathematical Literacy</div>
-        <div class="card-desc">Finance, measurement, maps, plans &amp; other representations, data handling, and probability.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">🧮 Formula Guide</span>
-        </div>
-        <a href="Grade11-mathslit.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- LIFE SCIENCES -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Life Sciences</div>
-        <div class="card-desc">Biochemistry of the cell, cell division, plant &amp; animal transport systems, and environmental studies.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">🔬 Diagram Guide</span>
-        </div>
-        <a href="Grade11-lifesciences.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- ACCOUNTING -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Accounting</div>
-        <div class="card-desc">Ethics &amp; internal control, fixed assets, partnerships, financial analysis, cost accounting, and VAT.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">🧮 Formula Guide</span>
-        </div>
-        <a href="Grade11-accounting.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- BUSINESS STUDIES -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Business Studies</div>
-        <div class="card-desc">Business environments, business ventures, business roles, and business operations.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">🧩 Case Study Guide</span>
-        </div>
-        <a href="Grade11-business.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- GEOGRAPHY -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Geography</div>
-        <div class="card-desc">Climate &amp; weather, geomorphology, rural &amp; urban settlements, and economic geography of South Africa.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">✏️ Quiz</span>
-          <span class="card-chip">🗺️ Map Work Guide</span>
-        </div>
-        <a href="Grade11-geography.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- HISTORY -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">History</div>
-        <div class="card-desc">Communism in Russia, capitalism in the USA, ideas of race, nationalisms, and apartheid South Africa.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">📄 Exam Guide</span>
-          <span class="card-chip">✍️ Essay Guide</span>
-        </div>
-        <a href="Grade11-history.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-      <!-- CAT -->
-      <div class="guide-card">
-        <div class="new-badge">NEW</div>
-        <div class="card-subject">Grade 11</div>
-        <div class="card-title">Computer Applications Technology</div>
-        <div class="card-desc">Systems technologies, data &amp; information management, social implications, and networks.</div>
-        <div class="card-chips">
-          <span class="card-chip">📖 Notes</span>
-          <span class="card-chip">🃏 Flashcards</span>
-          <span class="card-chip">📄 Exam Guide</span>
-          <span class="card-chip">💻 Practical Guide</span>
-        </div>
-        <a href="Grade11-cat.html" class="card-btn">Unlock Guide →</a>
-      </div>
-
-    </div>
-
-    <div class="coming-soon-note">
-      Don't see your subject? <strong>Mathematics, Physical Sciences &amp; Economics</strong> for Grade 11 are coming soon — WhatsApp us to be notified.
-    </div>
-  </div>
-
-  <!-- CTA -->
+<div class="cta-section">
   <div class="cta-banner">
     <h3>Ready to start studying?</h3>
     <p>WhatsApp us to purchase your access code. We respond quickly.</p>
     <a href="https://wa.me/27657702577" class="cta-wa">💬 WhatsApp +27 65 770 2577</a>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <div>© 2026 StudyHub by Nhlaka · All rights reserved &nbsp;·&nbsp; South Africa</div>
-  <div style="margin-top:6px;">CAPS Aligned · Grade 11 &amp; 12 · Interactive HTML Guides · DO NOT SHARE OR REDISTRIBUTE GUIDES!</div>
+  <div>© 2026 StudyHub by Nhlaka · All rights reserved · South Africa</div>
+  <div style="margin-top:6px;">CAPS Aligned · Grade 11 & 12 · Interactive HTML Guides · DO NOT SHARE OR REDISTRIBUTE GUIDES</div>
 </footer>
-
-<script>
-  function showGrade(grade) {
-    document.getElementById('panel12').classList.toggle('active', grade === 12);
-    document.getElementById('panel11').classList.toggle('active', grade === 11);
-    document.getElementById('btnG12').classList.toggle('active', grade === 12);
-    document.getElementById('btnG11').classList.toggle('active', grade === 11);
-    document.getElementById('statSubjects').textContent = grade === 12 ? '10' : '7';
-  }
-</script>
 
 </body>
 </html>
