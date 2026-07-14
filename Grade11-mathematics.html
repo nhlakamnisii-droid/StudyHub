@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Grade 11 Mathematics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap');
+
+  :root {
+    --midnight: #0a0e1a;
+    --navy: #0f1628;
+    --navy-light: #162040;
+    --gold: #c98c4c;
+    --gold-light: #e0ab78;
+    --gold-dim: rgba(201,140,76,0.15);
+    --text: #e8e6e0;
+    --muted: #8a8a9a;
+    --card: #131929;
+    --card-hover: #1a2238;
+    --border: rgba(201,140,76,0.2);
+    --correct: #4caf7d;
+    --wrong: #e05c5c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  #lockScreen {
+    position: fixed; inset: 0;
+    background: var(--midnight);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    padding: 24px;
+  }
+  .lock-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+  }
+  .lock-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+  .lock-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
+  .lock-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+  .lock-input {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .lock-input:focus { border-color: var(--gold); }
+  .lock-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--midnight);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .lock-btn:hover { background: var(--gold-light); }
+  .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
+
+  header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
+  .guide-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-bar-wrap { width: 140px; height: 5px; background: var(--navy-light); border-radius: 4px; }
+  .progress-bar { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.4s; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #14213f 60%, var(--midnight) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,140,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; font-size: 0.95rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    background: var(--gold-dim); border: 1px solid var(--border);
+    color: var(--gold-light); font-size: 0.78rem; padding: 6px 14px;
+    border-radius: 50px; letter-spacing: 0.5px;
+  }
+
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 16px 32px;
+    background: var(--navy); border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: 1px solid transparent;
+    color: var(--muted); padding: 8px 18px;
+    border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    white-space: nowrap; transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--navy-light); }
+  .tab-btn.active { color: var(--gold); border-color: var(--border); background: var(--gold-dim); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .sec-header { margin-bottom: 32px; }
+  .sec-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .sec-header p { color: var(--muted); font-size: 0.9rem; }
+  .gold-rule { height: 2px; width: 48px; background: var(--gold); border-radius: 2px; margin: 12px 0; }
+
+  .topic-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: var(--gold); }
+  .topic-toggle {
+    width: 100%; background: none; border: none; color: var(--text);
+    padding: 20px 24px; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600;
+  }
+  .topic-toggle .topic-label { display: flex; align-items: center; gap: 14px; }
+  .topic-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; }
+  .chevron { color: var(--gold); font-size: 1.1rem; transition: transform 0.3s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { color: var(--gold-light); font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 10px; }
+  .topic-body p, .topic-body li { color: #c8c6c0; font-size: 0.92rem; line-height: 1.75; }
+  .topic-body ul, .topic-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .topic-body li { margin-bottom: 6px; }
+  .key-term { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--gold-light); }
+  .date-badge { display: inline-block; background: var(--navy); border: 1px solid var(--border); color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+  .formula-box { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin: 10px 0; font-family: 'Courier Prime', monospace; font-size: 0.86rem; color: var(--gold-light); line-height: 1.9; }
+
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
+  .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+    backface-visibility: hidden;
+  }
+  .fc-back { transform: rotateY(180deg); background: var(--navy-light); border-color: var(--gold); }
+  .fc-front .label { font-size: 0.7rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .fc-front p { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+
+  .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
+  .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+  .q-num { color: var(--gold); font-family: 'Courier Prime', monospace; font-size: 0.85rem; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: var(--navy); border: 1px solid var(--border);
+    color: var(--text); padding: 13px 18px; border-radius: 8px;
+    text-align: left; cursor: pointer; font-size: 0.9rem;
+    transition: all 0.2s; font-family: 'Inter', sans-serif;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-dim); }
+  .opt-btn.correct { background: rgba(76,175,125,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: rgba(224,92,92,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .feedback { padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(76,175,125,0.1); border: 1px solid var(--correct); color: #7dd4a8; }
+  .feedback.wrong-fb { background: rgba(224,92,92,0.1); border: 1px solid var(--wrong); color: #f08080; }
+  .quiz-nav { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .btn-gold {
+    background: var(--gold); color: var(--midnight);
+    border: none; padding: 12px 28px; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    letter-spacing: 0.5px; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: none; color: var(--gold);
+    border: 1px solid var(--gold); padding: 12px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; margin-right: 10px;
+  }
+  .btn-outline:hover { background: var(--gold-dim); }
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+  .result-score { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
+
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .exam-card h4 { color: var(--gold); font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .exam-card p, .exam-card li { color: #c8c6c0; font-size: 0.88rem; line-height: 1.7; }
+  .exam-card ul { padding-left: 18px; }
+  .mark-table, .mark-rubric { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .mark-table th, .mark-rubric th { background: var(--navy-light); color: var(--gold); padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .mark-table td, .mark-rubric td { padding: 10px 14px; border: 1px solid var(--border); color: #c8c6c0; vertical-align: top; }
+  .mark-table tr:nth-child(even) td, .mark-rubric tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-box { background: var(--gold-dim); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--gold-light); }
+
+  .essay-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { background: var(--gold); color: var(--midnight); font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
+  .step-content p, .step-content li { color: #c8c6c0; font-size: 0.9rem; line-height: 1.7; }
+  .step-content ul { padding-left: 18px; margin-top: 8px; }
+  .essay-template { background: var(--navy); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 16px 0; font-family: 'Courier Prime', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.9; }
+  .essay-template .placeholder { color: var(--gold); font-style: italic; }
+
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-logo">STUDYHUB BY NHLAKA</div>
+    <div class="lock-title">Grade 11 Mathematics</div>
+    <div class="lock-sub">Enter your access code to unlock this guide</div>
+    <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
+    <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
+    <div class="lock-error" id="lockError">Incorrect access code. Please try again.</div>
+  </div>
+</div>
+
+<header>
+  <div class="brand">STUDYHUB</div>
+  <div class="guide-title">Grade 11 Mathematics</div>
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">CAPS Aligned · Grade 11</div>
+  <h1>Mathematics<br><span>Study Guide</span></h1>
+  <p>Master Algebra &amp; Equations, Number Patterns, Functions &amp; Graphs, Finance Growth &amp; Decay, Trigonometry, Euclidean Geometry, Analytical Geometry, and Statistics — with flashcards, a practice quiz, exam breakdown, and a formula reference guide.</p>
+  <div class="hero-chips">
+    <span class="chip">📖 8 Topics</span>
+    <span class="chip">🃏 Flashcards</span>
+    <span class="chip">✏️ Practice Quiz</span>
+    <span class="chip">📄 Exam Guide</span>
+    <span class="chip">🧮 Formula Guide</span>
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('notes',this)">📖 Notes</button>
+  <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
+  <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
+  <button class="tab-btn" onclick="showSection('formulaguide',this)">🧮 Formula Guide</button>
+</nav>
+
+<main>
+
+  <div id="notes" class="section active">
+    <div class="sec-header">
+      <h2>Study Notes</h2>
+      <div class="gold-rule"></div>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 11 Mathematics curriculum.</p>
+    </div>
+
+    <div class="topic-card" id="tc1">
+      <button class="topic-toggle" onclick="toggleTopic('tc1')">
+        <div class="topic-label"><span class="topic-num">01</span>Algebra &amp; Equations</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Exponents &amp; Surds</h4>
+        <ul>
+          <li>Laws of exponents: a<sup>m</sup>·a<sup>n</sup> = a<sup>m+n</sup>; a<sup>m</sup>÷a<sup>n</sup> = a<sup>m−n</sup>; (a<sup>m</sup>)<sup>n</sup> = a<sup>mn</sup>; a<sup>0</sup> = 1 (a≠0); a<sup>−n</sup> = 1/aⁿ.</li>
+          <li>Surds are simplified by extracting perfect square (or cube) factors, e.g. √50 = 5√2.</li>
+        </ul>
+        <h4>Factorisation</h4>
+        <ul>
+          <li><strong>Common factor:</strong> take out the highest common factor first, always.</li>
+          <li><strong>Difference of two squares:</strong> a² − b² = (a−b)(a+b).</li>
+          <li><strong>Trinomials:</strong> find two numbers that multiply to give "c" and add to give "b" in ax²+bx+c.</li>
+          <li><strong>Sum/difference of cubes:</strong> a³+b³ = (a+b)(a²−ab+b²); a³−b³ = (a−b)(a²+ab+b²).</li>
+          <li><strong>Grouping:</strong> used for four-term expressions with no obvious common factor.</li>
+        </ul>
+        <h4>Solving Equations</h4>
+        <div class="key-term">🔑 <strong>Quadratic formula:</strong> used when a quadratic cannot be factorised easily — x = (−b ± √(b²−4ac)) / 2a.</div>
+        <ul>
+          <li><strong>Nature of roots (discriminant Δ = b²−4ac):</strong> Δ&gt;0 gives two distinct real roots; Δ=0 gives one repeated real root; Δ&lt;0 gives no real roots.</li>
+          <li>If Δ is a perfect square and Δ&gt;0, the roots are rational; otherwise irrational.</li>
+          <li><strong>Simultaneous equations (linear &amp; quadratic):</strong> make one variable the subject in the linear equation, substitute into the quadratic, then solve.</li>
+          <li><strong>Quadratic inequalities:</strong> factorise, find critical values, then use a number line or sketch to determine the solution region.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc2">
+      <button class="topic-toggle" onclick="toggleTopic('tc2')">
+        <div class="topic-label"><span class="topic-num">02</span>Number Patterns &amp; Sequences</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Arithmetic Sequences</h4>
+        <ul>
+          <li>A sequence with a <strong>constant common difference (d)</strong> between consecutive terms.</li>
+          <li>General term: T<sub>n</sub> = a + (n−1)d, where a is the first term.</li>
+        </ul>
+        <h4>Quadratic Sequences</h4>
+        <div class="key-term">🔑 <strong>Second difference:</strong> for a quadratic sequence, the second differences between terms are constant (unlike arithmetic sequences, where the first differences are constant).</div>
+        <ul>
+          <li>General term takes the form T<sub>n</sub> = an² + bn + c.</li>
+          <li>To find a, b, c: use the constant second difference (= 2a), then work backwards using the first differences and first term.</li>
+        </ul>
+        <h4>Working with Patterns</h4>
+        <ul>
+          <li>Always write out the first few terms and the differences between them before attempting to find a formula.</li>
+          <li>Check your general term formula by substituting n=1, n=2, n=3 back in — it must reproduce the original sequence.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc3">
+      <button class="topic-toggle" onclick="toggleTopic('tc3')">
+        <div class="topic-label"><span class="topic-num">03</span>Functions &amp; Graphs</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>The Parabola</h4>
+        <div class="formula-box">y = ax² + bx + c  (or y = a(x−p)² + q)</div>
+        <ul>
+          <li>If a&gt;0 the parabola opens upward (∪-shape, minimum turning point); if a&lt;0 it opens downward (∩-shape, maximum turning point).</li>
+          <li>Turning point at (p,q); axis of symmetry x = p; y-intercept at (0,c).</li>
+        </ul>
+        <h4>The Hyperbola</h4>
+        <div class="formula-box">y = a/(x−p) + q</div>
+        <ul>
+          <li>Vertical asymptote at x = p; horizontal asymptote at y = q.</li>
+          <li>If a&gt;0, branches lie in quadrants where (x−p) and (y−q) have the same sign; if a&lt;0, opposite sign.</li>
+        </ul>
+        <h4>The Exponential Function</h4>
+        <div class="formula-box">y = a·b<sup>x</sup> + q  (b &gt; 0, b ≠ 1)</div>
+        <ul>
+          <li>Horizontal asymptote at y = q.</li>
+          <li>If b&gt;1 the function increases; if 0&lt;b&lt;1 it decreases.</li>
+        </ul>
+        <h4>Reading &amp; Sketching Graphs</h4>
+        <ul>
+          <li>Always find and label: intercepts with the axes, turning point(s), and asymptotes (if any).</li>
+          <li>To find the equation of a graph from a sketch, substitute known points/intercepts into the general form and solve for the unknown constants.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc4">
+      <button class="topic-toggle" onclick="toggleTopic('tc4')">
+        <div class="topic-label"><span class="topic-num">04</span>Finance, Growth &amp; Decay</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Simple vs Compound Growth</h4>
+        <div class="formula-box">
+          Simple growth: A = P(1 + i·n)<br>
+          Compound growth: A = P(1 + i)ⁿ
+        </div>
+        <ul>
+          <li>Simple growth/decay is calculated only on the original principal; compound growth/decay is calculated on the accumulated amount each period, so it grows (or shrinks) faster.</li>
+        </ul>
+        <h4>Decay</h4>
+        <div class="formula-box">
+          Simple decay: A = P(1 − i·n)<br>
+          Compound decay: A = P(1 − i)ⁿ
+        </div>
+        <div class="key-term">🔑 <strong>Depreciation:</strong> the decrease in value of an asset over time — modelled using either simple (straight-line) or compound (reducing-balance) decay.</div>
+        <h4>Nominal vs Effective Interest Rates</h4>
+        <ul>
+          <li><strong>Nominal rate:</strong> the stated annual interest rate, usually compounded more than once per year.</li>
+          <li><strong>Effective annual rate:</strong> the actual rate earned/paid in one year once compounding is taken into account — always ≥ the nominal rate when compounding more than once a year.</li>
+        </ul>
+        <div class="formula-box">1 + i_eff = (1 + i_nom/m)<sup>m</sup>, where m = number of compounding periods per year</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Trigonometry</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Basic Ratios &amp; Special Angles</h4>
+        <div class="formula-box">SOH – CAH – TOA<br>sinθ = Opposite/Hypotenuse, cosθ = Adjacent/Hypotenuse, tanθ = Opposite/Adjacent</div>
+        <ul>
+          <li>Know the exact trig ratios for 0°, 30°, 45°, 60°, and 90° from memory (or derive from special triangles).</li>
+        </ul>
+        <h4>The CAST Diagram &amp; Reduction Formulae</h4>
+        <div class="key-term">🔑 <strong>CAST diagram:</strong> shows which trig ratios are positive in each quadrant — All (Q1), Sine (Q2), Tan (Q3), Cosine (Q4).</div>
+        <ul>
+          <li>Reduction formulae relate angles like (180°−θ), (180°+θ), (360°−θ), and (−θ) back to θ, using the CAST diagram to determine the sign.</li>
+        </ul>
+        <h4>Trigonometric Identities</h4>
+        <div class="formula-box">
+          tanθ = sinθ/cosθ<br>
+          sin²θ + cos²θ = 1
+        </div>
+        <h4>Solving Trig Equations &amp; General Solutions</h4>
+        <ul>
+          <li>Use a reference angle (found with a calculator) plus the CAST diagram to find all solutions in a given interval.</li>
+          <li><strong>General solution:</strong> since trig functions are periodic, solutions repeat every 360° (or 180° for tan) — write the general solution using +k·360° (k is any integer).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc6">
+      <button class="topic-toggle" onclick="toggleTopic('tc6')">
+        <div class="topic-label"><span class="topic-num">06</span>Euclidean Geometry</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Theorem of Pythagoras</h4>
+        <p>In a right-angled triangle, the square of the hypotenuse equals the sum of the squares of the other two sides — used to prove right angles and calculate missing sides.</p>
+        <h4>Similar Triangles</h4>
+        <ul>
+          <li>Triangles are similar if their corresponding angles are equal (AA) — corresponding sides are then in the same proportion.</li>
+          <li><strong>Proportionality theorem:</strong> a line drawn parallel to one side of a triangle divides the other two sides proportionally.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Midpoint theorem:</strong> the line joining the midpoints of two sides of a triangle is parallel to the third side and equal to half its length.</div>
+        <h4>Riders &amp; Proofs</h4>
+        <ul>
+          <li>Always state the reason for every statement in a geometric proof — a correct answer without a reason loses marks.</li>
+          <li>Mark all given information (equal sides, equal angles, parallel lines) directly onto the diagram before starting a proof.</li>
+          <li>Build proofs step by step from what is given towards what needs to be proved — work backwards from the goal if you get stuck.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc7">
+      <button class="topic-toggle" onclick="toggleTopic('tc7')">
+        <div class="topic-label"><span class="topic-num">07</span>Analytical Geometry</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Core Formulas</h4>
+        <div class="formula-box">
+          Distance: d = √((x₂−x₁)² + (y₂−y₁)²)<br>
+          Midpoint: M = ((x₁+x₂)/2 , (y₁+y₂)/2)<br>
+          Gradient: m = (y₂−y₁)/(x₂−x₁)
+        </div>
+        <h4>Equation of a Straight Line</h4>
+        <div class="formula-box">y = mx + c   or   y − y₁ = m(x − x₁)</div>
+        <ul>
+          <li><strong>Parallel lines</strong> have equal gradients (m₁ = m₂).</li>
+          <li><strong>Perpendicular lines</strong> have gradients that multiply to −1 (m₁ × m₂ = −1).</li>
+        </ul>
+        <h4>Applying the Formulas</h4>
+        <ul>
+          <li>Use the distance formula to determine whether a triangle is isosceles, equilateral, or right-angled (via Pythagoras).</li>
+          <li>Use gradient to check whether three points are collinear (lie on the same straight line — all gradients between the points are equal).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc8">
+      <button class="topic-toggle" onclick="toggleTopic('tc8')">
+        <div class="topic-label"><span class="topic-num">08</span>Statistics</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Measures of Spread</h4>
+        <div class="formula-box">
+          Variance = average of squared deviations from the mean<br>
+          Standard deviation = √Variance
+        </div>
+        <ul>
+          <li>A <strong>small standard deviation</strong> means data is clustered close to the mean; a <strong>large</strong> one means data is spread out.</li>
+        </ul>
+        <h4>Five-Number Summary &amp; Box-and-Whisker Plots</h4>
+        <ul>
+          <li>Minimum, Q1 (lower quartile), Median (Q2), Q3 (upper quartile), Maximum.</li>
+          <li><strong>Interquartile range (IQR)</strong> = Q3 − Q1 — measures the spread of the middle 50% of data, and is less affected by outliers than the range.</li>
+        </ul>
+        <h4>Scatter Plots &amp; Correlation</h4>
+        <ul>
+          <li>A scatter plot shows the relationship between two numerical variables.</li>
+          <li><strong>Positive correlation:</strong> both variables increase together. <strong>Negative correlation:</strong> one increases as the other decreases. <strong>No correlation:</strong> no clear pattern.</li>
+          <li>A line of best fit (drawn by eye) can be used to estimate values and describe the strength/direction of a relationship.</li>
+        </ul>
+        <h4>Ogives (Cumulative Frequency Graphs)</h4>
+        <p>Plot cumulative frequency against the upper boundary of each class interval to estimate the median and quartiles from grouped data.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="flashcards" class="section">
+    <div class="sec-header">
+      <h2>Flashcards</h2>
+      <div class="gold-rule"></div>
+      <p>Click a card to flip it and reveal the answer.</p>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+
+  <div id="quiz" class="section">
+    <div class="sec-header">
+      <h2>Practice Quiz</h2>
+      <div class="gold-rule"></div>
+      <p>16 questions covering all eight Grade 11 Mathematics topics.</p>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+  <div id="examguide" class="section">
+    <div class="sec-header">
+      <h2>Exam Paper Guide</h2>
+      <div class="gold-rule"></div>
+      <p>Understand exactly what the Grade 11 Mathematics papers look like and how to maximise your marks.</p>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>📄 Paper Overview</h4>
+        <ul>
+          <li><strong>Paper 1:</strong> 2 hours, 100 marks — Algebra, equations &amp; inequalities, patterns &amp; sequences, functions &amp; graphs, finance, growth &amp; decay.</li>
+          <li><strong>Paper 2:</strong> 2 hours, 100 marks — Statistics, analytical geometry, trigonometry, Euclidean geometry.</li>
+        </ul>
+      </div>
+      <div class="exam-card">
+        <h4>🔑 Levels of Questions</h4>
+        <ul>
+          <li><strong>Level 1 (Knowledge):</strong> direct recall — apply a formula exactly as given.</li>
+          <li><strong>Level 2 (Routine procedures):</strong> well-known procedures done in a familiar context.</li>
+          <li><strong>Level 3 (Complex procedures):</strong> problems requiring several steps or making connections between topics.</li>
+          <li><strong>Level 4 (Problem solving):</strong> non-routine problems requiring insight and reasoning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Mark Allocation Guide</h3>
+    <table class="mark-table">
+      <thead><tr><th>Question type</th><th>What earns marks</th></tr></thead>
+      <tbody>
+        <tr><td>Calculation/formula question</td><td>Correct formula stated, correct substitution, and correct final answer.</td></tr>
+        <tr><td>Multi-step problem</td><td>Method marks are awarded at each step, even if the final answer is wrong.</td></tr>
+        <tr><td>Geometric proof/rider</td><td>Every statement needs a valid reason — an unsupported correct answer loses marks.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">📌 <strong>Exam tip:</strong> Never leave a question blank — write down the relevant formula and substitute what you know; method marks are often available even without a final answer.</div>
+  </div>
+
+  <div id="formulaguide" class="section">
+    <div class="sec-header">
+      <h2>Formula &amp; Calculation Guide</h2>
+      <div class="gold-rule"></div>
+      <p>Every key Grade 11 Mathematics formula in one place, with a worked example for each.</p>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>The Quadratic Formula</h4>
+        <div class="essay-template">
+          x = (−b ± √(b²−4ac)) / 2a<br><br>
+          <span class="placeholder">Example:</span> Solve x² − 5x + 6 = 0.<br>
+          a=1, b=−5, c=6<br>
+          x = (5 ± √(25−24)) / 2 = (5 ± 1) / 2 → x = <span class="placeholder">3 or x = 2</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Arithmetic Sequence — General Term</h4>
+        <div class="essay-template">
+          Tₙ = a + (n−1)d<br><br>
+          <span class="placeholder">Example:</span> Sequence: 4, 9, 14, 19, ...<br>
+          a=4, d=5. T₁₀ = 4 + (10−1)(5) = 4 + 45 = <span class="placeholder">49</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Compound Growth</h4>
+        <div class="essay-template">
+          A = P(1 + i)ⁿ<br><br>
+          <span class="placeholder">Example:</span> R8,000 invested at 9% compound interest for 3 years.<br>
+          A = 8,000 × (1.09)³ = 8,000 × 1.295029 = <span class="placeholder">R10,360.23</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Distance &amp; Midpoint (Analytical Geometry)</h4>
+        <div class="essay-template">
+          d = √((x₂−x₁)² + (y₂−y₁)²)<br>
+          M = ((x₁+x₂)/2 , (y₁+y₂)/2)<br><br>
+          <span class="placeholder">Example:</span> A(1,2) and B(7,10).<br>
+          d = √((7−1)² + (10−2)²) = √(36+64) = √100 = <span class="placeholder">10</span><br>
+          M = ((1+7)/2 , (2+10)/2) = <span class="placeholder">(4, 6)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Trig Identity &amp; Solving for θ</h4>
+        <div class="essay-template">
+          sin²θ + cos²θ = 1<br><br>
+          <span class="placeholder">Example:</span> Solve sinθ = 0.5 for θ ∈ [0°, 360°].<br>
+          Reference angle = 30°. Sine is positive in Q1 and Q2.<br>
+          θ = <span class="placeholder">30° or θ = 150°</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Standard Deviation (Statistics)</h4>
+        <div class="essay-template">
+          Standard deviation = √(average of squared deviations from the mean)<br><br>
+          <span class="placeholder">Example:</span> Data set: 2, 4, 6, 8. Mean = 5.<br>
+          Deviations: −3, −1, 1, 3 → squared: 9, 1, 1, 9 → average = 20/4 = 5<br>
+          Standard deviation = √5 ≈ <span class="placeholder">2.24</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--gold-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Quick Reference Table</h3>
+    <table class="mark-rubric">
+      <thead><tr><th>Formula</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>(−b ± √(b²−4ac)) / 2a</td><td>Solving a quadratic equation</td></tr>
+        <tr><td>a + (n−1)d</td><td>General term of an arithmetic sequence</td></tr>
+        <tr><td>P(1 + i)ⁿ</td><td>Compound growth</td></tr>
+        <tr><td>P(1 − i)ⁿ</td><td>Compound decay</td></tr>
+        <tr><td>a·bˣ + q</td><td>Exponential function</td></tr>
+        <tr><td>√((x₂−x₁)²+(y₂−y₁)²)</td><td>Distance between two points</td></tr>
+        <tr><td>(y₂−y₁)/(x₂−x₁)</td><td>Gradient of a line</td></tr>
+        <tr><td>sin²θ + cos²θ = 1</td><td>Pythagorean trig identity</td></tr>
+        <tr><td>√(average squared deviation from mean)</td><td>Standard deviation</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:24px;">🧮 <strong>Practice tip:</strong> Write out every formula from memory on a blank page before each test — if you can't recall it cold, it's not learned yet.</div>
+  </div>
+
+</main>
+
+<footer>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 11 Mathematics &nbsp;·&nbsp; CAPS Aligned</div>
+  <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
+</footer>
+
+<script>
+  const VALID_CODE = 'SH-MATH11';
+  function checkCode() {
+    const val = document.getElementById('accessInput').value.trim().toUpperCase();
+    if (val === VALID_CODE) {
+      document.getElementById('lockScreen').style.display = 'none';
+      sessionStorage.setItem('sh_math11_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
+    }
+  }
+  document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
+  if (sessionStorage.getItem('sh_math11_unlocked')) {
+    document.getElementById('lockScreen').style.display = 'none';
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  function toggleTopic(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const opened = document.querySelectorAll('.topic-card.open').length;
+    const total = document.querySelectorAll('.topic-card').length;
+    const quizDone = quizCompleted ? 20 : 0;
+    const pct = Math.min(100, Math.round((opened / total) * 60 + quizDone));
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  const flashcards = [
+    { q: 'What is the quadratic formula?', a: 'x = (−b ± √(b²−4ac)) / 2a, used to solve any quadratic equation ax²+bx+c=0.' },
+    { q: 'What does the discriminant (b²−4ac) tell you?', a: 'If Δ>0: two distinct real roots. If Δ=0: one repeated real root. If Δ<0: no real roots.' },
+    { q: 'How do you factorise a difference of two squares?', a: 'a² − b² = (a−b)(a+b).' },
+    { q: 'What is the general term of an arithmetic sequence?', a: 'Tₙ = a + (n−1)d, where a is the first term and d is the common difference.' },
+    { q: 'How do you identify a quadratic sequence?', a: 'The second differences between consecutive terms are constant (the first differences are not constant, unlike an arithmetic sequence).' },
+    { q: 'What is the equation of a hyperbola and its asymptotes?', a: 'y = a/(x−p) + q. Vertical asymptote at x=p; horizontal asymptote at y=q.' },
+    { q: 'What is the equation of an exponential function and its asymptote?', a: 'y = a·bˣ + q (b>0, b≠1). Horizontal asymptote at y=q.' },
+    { q: 'What is the formula for compound growth?', a: 'A = P(1 + i)ⁿ, where P is the principal, i is the interest rate, and n is the number of periods.' },
+    { q: 'What is the difference between the nominal and effective interest rate?', a: 'The nominal rate is the stated annual rate; the effective rate is the actual rate earned in a year once compounding is accounted for — effective ≥ nominal when compounding more than once a year.' },
+    { q: 'State the CAST diagram rule.', a: 'All ratios positive in Q1, Sine positive in Q2, Tan positive in Q3, Cosine positive in Q4.' },
+    { q: 'What is the Pythagorean trig identity?', a: 'sin²θ + cos²θ = 1.' },
+    { q: 'What does the midpoint theorem state?', a: 'The line joining the midpoints of two sides of a triangle is parallel to the third side and equal to half its length.' },
+    { q: 'What is the proportionality theorem in similar triangles?', a: 'A line drawn parallel to one side of a triangle divides the other two sides proportionally.' },
+    { q: 'What is the distance formula?', a: 'd = √((x₂−x₁)² + (y₂−y₁)²) — the straight-line distance between two coordinate points.' },
+    { q: 'When are two lines parallel or perpendicular (in terms of gradient)?', a: 'Parallel: m₁ = m₂. Perpendicular: m₁ × m₂ = −1.' },
+    { q: 'How is standard deviation calculated?', a: 'Standard deviation = √(average of the squared deviations from the mean). A small value means data is clustered close to the mean.' },
+    { q: 'What does the interquartile range (IQR) measure?', a: 'IQR = Q3 − Q1 — the spread of the middle 50% of the data, less affected by outliers than the range.' },
+    { q: 'What is an ogive used for?', a: 'A cumulative frequency graph used to estimate the median and quartiles from grouped data.' },
+  ];
+
+  const fcGrid = document.getElementById('fcGrid');
+  flashcards.forEach((fc, i) => {
+    fcGrid.innerHTML += `
+      <div class="fc-card" id="fc${i}" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="label">Question</div>
+            <p>${fc.q}</p>
+            <div class="fc-hint">Tap to flip</div>
+          </div>
+          <div class="fc-back">
+            <p>${fc.a}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  const questions = [
+    { q: 'Solve x² − x − 6 = 0. What are the roots?', opts: ['x=2 or x=3','x=−2 or x=3','x=2 or x=−3','x=−2 or x=−3'], ans: 1, exp: 'Factorise: (x−3)(x+2)=0 → x=3 or x=−2.' },
+    { q: 'The discriminant of 2x² + 4x + 2 = 0 is:', opts: ['0','8','−8','16'], ans: 0, exp: 'Δ = 4² − 4(2)(2) = 16 − 16 = 0 — one repeated real root.' },
+    { q: 'A sequence has terms 3, 7, 11, 15, ... What is T₈?', opts: ['31','35','39','27'], ans: 0, exp: 'a=3, d=4. T₈ = a + (8−1)d = 3 + (7×4) = 3 + 28 = 31.' },
+    { q: 'A quadratic sequence has second difference of 4. What is the coefficient "a" in Tₙ=an²+bn+c?', opts: ['4','2','8','1'], ans: 1, exp: 'The second difference equals 2a, so a = second difference ÷ 2 = 4÷2 = 2.' },
+    { q: 'For the hyperbola y = 3/(x−2) + 1, the asymptotes are:', opts: ['x=2, y=1','x=1, y=2','x=−2, y=−1','x=3, y=1'], ans: 0, exp: 'Vertical asymptote at x=p=2; horizontal asymptote at y=q=1.' },
+    { q: 'For y = 2·(0.5)ˣ + 3, as x increases, y:', opts: ['Increases towards infinity','Decreases towards the asymptote y=3','Stays constant','Increases towards y=3 from below'], ans: 1, exp: '0<b<1 (b=0.5) means the function is decreasing, approaching its horizontal asymptote y=3.' },
+    { q: 'R6,000 invested at 8% compound interest for 2 years grows to:', opts: ['R6,960','R6,998.40','R7,000','R7,200'], ans: 1, exp: 'A = 6,000×(1.08)² = 6,000×1.1664 = R6,998.40.' },
+    { q: 'A nominal annual rate of 12% compounded monthly gives an effective annual rate of approximately:', opts: ['12%','12.36%','12.68%','13%'], ans: 2, exp: '1+i_eff = (1+0.12/12)¹² = (1.01)¹² ≈ 1.1268, so i_eff ≈ 12.68%.' },
+    { q: 'Which quadrant has sine and cosine both negative?', opts: ['Q1','Q2','Q3','Q4'], ans: 2, exp: 'In Q3, only tan is positive (CAST diagram) — sine and cosine are both negative.' },
+    { q: 'Solve cosθ = −0.5 for θ ∈ [0°,360°].', opts: ['θ=60° or 300°','θ=120° or 240°','θ=150° or 210°','θ=60° or 240°'], ans: 1, exp: 'Reference angle 60°. Cosine is negative in Q2 and Q3: θ=180°−60°=120° or θ=180°+60°=240°.' },
+    { q: 'A line is drawn parallel to one side of a triangle, cutting the other two sides. This divides them:', opts: ['Equally','Proportionally','Into right angles','Into equal areas only'], ans: 1, exp: 'This is the proportionality (basic proportionality) theorem — sides are divided proportionally, not necessarily equally.' },
+    { q: 'Points A(2,3) and B(8,11). The distance AB is:', opts: ['10','8','12','14'], ans: 0, exp: 'd = √((8−2)²+(11−3)²) = √(36+64) = √100 = 10.' },
+    { q: 'A line has gradient 3. A line perpendicular to it has gradient:', opts: ['3','−3','1/3','−1/3'], ans: 3, exp: 'Perpendicular lines: m₁×m₂=−1, so m₂ = −1/3.' },
+    { q: 'Data set: 1, 3, 5, 7, 9. What is the standard deviation? (Mean=5)', opts: ['2','2.83','4','8'], ans: 1, exp: 'Deviations: −4,−2,0,2,4. Squared: 16,4,0,4,16. Average=40/5=8. √8≈2.83.' },
+    { q: 'The IQR is calculated as:', opts: ['Max − Min','Q3 − Q1','Q2 − Q1','Mean − Median'], ans: 1, exp: 'Interquartile range = Q3 (upper quartile) − Q1 (lower quartile).' },
+    { q: 'A scatter plot shows that as x increases, y decreases. This indicates:', opts: ['Positive correlation','No correlation','Negative correlation','A quadratic relationship only'], ans: 2, exp: 'When one variable increases as the other decreases, this is negative correlation.' },
+  ];
+
+  let currentQ = 0, score = 0, answered = false, quizCompleted = false;
+
+  function renderQuiz() {
+    const qb = document.getElementById('quizBody');
+    if (currentQ >= questions.length) {
+      quizCompleted = true; updateProgress();
+      const pct = Math.round((score / questions.length) * 100);
+      let msg = pct >= 80 ? '🏆 Outstanding! You\'re exam-ready.' : pct >= 60 ? '👍 Good work — review the topics you missed.' : '📖 Keep studying — you\'re building your knowledge.';
+      qb.innerHTML = `<div class="result-card">
+        <div class="result-score">${score}/${questions.length}</div>
+        <div class="result-label">${pct}%</div>
+        <div class="result-msg">${msg}</div>
+        <div><button class="btn-outline" onclick="restartQuiz()">Try Again</button></div>
+      </div>`;
+      return;
+    }
+    const q = questions[currentQ];
+    answered = false;
+    qb.innerHTML = `
+      <div class="quiz-progress">
+        <span>Question ${currentQ + 1} of ${questions.length}</span>
+        <span>Score: ${score}</span>
+      </div>
+      <div class="q-box">
+        <div class="q-num">Q${currentQ + 1}</div>
+        <h3>${q.q}</h3>
+        <div class="options">
+          ${q.opts.map((o, i) => `<button class="opt-btn" id="opt${i}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+      <div class="quiz-nav"><button class="btn-gold" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button></div>`;
+  }
+
+  function selectAnswer(i) {
+    if (answered) return;
+    answered = true;
+    const q = questions[currentQ];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedback');
+    if (i === q.ans) {
+      score++;
+      document.getElementById('opt'+i).classList.add('correct');
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '✓ Correct! ' + q.exp;
+    } else {
+      document.getElementById('opt'+i).classList.add('wrong');
+      document.getElementById('opt'+q.ans).classList.add('correct');
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '✗ Incorrect. ' + q.exp;
+    }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function nextQ() { currentQ++; renderQuiz(); }
+  function restartQuiz() { currentQ = 0; score = 0; quizCompleted = false; renderQuiz(); }
+
+  document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+</body>
+</html>
