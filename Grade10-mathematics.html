@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Grade 10 Mathematics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --dark: #0a120e;
+    --slate: #101a16;
+    --slate-light: #182420;
+    --emerald: #2f9e6c;
+    --emerald-light: #6bcb9c;
+    --emerald-dim: rgba(47,158,108,0.15);
+    --text: #e7ece9;
+    --muted: #869089;
+    --card: #131f1a;
+    --card-hover: #1a2822;
+    --border: rgba(47,158,108,0.22);
+    --correct: #4caf7d;
+    --wrong: #e0685c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  #lockScreen {
+    position: fixed; inset: 0;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    padding: 24px;
+  }
+  .lock-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+  }
+  .lock-logo { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--emerald); letter-spacing: 2px; margin-bottom: 8px; }
+  .lock-title { font-family: 'Fraunces', serif; font-size: 1.9rem; color: var(--text); margin-bottom: 6px; }
+  .lock-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 32px; }
+  .lock-input {
+    width: 100%;
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .lock-input:focus { border-color: var(--emerald); }
+  .lock-btn {
+    width: 100%;
+    background: var(--emerald);
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .lock-btn:hover { background: var(--emerald-light); }
+  .lock-error { color: var(--wrong); font-size: 0.82rem; margin-top: 12px; display: none; }
+
+  header {
+    background: var(--slate);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-family: 'Fraunces', serif; color: var(--emerald); font-size: 1rem; letter-spacing: 2px; }
+  .guide-title { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--text); }
+  .progress-bar-wrap { width: 140px; height: 5px; background: var(--slate-light); border-radius: 4px; }
+  .progress-bar { height: 100%; background: var(--emerald); border-radius: 4px; transition: width 0.4s; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--slate) 0%, #10241c 60%, var(--dark) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(47,158,108,0.09) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; color: var(--emerald); text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--emerald); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; font-size: 0.95rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    background: var(--emerald-dim); border: 1px solid var(--border);
+    color: var(--emerald-light); font-size: 0.78rem; padding: 6px 14px;
+    border-radius: 50px; letter-spacing: 0.5px;
+  }
+
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 16px 32px;
+    background: var(--slate); border-bottom: 1px solid var(--border);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: 1px solid transparent;
+    color: var(--muted); padding: 8px 18px;
+    border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    white-space: nowrap; transition: all 0.2s;
+    font-family: 'Manrope', sans-serif;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--slate-light); }
+  .tab-btn.active { color: var(--emerald); border-color: var(--border); background: var(--emerald-dim); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .sec-header { margin-bottom: 32px; }
+  .sec-header h2 { font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--text); margin-bottom: 6px; }
+  .sec-header p { color: var(--muted); font-size: 0.9rem; }
+  .growth-rule { height: 2px; width: 48px; background: var(--emerald); border-radius: 2px; margin: 12px 0; }
+
+  .topic-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: var(--emerald); }
+  .topic-toggle {
+    width: 100%; background: none; border: none; color: var(--text);
+    padding: 20px 24px; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Manrope', sans-serif; font-size: 1rem; font-weight: 600;
+  }
+  .topic-toggle .topic-label { display: flex; align-items: center; gap: 14px; }
+  .topic-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--emerald);
+    box-shadow: 0 0 0 3px var(--emerald-dim);
+    color: var(--emerald-light); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+  .chevron { color: var(--emerald); font-size: 1.1rem; transition: transform 0.3s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { color: var(--emerald-light); font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 10px; }
+  .topic-body p, .topic-body li { color: #c9d0cb; font-size: 0.92rem; line-height: 1.75; }
+  .topic-body ul, .topic-body ol { padding-left: 20px; margin-bottom: 12px; }
+  .topic-body li { margin-bottom: 6px; }
+  .key-term { background: var(--emerald-dim); border-left: 3px solid var(--emerald); padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; color: var(--emerald-light); }
+  .formula-box { background: var(--slate); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin: 10px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: var(--emerald-light); line-height: 1.9; }
+
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .fc-card { perspective: 800px; height: 180px; cursor: pointer; }
+  .fc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; text-align: center;
+    backface-visibility: hidden;
+  }
+  .fc-back { transform: rotateY(180deg); background: var(--slate-light); border-color: var(--emerald); }
+  .fc-front .label { font-size: 0.7rem; letter-spacing: 2px; color: var(--emerald); text-transform: uppercase; margin-bottom: 10px; }
+  .fc-front p { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .fc-back p { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .fc-hint { font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+
+  .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--muted); font-size: 0.85rem; }
+  .q-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .q-box h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+  .q-num { color: var(--emerald); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: var(--slate); border: 1px solid var(--border);
+    color: var(--text); padding: 13px 18px; border-radius: 8px;
+    text-align: left; cursor: pointer; font-size: 0.9rem;
+    transition: all 0.2s; font-family: 'Manrope', sans-serif;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--emerald); background: var(--emerald-dim); }
+  .opt-btn.correct { background: rgba(76,175,125,0.15); border-color: var(--correct); color: var(--correct); }
+  .opt-btn.wrong { background: rgba(224,104,92,0.15); border-color: var(--wrong); color: var(--wrong); }
+  .feedback { padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: rgba(76,175,125,0.1); border: 1px solid var(--correct); color: #7dd4a8; }
+  .feedback.wrong-fb { background: rgba(224,104,92,0.1); border: 1px solid var(--wrong); color: #f09088; }
+  .quiz-nav { display: flex; justify-content: flex-end; margin-top: 16px; }
+  .btn-gold {
+    background: var(--emerald); color: var(--dark);
+    border: none; padding: 12px 28px; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    letter-spacing: 0.5px; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--emerald-light); }
+  .btn-outline {
+    background: none; color: var(--emerald);
+    border: 1px solid var(--emerald); padding: 12px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; margin-right: 10px;
+  }
+  .btn-outline:hover { background: var(--emerald-dim); }
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+  .result-score { font-family: 'Fraunces', serif; font-size: 4rem; color: var(--emerald); }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .result-msg { color: var(--text); font-size: 1.05rem; margin-bottom: 28px; }
+
+  .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media(max-width:600px){ .exam-grid { grid-template-columns: 1fr; } }
+  .exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .exam-card h4 { color: var(--emerald); font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .exam-card p, .exam-card li { color: #c9d0cb; font-size: 0.88rem; line-height: 1.7; }
+  .exam-card ul { padding-left: 18px; }
+  .mark-table, .mark-rubric { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  .mark-table th, .mark-rubric th { background: var(--slate-light); color: var(--emerald); padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .mark-table td, .mark-rubric td { padding: 10px 14px; border: 1px solid var(--border); color: #c9d0cb; vertical-align: top; }
+  .mark-table tr:nth-child(even) td, .mark-rubric tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-box { background: var(--emerald-dim); border: 1px solid var(--border); border-left: 3px solid var(--emerald); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; color: var(--emerald-light); }
+
+  .essay-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { background: var(--emerald); color: var(--dark); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { color: var(--text); font-size: 1rem; margin-bottom: 8px; }
+  .step-content p, .step-content li { color: #c9d0cb; font-size: 0.9rem; line-height: 1.7; }
+  .step-content ul { padding-left: 18px; margin-top: 8px; }
+  .essay-template { background: var(--slate); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 16px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.9; }
+  .essay-template .placeholder { color: var(--emerald); font-style: italic; }
+
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--emerald); }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-logo">STUDYHUB BY NHLAKA</div>
+    <div class="lock-title">Grade 10 Mathematics</div>
+    <div class="lock-sub">Enter your access code to unlock this guide</div>
+    <input type="text" id="accessInput" class="lock-input" placeholder="SH-XXXX00" maxlength="12" autocomplete="off" />
+    <button class="lock-btn" onclick="checkCode()">UNLOCK GUIDE</button>
+    <div class="lock-error" id="lockError">Incorrect access code. Please try again.</div>
+  </div>
+</div>
+
+<header>
+  <div class="brand">STUDYHUB</div>
+  <div class="guide-title">Grade 10 Mathematics</div>
+  <div>
+    <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:4px;">Progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">CAPS Aligned · Grade 10</div>
+  <h1>Mathematics<br><span>Study Guide</span></h1>
+  <p>Build strong foundations in Algebra &amp; Equations, Number Patterns, Functions &amp; Graphs, Trigonometry, Euclidean Geometry, Analytical Geometry &amp; Finance, and Statistics &amp; Probability — with flashcards, a practice quiz, exam breakdown, and a formula reference guide.</p>
+  <div class="hero-chips">
+    <span class="chip">📖 8 Topics</span>
+    <span class="chip">🃏 Flashcards</span>
+    <span class="chip">✏️ Practice Quiz</span>
+    <span class="chip">📄 Exam Guide</span>
+    <span class="chip">🧮 Formula Guide</span>
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showSection('notes',this)">📖 Notes</button>
+  <button class="tab-btn" onclick="showSection('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="showSection('quiz',this)">✏️ Quiz</button>
+  <button class="tab-btn" onclick="showSection('examguide',this)">📄 Exam Guide</button>
+  <button class="tab-btn" onclick="showSection('formulaguide',this)">🧮 Formula Guide</button>
+</nav>
+
+<main>
+
+  <div id="notes" class="section active">
+    <div class="sec-header">
+      <h2>Study Notes</h2>
+      <div class="growth-rule"></div>
+      <p>Click any topic to expand. All aligned to the CAPS Grade 10 Mathematics curriculum.</p>
+    </div>
+
+    <div class="topic-card" id="tc1">
+      <button class="topic-toggle" onclick="toggleTopic('tc1')">
+        <div class="topic-label"><span class="topic-num">01</span>Algebraic Expressions &amp; Exponents</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Laws of Exponents</h4>
+        <div class="formula-box">
+          a<sup>m</sup>·a<sup>n</sup> = a<sup>m+n</sup> &nbsp; a<sup>m</sup>÷a<sup>n</sup> = a<sup>m−n</sup><br>
+          (a<sup>m</sup>)<sup>n</sup> = a<sup>mn</sup> &nbsp; a<sup>0</sup> = 1 (a≠0) &nbsp; a<sup>−n</sup> = 1/aⁿ
+        </div>
+        <ul>
+          <li>Apply exponent laws to simplify expressions with the same base before doing anything else.</li>
+        </ul>
+        <h4>Simplifying Surds</h4>
+        <div class="key-term">🔑 <strong>Simplifying a surd:</strong> extract the largest perfect square factor, e.g. √50 = √(25×2) = 5√2.</div>
+        <ul>
+          <li>Only "like surds" (same number under the root) can be added or subtracted directly.</li>
+        </ul>
+        <h4>Expanding &amp; Factorising</h4>
+        <ul>
+          <li><strong>Expanding:</strong> use the distributive law and FOIL for binomials, e.g. (x+2)(x+3) = x²+5x+6.</li>
+          <li><strong>Common factor:</strong> always take out the highest common factor first.</li>
+          <li><strong>Difference of two squares:</strong> a² − b² = (a−b)(a+b).</li>
+          <li><strong>Trinomials (a=1):</strong> find two numbers that multiply to give "c" and add to give "b" in x²+bx+c.</li>
+          <li><strong>Grouping:</strong> used for four-term expressions with no single common factor.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc2">
+      <button class="topic-toggle" onclick="toggleTopic('tc2')">
+        <div class="topic-label"><span class="topic-num">02</span>Equations &amp; Inequalities</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Linear Equations</h4>
+        <ul>
+          <li>Solve by getting all terms with the variable on one side and constants on the other, then divide by the coefficient.</li>
+        </ul>
+        <h4>Quadratic Equations (by Factorisation)</h4>
+        <div class="key-term">🔑 <strong>Zero product rule:</strong> if (x−p)(x−q) = 0, then x=p or x=q — a product can only be zero if one of its factors is zero.</div>
+        <ul>
+          <li>Always set the equation equal to zero first, then factorise, then apply the zero product rule.</li>
+        </ul>
+        <h4>Simultaneous Equations</h4>
+        <ul>
+          <li>Solve two linear equations in two unknowns using <strong>substitution</strong> (make one variable the subject, substitute into the other equation) or <strong>elimination</strong> (add/subtract equations to remove one variable).</li>
+        </ul>
+        <h4>Linear Inequalities</h4>
+        <ul>
+          <li>Solved the same way as linear equations — but if you multiply or divide both sides by a <strong>negative</strong> number, the inequality sign must be reversed.</li>
+          <li>Solutions are represented on a number line with an open circle (strict, &lt; or &gt;) or closed circle (inclusive, ≤ or ≥).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc3">
+      <button class="topic-toggle" onclick="toggleTopic('tc3')">
+        <div class="topic-label"><span class="topic-num">03</span>Number Patterns</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Describing Patterns</h4>
+        <ul>
+          <li>Patterns can be described using words, flow diagrams, or tables of values before finding a formula.</li>
+          <li>Always write out the first few terms and the differences between consecutive terms first.</li>
+        </ul>
+        <h4>Linear (Arithmetic) Number Patterns</h4>
+        <div class="formula-box">Tₙ = a + (n−1)d</div>
+        <ul>
+          <li>A pattern has a <strong>constant common difference (d)</strong> between consecutive terms — this makes it linear.</li>
+          <li>"a" is the first term; "n" is the term's position in the sequence.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Checking your formula:</strong> always substitute n=1, n=2, n=3 back into your general term — it must reproduce the original sequence exactly.</div>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc4">
+      <button class="topic-toggle" onclick="toggleTopic('tc4')">
+        <div class="topic-label"><span class="topic-num">04</span>Functions &amp; Graphs</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>The Linear Function</h4>
+        <div class="formula-box">y = mx + c</div>
+        <ul>
+          <li>"m" is the gradient (steepness); "c" is the y-intercept.</li>
+          <li>If m&gt;0 the line increases left to right; if m&lt;0 it decreases.</li>
+        </ul>
+        <h4>The Parabola</h4>
+        <div class="formula-box">y = ax² + q</div>
+        <ul>
+          <li>Turning point at (0,q); axis of symmetry is the y-axis (x=0).</li>
+          <li>If a&gt;0 the parabola opens upward (minimum turning point); if a&lt;0 it opens downward (maximum turning point).</li>
+        </ul>
+        <h4>The Hyperbola</h4>
+        <div class="formula-box">y = a/x + q</div>
+        <ul>
+          <li>Vertical asymptote at x=0; horizontal asymptote at y=q.</li>
+        </ul>
+        <h4>The Exponential Function</h4>
+        <div class="formula-box">y = a·b<sup>x</sup> + q &nbsp; (b &gt; 0, b ≠ 1)</div>
+        <ul>
+          <li>Horizontal asymptote at y=q. If b&gt;1 the function increases; if 0&lt;b&lt;1 it decreases.</li>
+          <li>Always identify intercepts and asymptotes first when sketching any graph.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc5">
+      <button class="topic-toggle" onclick="toggleTopic('tc5')">
+        <div class="topic-label"><span class="topic-num">05</span>Trigonometry</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Basic Ratios in a Right-Angled Triangle</h4>
+        <div class="formula-box">SOH – CAH – TOA<br>sinθ = Opposite/Hypotenuse, cosθ = Adjacent/Hypotenuse, tanθ = Opposite/Adjacent</div>
+        <h4>Special Angles</h4>
+        <div class="key-term">🔑 <strong>Know these from memory:</strong> the exact trig ratios for 0°, 30°, 45°, 60°, and 90° — they appear constantly in exams.</div>
+        <h4>Solving Right-Angled Triangles</h4>
+        <ul>
+          <li>Use the ratio that connects the sides/angle you know to the one you need to find.</li>
+          <li><strong>Angle of elevation:</strong> the angle looking upward from the horizontal. <strong>Angle of depression:</strong> the angle looking downward from the horizontal.</li>
+        </ul>
+        <h4>The Basic Identity &amp; Trig Graphs</h4>
+        <div class="formula-box">tanθ = sinθ/cosθ</div>
+        <ul>
+          <li>The graphs of sinθ and cosθ have amplitude 1 and period 360°; the graph of tanθ has period 180° and asymptotes at 90° and 270°.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc6">
+      <button class="topic-toggle" onclick="toggleTopic('tc6')">
+        <div class="topic-label"><span class="topic-num">06</span>Euclidean Geometry</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Lines &amp; Angles</h4>
+        <ul>
+          <li>When a line cuts two parallel lines: <strong>corresponding angles</strong> are equal, <strong>alternate angles</strong> are equal, and <strong>co-interior angles</strong> add up to 180°.</li>
+        </ul>
+        <h4>Triangles</h4>
+        <ul>
+          <li>The interior angles of a triangle always add up to 180°.</li>
+          <li><strong>Exterior angle theorem:</strong> an exterior angle of a triangle equals the sum of the two interior opposite angles.</li>
+          <li>An <strong>isosceles triangle</strong> has two equal sides and the angles opposite those sides are equal.</li>
+        </ul>
+        <div class="key-term">🔑 <strong>Congruency conditions:</strong> two triangles are congruent if SSS, SAS, AAS, or RHS matches — all corresponding sides and angles are then equal.</div>
+        <h4>Quadrilaterals</h4>
+        <ul>
+          <li><strong>Parallelogram:</strong> opposite sides parallel &amp; equal, opposite angles equal, diagonals bisect each other.</li>
+          <li><strong>Rectangle:</strong> a parallelogram with four right angles and equal diagonals.</li>
+          <li><strong>Rhombus:</strong> a parallelogram with four equal sides; diagonals bisect each other at right angles.</li>
+          <li><strong>Square:</strong> has all the properties of both a rectangle and a rhombus.</li>
+          <li><strong>Kite:</strong> two pairs of adjacent equal sides; one diagonal bisects the other at right angles.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc7">
+      <button class="topic-toggle" onclick="toggleTopic('tc7')">
+        <div class="topic-label"><span class="topic-num">07</span>Analytical Geometry &amp; Finance</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Core Analytical Geometry Formulas</h4>
+        <div class="formula-box">
+          Distance: d = √((x₂−x₁)² + (y₂−y₁)²)<br>
+          Midpoint: M = ((x₁+x₂)/2 , (y₁+y₂)/2)<br>
+          Gradient: m = (y₂−y₁)/(x₂−x₁)
+        </div>
+        <ul>
+          <li>Use these formulas together with the equation y=mx+c to find the equation of a line through two given points.</li>
+        </ul>
+        <h4>Simple Interest</h4>
+        <div class="formula-box">A = P(1 + i·n)</div>
+        <ul>
+          <li>Interest is calculated only on the original principal (P) each period — the amount grows by the same fixed amount every year.</li>
+        </ul>
+        <h4>Compound Interest</h4>
+        <div class="formula-box">A = P(1 + i)ⁿ</div>
+        <div class="key-term">🔑 <strong>Key difference:</strong> compound interest is calculated on the accumulated amount each period (interest earns interest), so it grows faster than simple interest over time.</div>
+        <ul>
+          <li>P = principal, i = interest rate per period (as a decimal), n = number of periods.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card" id="tc8">
+      <button class="topic-toggle" onclick="toggleTopic('tc8')">
+        <div class="topic-label"><span class="topic-num">08</span>Statistics &amp; Probability</div>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="topic-body">
+        <h4>Measures of Central Tendency</h4>
+        <ul>
+          <li><strong>Mean:</strong> sum of all values ÷ number of values.</li>
+          <li><strong>Median:</strong> the middle value when data is arranged in order.</li>
+          <li><strong>Mode:</strong> the value that occurs most often.</li>
+        </ul>
+        <h4>Measures of Dispersion</h4>
+        <ul>
+          <li><strong>Range</strong> = maximum − minimum.</li>
+          <li><strong>Five-number summary:</strong> minimum, Q1 (lower quartile), median, Q3 (upper quartile), maximum — used to draw a box-and-whisker plot.</li>
+        </ul>
+        <h4>Frequency Tables &amp; Histograms</h4>
+        <p>Grouped data is organised into class intervals with a frequency count, then displayed as a histogram (bars with no gaps, since the data is continuous).</p>
+        <h4>Probability</h4>
+        <div class="formula-box">P(A or B) = P(A) + P(B) − P(A and B)</div>
+        <ul>
+          <li>A <strong>Venn diagram</strong> is used to show how outcomes of two events overlap.</li>
+          <li><strong>Relative frequency</strong> (based on experimental results) becomes a better estimate of theoretical probability the more trials are performed.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="flashcards" class="section">
+    <div class="sec-header">
+      <h2>Flashcards</h2>
+      <div class="growth-rule"></div>
+      <p>Click a card to flip it and reveal the answer.</p>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+
+  <div id="quiz" class="section">
+    <div class="sec-header">
+      <h2>Practice Quiz</h2>
+      <div class="growth-rule"></div>
+      <p>16 questions covering all eight Grade 10 Mathematics topics.</p>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+
+  <div id="examguide" class="section">
+    <div class="sec-header">
+      <h2>Exam Paper Guide</h2>
+      <div class="growth-rule"></div>
+      <p>Understand exactly what the Grade 10 Mathematics papers look like and how to maximise your marks.</p>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card">
+        <h4>📄 Paper Overview</h4>
+        <ul>
+          <li><strong>Paper 1:</strong> 2 hours, 100 marks — Algebraic expressions, equations &amp; inequalities, number patterns, functions &amp; graphs, finance &amp; growth.</li>
+          <li><strong>Paper 2:</strong> 2 hours, 100 marks — Euclidean geometry, analytical geometry, trigonometry, statistics &amp; probability.</li>
+        </ul>
+      </div>
+      <div class="exam-card">
+        <h4>🔑 Levels of Questions</h4>
+        <ul>
+          <li><strong>Level 1 (Knowledge):</strong> direct recall — apply a formula exactly as given.</li>
+          <li><strong>Level 2 (Routine procedures):</strong> well-known procedures done in a familiar context.</li>
+          <li><strong>Level 3 (Complex procedures):</strong> problems requiring several steps or making connections between topics.</li>
+          <li><strong>Level 4 (Problem solving):</strong> non-routine problems requiring insight and reasoning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--emerald-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Mark Allocation Guide</h3>
+    <table class="mark-table">
+      <thead><tr><th>Question type</th><th>What earns marks</th></tr></thead>
+      <tbody>
+        <tr><td>Calculation/formula question</td><td>Correct formula stated, correct substitution, and correct final answer.</td></tr>
+        <tr><td>Multi-step problem</td><td>Method marks are awarded at each step, even if the final answer is wrong.</td></tr>
+        <tr><td>Geometric proof/rider</td><td>Every statement needs a valid reason — an unsupported correct answer loses marks.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">📌 <strong>Exam tip:</strong> Never leave a question blank — write down the relevant formula and substitute what you know; method marks are often available even without a final answer.</div>
+  </div>
+
+  <div id="formulaguide" class="section">
+    <div class="sec-header">
+      <h2>Formula &amp; Calculation Guide</h2>
+      <div class="growth-rule"></div>
+      <p>Every key Grade 10 Mathematics formula in one place, with a worked example for each.</p>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Solving a Quadratic Equation by Factorisation</h4>
+        <div class="essay-template">
+          Set the equation equal to zero, factorise, apply the zero product rule.<br><br>
+          <span class="placeholder">Example:</span> Solve x² + x − 6 = 0.<br>
+          Factorise: (x+3)(x−2) = 0 → x = <span class="placeholder">−3 or x = 2</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>General Term of a Linear Number Pattern</h4>
+        <div class="essay-template">
+          Tₙ = a + (n−1)d<br><br>
+          <span class="placeholder">Example:</span> Sequence: 5, 8, 11, 14, ...<br>
+          a=5, d=3. T₁₀ = 5 + (10−1)(3) = 5 + 27 = <span class="placeholder">32</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Simple Interest</h4>
+        <div class="essay-template">
+          A = P(1 + i·n)<br><br>
+          <span class="placeholder">Example:</span> R5,000 invested at 6% simple interest for 4 years.<br>
+          A = 5,000 × (1 + 0.06×4) = 5,000 × 1.24 = <span class="placeholder">R6,200</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Compound Interest</h4>
+        <div class="essay-template">
+          A = P(1 + i)ⁿ<br><br>
+          <span class="placeholder">Example:</span> R5,000 invested at 6% compound interest for 4 years.<br>
+          A = 5,000 × (1.06)⁴ = 5,000 × 1.26247... = <span class="placeholder">R6,312.38</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Distance &amp; Gradient (Analytical Geometry)</h4>
+        <div class="essay-template">
+          d = √((x₂−x₁)² + (y₂−y₁)²)<br>
+          m = (y₂−y₁)/(x₂−x₁)<br><br>
+          <span class="placeholder">Example:</span> A(1,2) and B(4,6).<br>
+          d = √((4−1)² + (6−2)²) = √(9+16) = √25 = <span class="placeholder">5</span><br>
+          m = (6−2)/(4−1) = <span class="placeholder">4/3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Basic Trig Ratio (SOH-CAH-TOA)</h4>
+        <div class="essay-template">
+          sinθ = Opp/Hyp, cosθ = Adj/Hyp, tanθ = Opp/Adj<br><br>
+          <span class="placeholder">Example:</span> A right triangle has opposite side 6, hypotenuse 10.<br>
+          sinθ = 6/10 = 0.6 → θ = <span class="placeholder">36.87°</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--emerald-light);margin:32px 0 14px;font-size:1rem;letter-spacing:1px;text-transform:uppercase;">Quick Reference Table</h3>
+    <table class="mark-rubric">
+      <thead><tr><th>Formula</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>a + (n−1)d</td><td>General term of a linear number pattern</td></tr>
+        <tr><td>P(1 + i·n)</td><td>Simple interest</td></tr>
+        <tr><td>P(1 + i)ⁿ</td><td>Compound interest</td></tr>
+        <tr><td>a·bˣ + q</td><td>Exponential function</td></tr>
+        <tr><td>√((x₂−x₁)²+(y₂−y₁)²)</td><td>Distance between two points</td></tr>
+        <tr><td>(y₂−y₁)/(x₂−x₁)</td><td>Gradient of a line</td></tr>
+        <tr><td>tanθ = sinθ/cosθ</td><td>Basic trig identity</td></tr>
+        <tr><td>P(A)+P(B)−P(A and B)</td><td>Probability of A or B</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:24px;">🧮 <strong>Practice tip:</strong> Write out every formula from memory on a blank page before each test — if you can't recall it cold, it's not learned yet.</div>
+  </div>
+
+</main>
+
+<footer>
+  <div>StudyHub by Nhlaka &nbsp;·&nbsp; Grade 10 Mathematics &nbsp;·&nbsp; CAPS Aligned</div>
+  <div style="margin-top:6px;">Questions? WhatsApp <span>+27 65 770 2577</span></div>
+</footer>
+
+<script>
+  const VALID_CODE = 'SH-MATH10';
+  function checkCode() {
+    const val = document.getElementById('accessInput').value.trim().toUpperCase();
+    if (val === VALID_CODE) {
+      document.getElementById('lockScreen').style.display = 'none';
+      sessionStorage.setItem('sh_math10_unlocked', '1');
+    } else {
+      document.getElementById('lockError').style.display = 'block';
+      document.getElementById('accessInput').style.borderColor = 'var(--wrong)';
+    }
+  }
+  document.getElementById('accessInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
+  if (sessionStorage.getItem('sh_math10_unlocked')) {
+    document.getElementById('lockScreen').style.display = 'none';
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  function toggleTopic(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const opened = document.querySelectorAll('.topic-card.open').length;
+    const total = document.querySelectorAll('.topic-card').length;
+    const quizDone = quizCompleted ? 20 : 0;
+    const pct = Math.min(100, Math.round((opened / total) * 60 + quizDone));
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  const flashcards = [
+    { q: 'What is the zero product rule?', a: 'If (x−p)(x−q) = 0, then x=p or x=q — a product can only equal zero if one of its factors is zero.' },
+    { q: 'How do you simplify √50?', a: '√50 = √(25×2) = 5√2 — extract the largest perfect square factor.' },
+    { q: 'What is the difference of two squares factorisation?', a: 'a² − b² = (a−b)(a+b).' },
+    { q: 'What is the general term of a linear number pattern?', a: 'Tₙ = a + (n−1)d, where a is the first term and d is the common difference.' },
+    { q: 'What is the equation of a straight line graph?', a: 'y = mx + c, where m is the gradient and c is the y-intercept.' },
+    { q: 'What is the equation of a parabola in its simplest Grade 10 form, and where is its turning point?', a: 'y = ax² + q, with turning point at (0, q) and axis of symmetry x = 0.' },
+    { q: 'What is the equation of a hyperbola and its asymptotes (Grade 10 form)?', a: 'y = a/x + q. Vertical asymptote at x=0; horizontal asymptote at y=q.' },
+    { q: 'What is the equation of an exponential function and its asymptote?', a: 'y = a·bˣ + q (b>0, b≠1). Horizontal asymptote at y=q.' },
+    { q: 'State SOH-CAH-TOA.', a: 'sinθ = Opposite/Hypotenuse, cosθ = Adjacent/Hypotenuse, tanθ = Opposite/Adjacent.' },
+    { q: 'What is the basic trig identity relating tan, sin and cos?', a: 'tanθ = sinθ/cosθ.' },
+    { q: 'What is the difference between an angle of elevation and an angle of depression?', a: 'Elevation is measured upward from the horizontal; depression is measured downward from the horizontal.' },
+    { q: 'What do co-interior angles between parallel lines add up to?', a: '180° — they are supplementary.' },
+    { q: 'State the exterior angle theorem for a triangle.', a: 'An exterior angle of a triangle equals the sum of the two interior opposite angles.' },
+    { q: 'What congruency conditions can prove two triangles congruent?', a: 'SSS, SAS, AAS, or RHS.' },
+    { q: 'What is the formula for simple interest?', a: 'A = P(1 + i·n), where interest is calculated only on the original principal each period.' },
+    { q: 'What is the formula for compound interest?', a: 'A = P(1 + i)ⁿ, where interest is calculated on the accumulated amount each period.' },
+    { q: 'What is the distance formula?', a: 'd = √((x₂−x₁)² + (y₂−y₁)²) — the straight-line distance between two coordinate points.' },
+    { q: 'What is the addition rule of probability?', a: 'P(A or B) = P(A) + P(B) − P(A and B).' },
+  ];
+
+  const fcGrid = document.getElementById('fcGrid');
+  flashcards.forEach((fc, i) => {
+    fcGrid.innerHTML += `
+      <div class="fc-card" id="fc${i}" onclick="this.classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <div class="label">Question</div>
+            <p>${fc.q}</p>
+            <div class="fc-hint">Tap to flip</div>
+          </div>
+          <div class="fc-back">
+            <p>${fc.a}</p>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  const questions = [
+    { q: 'Simplify: 2x²·3x³', opts: ['5x⁵','6x⁵','6x⁶','5x⁶'], ans: 1, exp: 'Multiply coefficients (2×3=6) and add exponents (x²·x³=x⁵) → 6x⁵.' },
+    { q: 'Factorise x² − 9.', opts: ['(x−3)(x+3)','(x−9)(x+1)','(x−3)²','(x+3)²'], ans: 0, exp: 'This is a difference of two squares: x²−9 = (x−3)(x+3).' },
+    { q: 'Solve x² − 2x − 8 = 0.', opts: ['x=2 or x=4','x=−2 or x=4','x=2 or x=−4','x=−2 or x=−4'], ans: 2, exp: 'Factorise: (x−2)(x+4)=0 → x=2 or x=−4.' },
+    { q: 'Solve for x: 3x − 7 &lt; 5.', opts: ['x&lt;4','x&gt;4','x&lt;12/3','x&gt;−4'], ans: 0, exp: '3x &lt; 12 → x &lt; 4 (dividing by a positive number keeps the sign).' },
+    { q: 'A linear pattern is 6, 10, 14, 18, ... What is T₇?', opts: ['30','28','34','24'], ans: 0, exp: 'a=6, d=4. T₇ = 6 + (7−1)(4) = 6 + 24 = 30.' },
+    { q: 'For the parabola y = 2x² − 3, the turning point is:', opts: ['(0,−3)','(0,3)','(−3,0)','(2,−3)'], ans: 0, exp: 'In y=ax²+q form, the turning point is always (0,q), so (0,−3).' },
+    { q: 'For the hyperbola y = 4/x + 2, the asymptotes are:', opts: ['x=0, y=2','x=2, y=0','x=4, y=2','x=0, y=4'], ans: 0, exp: 'Vertical asymptote is always x=0 and horizontal asymptote is y=q=2 in this Grade 10 form.' },
+    { q: 'For y = 3·(2)ˣ + 1, as x increases, y:', opts: ['Decreases towards 1','Increases towards infinity','Stays constant','Approaches 1 from below only'], ans: 1, exp: 'Since b=2&gt;1, the exponential function increases without bound as x increases.' },
+    { q: 'In a right triangle, the opposite side is 3 and the hypotenuse is 5. What is sinθ?', opts: ['3/5','5/3','4/5','3/4'], ans: 0, exp: 'sinθ = Opposite/Hypotenuse = 3/5.' },
+    { q: 'If tanθ = sinθ/cosθ and sinθ=0.6, cosθ=0.8, what is tanθ?', opts: ['0.48','0.75','1.33','0.6'], ans: 1, exp: 'tanθ = 0.6/0.8 = 0.75.' },
+    { q: 'Two parallel lines are cut by a transversal. Co-interior angles are 3x and 2x+10. Find x.', opts: ['34','30','32','28'], ans: 0, exp: 'Co-interior angles sum to 180°: 3x + 2x + 10 = 180 → 5x = 170 → x = 34.' },
+    { q: 'A rhombus always has:', opts: ['Four equal sides','Four right angles','Unequal diagonals','Only one pair of parallel sides'], ans: 0, exp: 'A rhombus is a parallelogram with four equal sides; its diagonals bisect each other at right angles but are not necessarily equal.' },
+    { q: 'R4,000 is invested at 5% simple interest for 3 years. What is the final amount?', opts: ['R4,600','R4,630.50','R4,200','R4,500'], ans: 0, exp: 'A = 4,000(1 + 0.05×3) = 4,000×1.15 = R4,600.' },
+    { q: 'R4,000 is invested at 5% compound interest for 3 years. What is the final amount (nearest rand)?', opts: ['R4,600','R4,631','R4,200','R4,500'], ans: 1, exp: 'A = 4,000×(1.05)³ = 4,000×1.157625 ≈ R4,631.' },
+    { q: 'Points A(0,0) and B(3,4). The distance AB is:', opts: ['5','7','4','3'], ans: 0, exp: 'd = √((3−0)²+(4−0)²) = √(9+16) = √25 = 5.' },
+    { q: 'A bag has 10 balls: 4 red, 3 blue, 3 green. What is P(red or blue)?', opts: ['0.4','0.3','0.7','0.6'], ans: 2, exp: 'P(red or blue) = P(red)+P(blue) = 4/10 + 3/10 = 7/10 = 0.7 (events cannot overlap here).' },
+  ];
+
+  let currentQ = 0, score = 0, answered = false, quizCompleted = false;
+
+  function renderQuiz() {
+    const qb = document.getElementById('quizBody');
+    if (currentQ >= questions.length) {
+      quizCompleted = true; updateProgress();
+      const pct = Math.round((score / questions.length) * 100);
+      let msg = pct >= 80 ? '🏆 Outstanding! You\'re exam-ready.' : pct >= 60 ? '👍 Good work — review the topics you missed.' : '📖 Keep studying — you\'re building your knowledge.';
+      qb.innerHTML = `<div class="result-card">
+        <div class="result-score">${score}/${questions.length}</div>
+        <div class="result-label">${pct}%</div>
+        <div class="result-msg">${msg}</div>
+        <div><button class="btn-outline" onclick="restartQuiz()">Try Again</button></div>
+      </div>`;
+      return;
+    }
+    const q = questions[currentQ];
+    answered = false;
+    qb.innerHTML = `
+      <div class="quiz-progress">
+        <span>Question ${currentQ + 1} of ${questions.length}</span>
+        <span>Score: ${score}</span>
+      </div>
+      <div class="q-box">
+        <div class="q-num">Q${currentQ + 1}</div>
+        <h3>${q.q}</h3>
+        <div class="options">
+          ${q.opts.map((o, i) => `<button class="opt-btn" id="opt${i}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+      <div class="quiz-nav"><button class="btn-gold" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button></div>`;
+  }
+
+  function selectAnswer(i) {
+    if (answered) return;
+    answered = true;
+    const q = questions[currentQ];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedback');
+    if (i === q.ans) {
+      score++;
+      document.getElementById('opt'+i).classList.add('correct');
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '✓ Correct! ' + q.exp;
+    } else {
+      document.getElementById('opt'+i).classList.add('wrong');
+      document.getElementById('opt'+q.ans).classList.add('correct');
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '✗ Incorrect. ' + q.exp;
+    }
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function nextQ() { currentQ++; renderQuiz(); }
+  function restartQuiz() { currentQ = 0; score = 0; quizCompleted = false; renderQuiz(); }
+
+  document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+</body>
+</html>
